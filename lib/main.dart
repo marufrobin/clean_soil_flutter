@@ -1,6 +1,5 @@
+import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:flutter/material.dart';
-
-import 'authentication/account_signIn.dart';
 
 void main() {
   runApp(const MyApp());

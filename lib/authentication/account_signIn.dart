@@ -112,36 +112,6 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
               ElevatedButton(
                   style: ButtonStyle(
                     elevation: MaterialStatePropertyAll(0),
-                    backgroundColor: MaterialStatePropertyAll(Colors.white),
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
-                    side: MaterialStatePropertyAll(BorderSide(
-                      color: Color(0xffC7E0F4),
-                      width: 1,
-                    )),
-                  ),
-                  onPressed: () {},
-                  child: Container(
-                    width: double.infinity,
-                    height: 52,
-                    // padding: EdgeInsets.symmetric(vertical: 16, horizontal: 116),
-                    child: Center(
-                      child: Text(
-                        "Resend Code",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            color: Color(0xff0078D4),
-                            fontFamily: "SFPro"),
-                      ),
-                    ),
-                  )),
-              SizedBox(
-                height: 16,
-              ),
-              ElevatedButton(
-                  style: ButtonStyle(
-                    elevation: MaterialStatePropertyAll(0),
                     backgroundColor:
                         MaterialStatePropertyAll(Color(0xff0078D4)),
                     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
@@ -157,11 +127,41 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                     height: 52,
                     child: Center(
                       child: Text(
-                        "Verify email",
+                        "Login",
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             color: Colors.white,
+                            fontFamily: "SFPro"),
+                      ),
+                    ),
+                  )),
+              SizedBox(
+                height: 16,
+              ),
+              ElevatedButton(
+                  style: ButtonStyle(
+                    elevation: MaterialStatePropertyAll(0),
+                    backgroundColor: MaterialStatePropertyAll(Colors.white),
+                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                    side: MaterialStatePropertyAll(BorderSide(
+                      color: Color(0xffC7E0F4),
+                      width: 1,
+                    )),
+                  ),
+                  onPressed: () {},
+                  child: Container(
+                    width: double.infinity,
+                    height: 52,
+                    // padding: EdgeInsets.symmetric(vertical: 16, horizontal: 116),
+                    child: Center(
+                      child: Text(
+                        "Don’t have an account? Signup",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            color: Color(0xff0078D4),
                             fontFamily: "SFPro"),
                       ),
                     ),
