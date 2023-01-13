@@ -1,4 +1,4 @@
-import 'package:clean_soil_flutter/authentication/emailVarification.dart';
+import 'package:clean_soil_flutter/authentication/acount_signIn.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,11 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
-      home: EmailVafication(),
+      home: AcountSignInPage(),
     );
   }
 }
-
