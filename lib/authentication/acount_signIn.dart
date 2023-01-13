@@ -90,17 +90,17 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                         borderSide: BorderSide(color: Color(0xffE1E1E1)),
                         borderRadius: BorderRadius.circular(8)),
                     suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
+                        onPressed: () {
                           setState(() {
-                            isObscureText = !isObscureText;
+                            setState(() {
+                              isObscureText = !isObscureText;
+                            });
                           });
-                        });
-                      },
-                      icon: isObscureText == true
-                          ? Icon(Icons.visibility_rounded)
-                          : Icon(Icons.visibility_off_rounded),
-                    ),
+                        },
+                        icon: isObscureText == true
+                            ? Icon(Icons.visibility_off_rounded)
+                            : Image.asset("images/eye.png"),
+                        color: Colors.grey),
                     hintText: "Password",
                     hintStyle: TextStyle(
                         fontWeight: FontWeight.w500,
