@@ -1,3 +1,4 @@
+import 'package:clean_soil_flutter/authentication/account_signup.dart';
 import 'package:flutter/material.dart';
 
 class AccountSignInPage extends StatefulWidget with ValidationMixin {
@@ -150,7 +151,14 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                       width: 1,
                     )),
                   ),
-                  onPressed: () {},
+                  //Sign UP Button navigator
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignUp(),
+                        ));
+                  },
                   child: Container(
                     width: double.infinity,
                     height: 52,

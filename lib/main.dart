@@ -1,4 +1,4 @@
-import 'package:clean_soil_flutter/authentication/account_signIn.dart';
+import 'package:clean_soil_flutter/authentication/onboarding.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,11 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Clean Soil',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AccountSignInPage(),
+      home: OnboardingScreen(),
     );
   }
 }
