@@ -21,10 +21,10 @@ class _SignUpState extends State<SignUp> {
       TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Container(
           padding: EdgeInsets.all(16),
           height: MediaQuery.of(context).size.height * 1.00,
           width: double.infinity,

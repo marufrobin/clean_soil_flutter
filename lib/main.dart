@@ -1,5 +1,6 @@
-import 'package:clean_soil_flutter/authentication/onboarding.dart';
 import 'package:flutter/material.dart';
+
+import 'authentication/onboarding.dart';
 
 void main() {
   runApp(const MyApp());
