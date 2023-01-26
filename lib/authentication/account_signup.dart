@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -30,8 +32,10 @@ class _SignUpState extends State<SignUp> {
     map["fullName"] = nameController.text.toString();
     map["workEmail"] = emailController.text.toString();
     map["password"] = passwordController.text.toString();
-    var responce = await http
-        .post(Uri.parse("$baseUrl$apiVersionUrl$adminRegUrl"), body: map);
+    var responce = await http.post(
+        Uri.parse("$baseUrl$apiVersionUrl$adminRegUrl"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(map));
     print("printinnnngnng mapppppppp: $map");
     print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
   }
@@ -39,7 +43,7 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     // TODO: implement initState
-    adminRegistration();
+    // adminRegistration();
     super.initState();
   }
 
