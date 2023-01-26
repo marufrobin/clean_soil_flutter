@@ -1,17 +1,18 @@
 import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/account_signIn.dart';
+import 'package:clean_soil_flutter/authentication/emailVarification.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class AccountSignUpPage extends StatefulWidget {
+  const AccountSignUpPage({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<AccountSignUpPage> createState() => _AccountSignUpPageState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _AccountSignUpPageState extends State<AccountSignUpPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController nameController = TextEditingController();
@@ -41,7 +42,7 @@ class _SignUpState extends State<SignUp> {
   }
 
   sendVerficationCode() async {
-    String adminSendVerfCodeUrl = "/api/v1/auth/company-admin/admin-send-code";
+    String adminSendVerfCodeUrl = "auth/company-admin/admin-send-code";
     Map bodyMap = Map<String, dynamic>();
     bodyMap["email"] = emailController.text.toString();
     var responce = await http.post(
@@ -50,6 +51,17 @@ class _SignUpState extends State<SignUp> {
       body: jsonEncode(bodyMap),
     );
     print("verification code send api hiiititiitit:: ${responce.body}");
+    if (responce.statusCode == 200) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EmailVafication(
+              emailFFF: emailController.text,
+            ),
+          ));
+    } else {
+      print("Statusss code: ${responce.statusCode}");
+    }
   }
 
   @override

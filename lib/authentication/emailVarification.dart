@@ -3,9 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class EmailVafication extends StatelessWidget {
-  const EmailVafication({Key? key}) : super(key: key);
+class EmailVafication extends StatefulWidget {
+  EmailVafication({Key? key, this.emailFFF}) : super(key: key);
+  var emailFFF;
 
+  @override
+  State<EmailVafication> createState() => _EmailVaficationState();
+}
+
+class _EmailVaficationState extends State<EmailVafication> {
   @override
   Widget build(BuildContext context) {
     TextEditingController verificationController = TextEditingController();
@@ -14,9 +20,10 @@ class EmailVafication extends StatelessWidget {
     var apiVersionUrl = "api/v1/";
 
     adminVerifyCode() async {
-      var adminVerCodeUrl = "auth/company-admin/admin-logout";
+      var adminVerCodeUrl = "auth/company-admin/admin-verify-code";
       Map map = Map<String, dynamic>();
 
+      map["email"] = widget.emailFFF;
       map["code"] = verificationController.text.toString();
       var responce = await http.post(
           Uri.parse("$baseUrl$apiVersionUrl$adminVerCodeUrl"),
@@ -24,6 +31,7 @@ class EmailVafication extends StatelessWidget {
           body: jsonEncode(map));
       print("printinnnngnng mapppppppp: $map");
       print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
+      print("Statussssss codeeeee from api:::${responce.statusCode}");
     }
 
     return Scaffold(
@@ -106,7 +114,9 @@ class EmailVafication extends StatelessWidget {
                     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8))),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    adminVerifyCode();
+                  },
                   child: Container(
                     width: double.infinity,
                     height: 52,

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:clean_soil_flutter/authentication/account_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -179,7 +178,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SignUp(),
+                            builder: (context) => AccountSignInPage(),
                           ));
                     },
                     child: Container(
