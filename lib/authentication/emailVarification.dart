@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class EmailVafication extends StatelessWidget {
   const EmailVafication({Key? key}) : super(key: key);
@@ -6,6 +9,23 @@ class EmailVafication extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController verificationController = TextEditingController();
+
+    var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
+    var apiVersionUrl = "api/v1/";
+
+    adminVerifyCode() async {
+      var adminVerCodeUrl = "auth/company-admin/admin-logout";
+      Map map = Map<String, dynamic>();
+
+      map["code"] = verificationController.text.toString();
+      var responce = await http.post(
+          Uri.parse("$baseUrl$apiVersionUrl$adminVerCodeUrl"),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(map));
+      print("printinnnngnng mapppppppp: $map");
+      print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
