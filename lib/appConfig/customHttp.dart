@@ -9,14 +9,14 @@ class CustomHttp {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
 
-  static Future adminRegistration() async{
-    Map map = Map<String,String>();
-    map[]
+  static Future adminRegistration() async {
+    Map map = Map<String, String>();
+    // map[]
   }
 }
 
-"companyType": "construction",
-"companyName": "cleansoil",
-"fullName": "Janet Doe",
-"workEmail": "maruf@mail.com",
-"password": "securepassword92"
+// "companyType": "construction",
+// "companyName": "cleansoil",
+// "fullName": "Janet Doe",
+// "workEmail": "maruf@mail.com",
+// "password": "securepassword92"
