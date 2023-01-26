@@ -1,3 +1,4 @@
+import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:flutter/material.dart';
 
 import 'authentication/account_signup.dart';
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignUp(),
+      debugShowCheckedModeBanner: false,
+      home: AccountSignInPage(),
     );
   }
 }

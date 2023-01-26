@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:clean_soil_flutter/authentication/account_signup.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AccountSignInPage extends StatefulWidget with ValidationMixin {
   AccountSignInPage({Key? key}) : super(key: key);
@@ -12,6 +15,25 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
+  var apiVersionUrl = "api/v1/";
+
+  adminLogin() async {
+    var adminLogUrl = "auth/company-admin/admin-login";
+    Map map = Map<String, dynamic>();
+
+    map["username"] = emailController.text.toString();
+
+    map["password"] = passwordController.text.toString();
+    var responce = await http.post(
+        Uri.parse("$baseUrl$apiVersionUrl$adminLogUrl"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(map));
+    print("printinnnngnng mapppppppp: $map");
+    print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,6 +144,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                       }
+                      adminLogin();
                     },
                     child: Container(
                       width: double.infinity,
