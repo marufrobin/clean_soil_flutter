@@ -1,4 +1,6 @@
 import 'package:clean_soil_flutter/authentication/account_signIn.dart';
+import 'package:clean_soil_flutter/authentication/emailVarification.dart';
+import 'package:clean_soil_flutter/model/adminVerify.dart';
 import 'package:flutter/material.dart';
 
 import 'authentication/account_signup.dart';
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: AccountSignInPage(),
+      home: EmailVafication(),
     );
   }
 }
