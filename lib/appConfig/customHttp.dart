@@ -8,11 +8,6 @@
 class CustomHttp {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
-
-  static Future adminRegistration() async {
-    Map map = Map<String, String>();
-    // map[]
-  }
 }
 
 // "companyType": "construction",

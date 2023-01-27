@@ -13,7 +13,6 @@ class AccountSignUpPage extends StatefulWidget {
 }
 
 class _AccountSignUpPageState extends State<AccountSignUpPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController positionController = TextEditingController();
