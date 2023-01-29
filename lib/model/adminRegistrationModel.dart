@@ -1,11 +1,11 @@
-class AdminRegistrationModel {
+class UserRegistrationModel {
   bool? success;
   String? message;
   Data? data;
 
-  AdminRegistrationModel({this.success, this.message, this.data});
+  UserRegistrationModel({this.success, this.message, this.data});
 
-  AdminRegistrationModel.fromJson(Map<String, dynamic> json) {
+  UserRegistrationModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -24,41 +24,41 @@ class AdminRegistrationModel {
 
 class Data {
   String? sId;
-  String? companyType;
-  String? companyName;
   String? fullName;
-  String? workEmail;
-  String? joined;
-  int? iV;
+  String? email;
+  String? userCompanyType;
+  String? userType;
+  String? userPosition;
+  String? status;
 
   Data(
       {this.sId,
-      this.companyType,
-      this.companyName,
       this.fullName,
-      this.workEmail,
-      this.joined,
-      this.iV});
+      this.email,
+      this.userCompanyType,
+      this.userType,
+      this.userPosition,
+      this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    companyType = json['companyType'];
-    companyName = json['companyName'];
     fullName = json['fullName'];
-    workEmail = json['workEmail'];
-    joined = json['joined'];
-    iV = json['__v'];
+    email = json['email'];
+    userCompanyType = json['userCompanyType'];
+    userType = json['userType'];
+    userPosition = json['userPosition'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
-    data['companyType'] = this.companyType;
-    data['companyName'] = this.companyName;
     data['fullName'] = this.fullName;
-    data['workEmail'] = this.workEmail;
-    data['joined'] = this.joined;
-    data['__v'] = this.iV;
+    data['email'] = this.email;
+    data['userCompanyType'] = this.userCompanyType;
+    data['userType'] = this.userType;
+    data['userPosition'] = this.userPosition;
+    data['status'] = this.status;
     return data;
   }
 }
