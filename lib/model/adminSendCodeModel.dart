@@ -1,18 +1,15 @@
 class AdminSendCodeModel {
-  bool? success;
-  String? message;
+  String? email;
 
-  AdminSendCodeModel({this.success, this.message});
+  AdminSendCodeModel({this.email});
 
   AdminSendCodeModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    message = json['message'];
+    email = json['email'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    data['email'] = this.email;
     return data;
   }
 }

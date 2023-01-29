@@ -1,18 +1,18 @@
 class adminVerify {
-  bool? success;
-  String? message;
+  String? email;
+  String? code;
 
-  adminVerify({this.success, this.message});
+  adminVerify({this.email, this.code});
 
   adminVerify.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    message = json['message'];
+    email = json['email'];
+    code = json['code'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    data['email'] = this.email;
+    data['code'] = this.code;
     return data;
   }
 }
