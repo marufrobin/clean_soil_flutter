@@ -25,13 +25,17 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
   var apiVersionUrl = "api/v1/";
 
   adminRegistration() async {
-    var adminRegUrl = "auth/company-admin/admin-register";
+    var adminRegUrl = "auth/user/register";
     Map map = Map<String, dynamic>();
-    map["companyType"] = "construction";
-    map["companyName"] = "cleansoil";
+
     map["fullName"] = nameController.text.toString();
-    map["workEmail"] = emailController.text.toString();
+    map["email"] = emailController.text.toString();
     map["password"] = passwordController.text.toString();
+    map["userCompanyType"] = "construction";
+    map["userType"] = "cleansoil";
+    map["userType"] = "cleansoil";
+    map["userPosition"] = "project co-ordinator";
+    map["status"] = "invited";
     var responce = await http.post(
         Uri.parse("$baseUrl$apiVersionUrl$adminRegUrl"),
         headers: {'Content-Type': 'application/json'},
