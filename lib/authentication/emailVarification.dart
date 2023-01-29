@@ -20,7 +20,7 @@ class _EmailVaficationState extends State<EmailVafication> {
     var apiVersionUrl = "api/v1/";
 
     adminVerifyCode() async {
-      var adminVerCodeUrl = "/api/v1/auth/user/verify-code";
+      var adminVerCodeUrl = "auth/user/verify-code";
       Map map = Map<String, dynamic>();
 
       map["email"] = widget.emailFFF;

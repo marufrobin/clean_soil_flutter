@@ -19,7 +19,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
   var apiVersionUrl = "api/v1/";
 
   adminLogin() async {
-    var adminLogUrl = "/api/v1/auth/user/login";
+    var adminLogUrl = "auth/user/login";
     Map map = Map<String, dynamic>();
 
     map["username"] = emailController.text.toString();

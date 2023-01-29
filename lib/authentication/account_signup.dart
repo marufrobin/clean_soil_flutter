@@ -45,7 +45,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
   }
 
   sendVerficationCode() async {
-    String adminSendVerfCodeUrl = "api/v1/auth/user/send-code";
+    String adminSendVerfCodeUrl = "auth/user/send-code";
     Map bodyMap = Map<String, dynamic>();
     bodyMap["email"] = emailController.text.toString();
     var responce = await http.post(
