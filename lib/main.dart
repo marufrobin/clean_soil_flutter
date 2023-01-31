@@ -1,4 +1,4 @@
-import 'package:clean_soil_flutter/authentication/account_signup.dart';
+import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: AccountSignUpPage(),
+      home: AccountSignInPage(),
     );
   }
 }
