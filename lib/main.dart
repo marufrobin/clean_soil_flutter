@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import 'package:clean_soil_flutter/authentication/account_signIn.dart';
+=======
+import 'package:clean_soil_flutter/authentication/account_signup.dart';
+import 'package:clean_soil_flutter/construction_screen/dashboard.dart';
+>>>>>>> 4f94cbf76fc91f53f84b4dae3a6a132090f76ade
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +22,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
+<<<<<<< HEAD
       home: AccountSignInPage(),
+=======
+      home: DashboardScreen(),
+>>>>>>> 4f94cbf76fc91f53f84b4dae3a6a132090f76ade
     );
   }
 }
