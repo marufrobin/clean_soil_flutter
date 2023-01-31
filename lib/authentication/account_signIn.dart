@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/account_signup.dart';
+import 'package:clean_soil_flutter/construction_screen/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class AccountSignInPage extends StatefulWidget with ValidationMixin {
@@ -32,6 +34,25 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
         body: jsonEncode(map));
     print("printinnnngnng mapppppppp: $map");
     print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
+    var suc = jsonDecode(responce.body)["success"];
+    print(suc);
+    if (responce.statusCode == 200 && suc == true) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DashboardScreen(),
+          ),
+          (route) => false);
+    } else {
+      Fluttertoast.showToast(
+          msg: "${jsonDecode(responce.body)["message"]}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
   }
 
   @override
