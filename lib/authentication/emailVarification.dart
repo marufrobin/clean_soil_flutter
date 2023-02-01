@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+
+import 'account_signIn.dart';
 
 class EmailVafication extends StatefulWidget {
   EmailVafication({Key? key, this.emailFFF}) : super(key: key);
@@ -32,6 +35,41 @@ class _EmailVaficationState extends State<EmailVafication> {
       print("printinnnngnng mapppppppp: $map");
       print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
       print("Statussssss codeeeee from api:::${responce.statusCode}");
+      var suc = jsonDecode(responce.body)["success"];
+      print(suc);
+      // Fluttertoast.showToast(
+      //     msg: "${suc}",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.CENTER,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.blueAccent,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0);
+      if (responce.statusCode == 200) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AccountSignInPage(),
+            ),
+            (route) => false);
+        Fluttertoast.showToast(
+            msg: "Code Verfied Successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.blueAccent,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "${suc}",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
     }
 
     return Scaffold(
