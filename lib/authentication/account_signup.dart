@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:clean_soil_flutter/authentication/emailVarification.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,6 +25,11 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
 
+  final List position = [
+    'project co-ordinator',
+    'driver',
+  ];
+  String? selectedValue;
   adminRegistration() async {
     var adminRegUrl = "auth/user/register";
     Map map = Map<String, dynamic>();
@@ -287,7 +293,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 16,
+                    height: 26,
                   ),
                   // TextFormField(
                   //   validator: (value) {},
@@ -311,6 +317,60 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                   //     ),
                   //   ),
                   // ),
+                  DropdownButtonFormField2(
+                    decoration: InputDecoration(
+                      //Add isDense true and zero Padding.
+                      //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                      isDense: true,
+                      contentPadding: EdgeInsets.zero,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      //Add more decoration as you want here
+                      //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                    ),
+                    isExpanded: true,
+                    hint: const Text(
+                      'Select Your Position',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Color(0xff0086F0),
+                          fontFamily: "SFPro"),
+                    ),
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.black45,
+                    ),
+                    iconSize: 30,
+                    buttonHeight: 60,
+                    buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+                    dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    items: position
+                        .map((item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select Your Position';
+                      }
+                    },
+                    onChanged: (value) {
+                      //Do something when changing the item if you want.
+                    },
+                    onSaved: (value) {
+                      selectedValue = value.toString();
+                    },
+                  ),
                   Spacer(),
                   ElevatedButton(
                       style:
@@ -329,7 +389,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                         // padding: EdgeInsets.symmetric(vertical: 16, horizontal: 116),
                         child: Center(
                           child: Text(
-                            "Signup",
+                            "SignUp",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15,
