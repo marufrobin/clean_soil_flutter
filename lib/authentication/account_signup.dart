@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors, dead_code
+
 import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/account_signIn.dart';
@@ -195,13 +197,11 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                   TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "password is empty";
+                        return "Password is Empty";
+                        return null;
                       }
-                      if (value.length < 3) {
-                        return "password is too short";
-                      }
-                      if (value.length > 8) {
-                        return "password is too Long";
+                      if (value.length < 6) {
+                        return "The Password Requires 6 Characters Or More";
                       }
                     },
                     maxLines: 1,
@@ -253,12 +253,14 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Confirm password is empty";
+                        return null;
                       }
-                      if (value.length < 3) {
-                        return " Confirm password is too short";
+                      if (value.length < 6) {
+                        return "The Password Requires 6 Characters Or More";
                       }
-                      if (value.length > 8) {
-                        return " Confirm password is too Long";
+                      if (value != passwordController.text) {
+                        return "Password Not Match";
+                        return null;
                       }
                     },
                     maxLines: 1,
@@ -295,28 +297,6 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                   SizedBox(
                     height: 26,
                   ),
-                  // TextFormField(
-                  //   validator: (value) {},
-                  //   // controller: nameController,
-                  //   decoration: InputDecoration(
-                  //     hintText: "Select Position",
-                  //     hintStyle: TextStyle(
-                  //         fontWeight: FontWeight.w500,
-                  //         fontSize: 15,
-                  //         color: Color(0xff0086F0),
-                  //         fontFamily: "SFPro"),
-                  //     fillColor: Colors.white,
-                  //     filled: true,
-                  //     suffixIcon: Icon(
-                  //       Icons.arrow_forward_ios,
-                  //       size: 20,
-                  //     ),
-                  //     border: OutlineInputBorder(
-                  //       borderSide: BorderSide(color: Color(0xffE1E1E1)),
-                  //       borderRadius: BorderRadius.circular(8.0),
-                  //     ),
-                  //   ),
-                  // ),
                   DropdownButtonFormField2(
                     decoration: InputDecoration(
                       //Add isDense true and zero Padding.
@@ -378,10 +358,10 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+                          adminRegistration();
+                          print("Sign up button clickkkkkkkkkkkkk");
+                          sendVerficationCode();
                         }
-                        adminRegistration();
-                        print("Sign up button clickkkkkkkkkkkkk");
-                        sendVerficationCode();
                       },
                       child: Container(
                         width: double.infinity,

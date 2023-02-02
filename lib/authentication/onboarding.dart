@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+// ignore_for_file: prefer_const_constructors
 
+import 'package:flutter/material.dart';
 import 'account_signIn.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -68,7 +67,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: Container(
                           width: double.infinity,
                           height: 52,
-                          // padding: EdgeInsets.symmetric(vertical: 16, horizontal: 116),
                           child: Padding(
                             padding: const EdgeInsets.only(
                               top: 16,
@@ -94,7 +92,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: Container(
                           width: double.infinity,
                           height: 52,
-                          // padding: EdgeInsets.symmetric(vertical: 16, horizontal: 116),
                           child: Padding(
                             padding: const EdgeInsets.only(
                               top: 16,
@@ -120,7 +117,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         child: Container(
                           width: double.infinity,
                           height: 52,
-                          // padding: EdgeInsets.symmetric(vertical: 16, horizontal: 116),
                           child: Padding(
                             padding: const EdgeInsets.only(
                               top: 16,

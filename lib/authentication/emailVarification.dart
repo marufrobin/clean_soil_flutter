@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -37,14 +39,6 @@ class _EmailVaficationState extends State<EmailVafication> {
       print("Statussssss codeeeee from api:::${responce.statusCode}");
       var suc = jsonDecode(responce.body)["success"];
       print(suc);
-      // Fluttertoast.showToast(
-      //     msg: "${suc}",
-      //     toastLength: Toast.LENGTH_SHORT,
-      //     gravity: ToastGravity.CENTER,
-      //     timeInSecForIosWeb: 1,
-      //     backgroundColor: Colors.blueAccent,
-      //     textColor: Colors.white,
-      //     fontSize: 16.0);
       if (responce.statusCode == 200) {
         Navigator.pushAndRemoveUntil(
             context,
@@ -129,7 +123,6 @@ class _EmailVaficationState extends State<EmailVafication> {
                   child: Container(
                     width: double.infinity,
                     height: 52,
-                    // padding: EdgeInsets.symmetric(vertical: 16, horizontal: 116),
                     child: Center(
                       child: Text(
                         "Resend Code",
@@ -158,7 +151,6 @@ class _EmailVaficationState extends State<EmailVafication> {
                   child: Container(
                     width: double.infinity,
                     height: 52,
-                    // padding: EdgeInsets.symmetric(vertical: 16, horizontal: 116),
                     child: Center(
                       child: Text(
                         "Verify email",

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/account_signup.dart';
