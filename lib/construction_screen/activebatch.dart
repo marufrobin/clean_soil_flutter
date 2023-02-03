@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class ActiveBatchPage extends StatefulWidget {
   const ActiveBatchPage({super.key});
@@ -96,6 +97,7 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
                           ),
                           Spacer(),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
                                   onPressed: (() {}),
@@ -107,6 +109,16 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
                                         fontWeight: FontWeight.w700,
                                         fontFamily: 'SFPro'),
                                   )),
+                              Container(
+                                height: 50,
+                                width: 50,
+                                child: QrImage(
+                                  gapless: true,
+                                  version: QrVersions.auto,
+                                  data: "Maruf",
+                                  size: 200.0,
+                                ),
+                              ),
                             ],
                           )
                         ],
