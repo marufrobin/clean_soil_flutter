@@ -3,6 +3,8 @@
 import 'dart:convert';
 
 import 'package:clean_soil_flutter/construction_screen/activebatch.dart';
+import 'package:clean_soil_flutter/model/projectAllDataModel.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +16,9 @@ class DashboardActive extends StatefulWidget {
 }
 
 class _DashboardActiveState extends State<DashboardActive> {
+  List<ProjectSite> allData = [];
+  late ProjectSite projectsitedata;
+
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
   String userId = "63dbe295137a82239e717ab9";
@@ -29,19 +34,12 @@ class _DashboardActiveState extends State<DashboardActive> {
     );
 
     print("Resspoceeeeeeeeeeeeee from api:::${responce}");
-    var suc = jsonDecode(responce.body);
+    var suc = jsonDecode(responce.body)["success"];
     print("api response with body:$suc");
-    // if (responce.statusCode == 200 && suc == true) {
-    // } else {
-    //   Fluttertoast.showToast(
-    //       msg: "${jsonDecode(responce.body)["message"]}",
-    //       toastLength: Toast.LENGTH_SHORT,
-    //       gravity: ToastGravity.BOTTOM,
-    //       timeInSecForIosWeb: 1,
-    //       backgroundColor: Colors.red,
-    //       textColor: Colors.white,
-    //       fontSize: 16.0);
-    // }
+
+    setState(() {
+      allData.add(projectsitedata);
+    });
   }
 
   @override
@@ -64,7 +62,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                   child: Card(
                     child: ListTile(
                       title: Text(
-                        "Lafarge Worksite",
+                        allData[index].location,
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -72,7 +70,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                             fontFamily: 'SFPro'),
                       ),
                       subtitle: Text(
-                        "Lafarge worksite to processer",
+                        allData[index].siteName,
                         style: TextStyle(
                             fontSize: 12,
                             color: Colors.black54,
@@ -89,7 +87,7 @@ class _DashboardActiveState extends State<DashboardActive> {
             separatorBuilder: (_, index) => SizedBox(
                   height: 1,
                 ),
-            itemCount: 3),
+            itemCount: allData.length),
       ),
     );
   }
