@@ -1,12 +1,12 @@
-class AutoGenerate {
-  AutoGenerate({
+class ProjectAllDataModel {
+  ProjectAllDataModel({
     required this.success,
     required this.data,
   });
   late final bool success;
   late final List<Data> data;
 
-  AutoGenerate.fromJson(Map<String, dynamic> json) {
+  ProjectAllDataModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
   }
