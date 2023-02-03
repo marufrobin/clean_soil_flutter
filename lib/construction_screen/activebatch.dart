@@ -48,14 +48,75 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
           ],
         ),
         body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [],
-              )
-            ],
-          ),
+          child: ListView.separated(
+              itemBuilder: (_index, context) => Container(
+                    height: 200,
+                    child: Card(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Lafarge worksite Proccessor",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'SFPro'),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Batch:786",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'SFPro'),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Receiveed:9:30 AM",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'SFPro'),
+                            ),
+                          ),
+                          Spacer(),
+                          Row(
+                            children: [
+                              TextButton(
+                                  onPressed: (() {}),
+                                  child: Text(
+                                    "Shipped",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: 'SFPro'),
+                                  )),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+              separatorBuilder: (_, index) => SizedBox(
+                    height: 5,
+                  ),
+              itemCount: 3),
         ),
       ),
     );
