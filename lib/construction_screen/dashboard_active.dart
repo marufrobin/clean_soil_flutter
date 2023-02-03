@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/construction_screen/activebatch.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class DashboardActive extends StatefulWidget {
@@ -17,30 +16,39 @@ class DashboardActive extends StatefulWidget {
 class _DashboardActiveState extends State<DashboardActive> {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
+  String userId = "63dbe295137a82239e717ab9";
+  String userCompanyType = "construction";
 
-  DashBoardactic() async {
+  dashBoardactic() async {
     var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
-    Map map = <String, dynamic>{};
 
-    var responce = await http.post(
-        Uri.parse("$baseUrl$apiVersionUrl$DashBoadactiveUrl"),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(map));
-    print("printinnnngnng mapppppppp: $map");
-    print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
-    var suc = jsonDecode(responce.body)["success"];
-    print(suc);
-    if (responce.statusCode == 200 && suc == true) {
-    } else {
-      Fluttertoast.showToast(
-          msg: "${jsonDecode(responce.body)["message"]}",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
-    }
+    var responce = await http.get(
+      Uri.parse(
+          "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$userId&userCompanyType=$userCompanyType"),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    print("Resspoceeeeeeeeeeeeee from api:::${responce}");
+    var suc = jsonDecode(responce.body);
+    print("api response with body:$suc");
+    // if (responce.statusCode == 200 && suc == true) {
+    // } else {
+    //   Fluttertoast.showToast(
+    //       msg: "${jsonDecode(responce.body)["message"]}",
+    //       toastLength: Toast.LENGTH_SHORT,
+    //       gravity: ToastGravity.BOTTOM,
+    //       timeInSecForIosWeb: 1,
+    //       backgroundColor: Colors.red,
+    //       textColor: Colors.white,
+    //       fontSize: 16.0);
+    // }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dashBoardactic();
   }
 
   @override
