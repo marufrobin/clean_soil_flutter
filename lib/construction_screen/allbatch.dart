@@ -46,7 +46,7 @@ class AllBatchPage extends StatelessWidget {
         body: Container(
           child: ListView.separated(
               itemBuilder: (_index, context) => Container(
-                    height: 200,
+                    height: 190,
                     child: Card(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,9 +62,6 @@ class AllBatchPage extends StatelessWidget {
                                   fontFamily: 'SFPro'),
                             ),
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
@@ -75,9 +72,6 @@ class AllBatchPage extends StatelessWidget {
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'SFPro'),
                             ),
-                          ),
-                          SizedBox(
-                            height: 5,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),

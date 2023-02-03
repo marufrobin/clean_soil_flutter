@@ -16,15 +16,15 @@ class DashboardActive extends StatefulWidget {
 }
 
 class _DashboardActiveState extends State<DashboardActive> {
-  List<ProjectSite> allData = [];
-  late ProjectSite projectsitedata;
+  List<Data> allData = [];
+  late Data data;
 
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
   String userId = "63dbe295137a82239e717ab9";
   String userCompanyType = "construction";
 
-  dashBoardactic() async {
+  dashBoardactive() async {
     var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
 
     var responce = await http.get(
@@ -34,19 +34,24 @@ class _DashboardActiveState extends State<DashboardActive> {
     );
 
     print("Resspoceeeeeeeeeeeeee from api:::${responce}");
-    var suc = jsonDecode(responce.body)["success"];
+    var suc = jsonDecode(responce.body);
     print("api response with body:$suc");
-
-    setState(() {
-      allData.add(projectsitedata);
-    });
+    if (suc["code"] != null) {
+      throw suc["message"];
+    }
+    for (var i in suc["dataes"]) {
+      data = Data.fromJson(i);
+      allData.add(data);
+    }
+    print("All news length is ${allData.length}");
+    return allData;
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    dashBoardactic();
+    dashBoardactive();
   }
 
   @override
@@ -62,7 +67,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                   child: Card(
                     child: ListTile(
                       title: Text(
-                        allData[index].location,
+                        allData[index].constructionCompany.id,
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -70,7 +75,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                             fontFamily: 'SFPro'),
                       ),
                       subtitle: Text(
-                        allData[index].siteName,
+                        allData[index].constructionCompany.name,
                         style: TextStyle(
                             fontSize: 12,
                             color: Colors.black54,
