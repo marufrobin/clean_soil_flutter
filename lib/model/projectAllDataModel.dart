@@ -1,12 +1,12 @@
-class ProjectAllDataModel {
-  ProjectAllDataModel({
+class AutoGenerate {
+  AutoGenerate({
     required this.success,
     required this.data,
   });
   late final bool success;
   late final List<Data> data;
 
-  ProjectAllDataModel.fromJson(Map<String, dynamic> json) {
+  AutoGenerate.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
   }
@@ -32,6 +32,7 @@ class Data {
     required this.materialQuantity,
     required this.createdAt,
     required this.V,
+    required this.status,
   });
   late final AssignedUsers assignedUsers;
   late final ConstructionCompany constructionCompany;
@@ -44,6 +45,7 @@ class Data {
   late final String materialQuantity;
   late final String createdAt;
   late final int V;
+  late final String status;
 
   Data.fromJson(Map<String, dynamic> json) {
     assignedUsers = AssignedUsers.fromJson(json['assignedUsers']);
@@ -58,6 +60,7 @@ class Data {
     materialQuantity = json['materialQuantity'];
     createdAt = json['created_at'];
     V = json['__v'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -73,6 +76,7 @@ class Data {
     _data['materialQuantity'] = materialQuantity;
     _data['created_at'] = createdAt;
     _data['__v'] = V;
+    _data['status'] = status;
     return _data;
   }
 }
