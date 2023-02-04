@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/construction_screen/activebatch.dart';
 import 'package:clean_soil_flutter/model/projectAllDataModel.dart';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,8 +15,8 @@ class DashboardActive extends StatefulWidget {
 }
 
 class _DashboardActiveState extends State<DashboardActive> {
-  List<Data> allData = [];
-  late Data data;
+  List allData = [];
+  ProjectAllDataModel? projectAllDataModel;
 
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
@@ -34,16 +33,16 @@ class _DashboardActiveState extends State<DashboardActive> {
     );
 
     print("Resspoceeeeeeeeeeeeee from api:::${responce}");
-    var suc = jsonDecode(responce.body);
-    print("api response with body:$suc");
-    if (suc["code"] != null) {
-      throw suc["message"];
+    var data = jsonDecode(responce.body);
+    // print("api response with body:$suc");
+    // if (suc["code"] != null) {
+    //   throw suc["message"];
+    // }
+    for (var i in data) {
+      projectAllDataModel = ProjectAllDataModel.fromJson(i);
+      allData.add(projectAllDataModel!);
     }
-    for (var i in suc["dataes"]) {
-      data = Data.fromJson(i);
-      allData.add(data);
-    }
-    print("All news length is ${allData.length}");
+    print("All news length is ${allData}");
     return allData;
   }
 
@@ -57,6 +56,12 @@ class _DashboardActiveState extends State<DashboardActive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: ElevatedButton(
+          onPressed: () {
+            dashBoardactive();
+          },
+          child: Text("Api call")),
       body: Container(
         child: ListView.separated(
             itemBuilder: (context, index) => InkWell(
@@ -67,7 +72,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                   child: Card(
                     child: ListTile(
                       title: Text(
-                        allData[index].constructionCompany.id,
+                        "allData[index].constructionCompany.id",
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -75,7 +80,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                             fontFamily: 'SFPro'),
                       ),
                       subtitle: Text(
-                        allData[index].constructionCompany.name,
+                        "allData[index].constructionCompany.name",
                         style: TextStyle(
                             fontSize: 12,
                             color: Colors.black54,
@@ -92,7 +97,7 @@ class _DashboardActiveState extends State<DashboardActive> {
             separatorBuilder: (_, index) => SizedBox(
                   height: 1,
                 ),
-            itemCount: allData.length),
+            itemCount: 50),
       ),
     );
   }
