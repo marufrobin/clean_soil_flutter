@@ -41,9 +41,19 @@ class _DashboardActiveState extends State<DashboardActive> {
     for (var i in data) {
       projectAllDataModel = ProjectAllDataModel.fromJson(i);
       allData.add(projectAllDataModel!);
+
+      var suc = jsonDecode(responce.body);
+      print("api response with body:$suc");
+      if (suc["code"] != null) {
+        throw suc["message"];
+      }
+      for (var i in suc["data"]) {
+        projectAllDataModel = ProjectAllDataModel.fromJson(i);
+        allData.add(projectAllDataModel);
+      }
+      print("All news length is ${allData}");
+      return allData;
     }
-    print("All news length is ${allData}");
-    return allData;
   }
 
   @override
