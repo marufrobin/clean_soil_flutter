@@ -16,8 +16,8 @@ class DashboardActive extends StatefulWidget {
 }
 
 class _DashboardActiveState extends State<DashboardActive> {
-  List<Data> allData = [];
-  late Data data;
+  List<ProjectAllDataModel> allData = [];
+  late ProjectAllDataModel projectalldata;
 
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
@@ -39,9 +39,9 @@ class _DashboardActiveState extends State<DashboardActive> {
     if (suc["code"] != null) {
       throw suc["message"];
     }
-    for (var i in suc["dataes"]) {
-      data = Data.fromJson(i);
-      allData.add(data);
+    for (var i in suc["data"]) {
+      projectalldata = ProjectAllDataModel.fromJson(i);
+      allData.add(projectalldata);
     }
     print("All news length is ${allData.length}");
     return allData;
@@ -67,7 +67,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                   child: Card(
                     child: ListTile(
                       title: Text(
-                        allData[index].constructionCompany.id,
+                        allData[index].data.toString(),
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -75,7 +75,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                             fontFamily: 'SFPro'),
                       ),
                       subtitle: Text(
-                        allData[index].constructionCompany.name,
+                        allData[index].data.toString(),
                         style: TextStyle(
                             fontSize: 12,
                             color: Colors.black54,

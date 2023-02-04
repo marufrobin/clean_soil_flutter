@@ -4,7 +4,7 @@ class ProjectAllDataModel {
     required this.success,
     required this.data,
   });
-  late final bool success;
+  bool? success;
   late final List<Data> data;
 
   ProjectAllDataModel.fromJson(Map<String, dynamic> json) {
