@@ -10,6 +10,23 @@ class AllBatchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: ElevatedButton(
+            style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
+            onPressed: () {},
+            child: Container(
+              width: double.infinity,
+              height: 52,
+              child: Center(
+                child: Text(
+                  "Create Batch",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontFamily: "SFPro"),
+                ),
+              ),
+            )),
         appBar: AppBar(
           toolbarHeight: 71,
           backgroundColor: Colors.blue,

@@ -66,12 +66,6 @@ class _DashboardActiveState extends State<DashboardActive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: ElevatedButton(
-          onPressed: () {
-            dashBoardactive();
-          },
-          child: Text("Api call")),
       body: Container(
         child: ListView.separated(
             itemBuilder: (context, index) => InkWell(
@@ -82,7 +76,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                   child: Card(
                     child: ListTile(
                       title: Text(
-                        "allData[index].constructionCompany.id",
+                        "Lafarge worksite",
                         style: TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -90,7 +84,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                             fontFamily: 'SFPro'),
                       ),
                       subtitle: Text(
-                        "allData[index].constructionCompany.name",
+                        "Lafarge worksite to processer",
                         style: TextStyle(
                             fontSize: 12,
                             color: Colors.black54,
