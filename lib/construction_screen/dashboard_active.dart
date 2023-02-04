@@ -101,7 +101,7 @@ class _DashboardActiveState extends State<DashboardActive> {
             separatorBuilder: (_, index) => SizedBox(
                   height: 1,
                 ),
-            itemCount: 50),
+            itemCount: 3),
       ),
     );
   }

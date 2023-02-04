@@ -15,7 +15,7 @@ class AllBatchPage extends StatelessWidget {
             style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
             onPressed: () {},
             child: Container(
-              width: double.infinity,
+              width: 320,
               height: 52,
               child: Center(
                 child: Text(
@@ -31,19 +31,20 @@ class AllBatchPage extends StatelessWidget {
           toolbarHeight: 71,
           backgroundColor: Colors.blue,
           leading: Container(
-            padding: EdgeInsets.only(top: 26, bottom: 10),
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: Colors.white,
-            ),
-          ),
+              padding: EdgeInsets.only(top: 26, bottom: 10),
+              child: IconButton(
+                  onPressed: (() {}),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 25,
+                    color: Colors.white,
+                  ))),
           title: Container(
             padding: EdgeInsets.only(left: 51, top: 26, bottom: 10),
             child: Text(
               "Lafarge worksite",
               style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 16,
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'SFPro'),
@@ -51,13 +52,14 @@ class AllBatchPage extends StatelessWidget {
           ),
           actions: [
             Container(
-              padding: EdgeInsets.only(right: 10, top: 26, bottom: 10),
-              child: Icon(
-                Icons.settings,
-                size: 20,
-                color: Colors.white,
-              ),
-            )
+                padding: EdgeInsets.only(right: 10, top: 26, bottom: 10),
+                child: IconButton(
+                    onPressed: (() {}),
+                    icon: Icon(
+                      Icons.settings,
+                      size: 25,
+                      color: Colors.white,
+                    )))
           ],
         ),
         body: Container(
@@ -116,8 +118,8 @@ class AllBatchPage extends StatelessWidget {
                                         fontFamily: 'SFPro'),
                                   )),
                               Container(
-                                height: 80,
-                                width: 80,
+                                height: 75,
+                                width: 75,
                                 child: QrImage(
                                   gapless: true,
                                   version: QrVersions.auto,
@@ -134,7 +136,7 @@ class AllBatchPage extends StatelessWidget {
               separatorBuilder: (_, index) => SizedBox(
                     height: 5,
                   ),
-              itemCount: 3),
+              itemCount: 10),
         ),
       ),
     );

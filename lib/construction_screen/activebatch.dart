@@ -20,7 +20,7 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
             style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
             onPressed: () {},
             child: Container(
-              width: double.infinity,
+              width: 320,
               height: 52,
               child: Center(
                 child: Text(
@@ -39,7 +39,7 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
             padding: EdgeInsets.only(top: 26, bottom: 10),
             child: Icon(
               Icons.arrow_back_ios,
-              size: 20,
+              size: 25,
               color: Colors.white,
             ),
           ),
@@ -48,7 +48,7 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
             child: Text(
               "Lafarge worksite",
               style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 16,
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'SFPro'),
@@ -56,19 +56,20 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
           ),
           actions: [
             Container(
-              padding: EdgeInsets.only(right: 10, top: 26, bottom: 10),
-              child: Icon(
-                Icons.settings,
-                size: 20,
-                color: Colors.white,
-              ),
-            )
+                padding: EdgeInsets.only(right: 10, top: 26, bottom: 10),
+                child: IconButton(
+                    onPressed: (() {}),
+                    icon: Icon(
+                      Icons.settings,
+                      size: 25,
+                      color: Colors.white,
+                    )))
           ],
         ),
         body: Container(
           child: ListView.separated(
               itemBuilder: (_index, context) => Container(
-                    height: 200,
+                    height: 190,
                     child: Card(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,9 +85,6 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
                                   fontFamily: 'SFPro'),
                             ),
                           ),
-                          SizedBox(
-                            height: 5,
-                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
@@ -97,9 +95,6 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
                                   fontWeight: FontWeight.w700,
                                   fontFamily: 'SFPro'),
                             ),
-                          ),
-                          SizedBox(
-                            height: 5,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -127,8 +122,8 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
                                         fontFamily: 'SFPro'),
                                   )),
                               Container(
-                                height: 50,
-                                width: 50,
+                                height: 75,
+                                width: 75,
                                 child: QrImage(
                                   gapless: true,
                                   version: QrVersions.auto,
@@ -145,7 +140,7 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
               separatorBuilder: (_, index) => SizedBox(
                     height: 5,
                   ),
-              itemCount: 3),
+              itemCount: 10),
         ),
       ),
     );
