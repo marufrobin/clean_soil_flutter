@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:clean_soil_flutter/construction_screen/activebatch.dart';
+import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
 import 'package:clean_soil_flutter/model/projectAllDataModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -70,8 +70,9 @@ class _DashboardActiveState extends State<DashboardActive> {
         child: ListView.separated(
             itemBuilder: (context, index) => InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => ActiveBatchPage())));
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: ((context) => AllBatchPage())),
+                    );
                   },
                   child: Card(
                     elevation: 0.5,
