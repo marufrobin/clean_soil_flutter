@@ -22,26 +22,27 @@ class _DashboardAllState extends State<DashboardAll> {
                         builder: (context) => AllBatchPage()));
                   },
                   child: Card(
+                    elevation: 0.5,
                     child: ListTile(
                       title: Text(
                         "Lafarge Worksite",
                         style: TextStyle(
                             fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
+                            color: Color(0xff212121),
+                            fontWeight: FontWeight.w400,
                             fontFamily: 'SFPro'),
                       ),
                       subtitle: Text(
                         "Lafarge worksite to processer",
                         style: TextStyle(
                             fontSize: 12,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w700,
+                            color: Color(0xff6E6E6E),
+                            fontWeight: FontWeight.w400,
                             fontFamily: 'SFPro'),
                       ),
                       trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
+                        Icons.arrow_forward_ios_rounded,
+                        size: 16,
                       ),
                     ),
                   ),

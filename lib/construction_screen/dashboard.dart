@@ -21,9 +21,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            toolbarHeight: 100,
+            elevation: 0,
+            toolbarHeight: 60,
             title: Padding(
-              padding: const EdgeInsets.only(top: 19.2, left: 16),
+              padding: const EdgeInsets.only(left: 8),
               child: Text(
                 'Projects',
                 style: TextStyle(
@@ -35,10 +36,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             actions: [
               Padding(
-                padding: const EdgeInsets.only(top: 19.2, right: 20),
+                padding: const EdgeInsets.only(right: 20),
                 child: Image.asset(
                   'images/notification.png',
-                  height: 20.01,
+                  height: 20,
                   width: 22,
                 ),
               )
@@ -52,14 +53,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     color: Color(0xff106EBE),
                     borderRadius: BorderRadius.circular(20)),
                 child: TabBar(
+                  labelStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'SFPro'),
                   indicator: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20.0)),
                   labelColor: Color(0xff0078D4),
-                  unselectedLabelColor: Colors.black,
+                  unselectedLabelColor: Colors.white,
                   tabs: const [
                     Tab(
-                      text: 'Active',
+                      text: "Active",
                     ),
                     Tab(
                       text: 'All',
