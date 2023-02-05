@@ -11,6 +11,57 @@ class ActiveBatchPage extends StatefulWidget {
 }
 
 class _ActiveBatchPageState extends State<ActiveBatchPage> {
+  void _showModalBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(10),
+          height: 500,
+          color: Colors.white,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 100,
+                width: 100,
+                child: Center(
+                  child: QrImage(
+                    gapless: true,
+                    version: QrVersions.auto,
+                    data: "Maruf",
+                    size: 200.0,
+                  ),
+                ),
+              ),
+              Spacer(),
+              ElevatedButton(
+                  style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
+                  onPressed: () {
+                    _showModalBottomSheet();
+                  },
+                  child: Container(
+                    width: 320,
+                    height: 52,
+                    child: Center(
+                      child: Text(
+                        "Create Batch",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            fontFamily: "SFPro"),
+                      ),
+                    ),
+                  )),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -18,7 +69,9 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: ElevatedButton(
             style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
-            onPressed: () {},
+            onPressed: () {
+              _showModalBottomSheet();
+            },
             child: Container(
               width: 320,
               height: 52,
@@ -36,13 +89,14 @@ class _ActiveBatchPageState extends State<ActiveBatchPage> {
           toolbarHeight: 71,
           backgroundColor: Colors.blue,
           leading: Container(
-            padding: EdgeInsets.only(top: 26, bottom: 10),
-            child: Icon(
-              Icons.arrow_back_ios,
-              size: 25,
-              color: Colors.white,
-            ),
-          ),
+              padding: EdgeInsets.only(top: 26, bottom: 10),
+              child: IconButton(
+                  onPressed: (() {}),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    size: 25,
+                    color: Colors.white,
+                  ))),
           title: Container(
             padding: EdgeInsets.only(left: 51, top: 26, bottom: 10),
             child: Text(

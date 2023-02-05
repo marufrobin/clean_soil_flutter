@@ -8,12 +8,62 @@ class AllBatchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _showModalBottomSheet() {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.all(10),
+            height: 500,
+            color: Colors.white,
+            child: Column(
+              children: [
+                Container(
+                  height: 100,
+                  width: 100,
+                  child: Center(
+                    child: QrImage(
+                      gapless: true,
+                      version: QrVersions.auto,
+                      data: "Maruf",
+                      size: 200.0,
+                    ),
+                  ),
+                ),
+                Spacer(),
+                ElevatedButton(
+                    style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
+                    onPressed: () {
+                      _showModalBottomSheet();
+                    },
+                    child: Container(
+                      width: 320,
+                      height: 52,
+                      child: Center(
+                        child: Text(
+                          "Create Batch",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              fontFamily: "SFPro"),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          );
+        },
+      );
+    }
+
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: ElevatedButton(
             style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
-            onPressed: () {},
+            onPressed: () {
+              _showModalBottomSheet();
+            },
             child: Container(
               width: 320,
               height: 52,
@@ -54,7 +104,9 @@ class AllBatchPage extends StatelessWidget {
             Container(
                 padding: EdgeInsets.only(right: 10, top: 26, bottom: 10),
                 child: IconButton(
-                    onPressed: (() {}),
+                    onPressed: (() {
+                      _showModalBottomSheet();
+                    }),
                     icon: Icon(
                       Icons.settings,
                       size: 25,
