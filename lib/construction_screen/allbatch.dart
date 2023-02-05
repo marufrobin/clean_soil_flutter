@@ -10,6 +10,8 @@ class AllBatchPage extends StatelessWidget {
   TextEditingController soilType = TextEditingController();
   TextEditingController materialQuantity = TextEditingController();
   TextEditingController receivingSite = TextEditingController();
+  TextEditingController robin = TextEditingController();
+  TextEditingController maruf = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
