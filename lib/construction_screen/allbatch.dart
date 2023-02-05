@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class AllBatchPage extends StatelessWidget {
-  const AllBatchPage({super.key});
+  AllBatchPage({super.key});
+  TextEditingController approvedBy = TextEditingController();
+  TextEditingController batchNo = TextEditingController();
+  TextEditingController soilType = TextEditingController();
+  TextEditingController materialQuantity = TextEditingController();
+  TextEditingController receivingSite = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    void _showModalBottomSheet() {
+    _showModalBottomSheet() {
       showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -219,6 +224,10 @@ class AllBatchPage extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     Container(
+                                      decoration: BoxDecoration(
+                                          color: Color(0xffF8F8F8),
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
                                       margin: EdgeInsets.all(8),
                                       height: 80,
                                       width: 80,
