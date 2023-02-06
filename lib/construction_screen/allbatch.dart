@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:clean_soil_flutter/scan/scan.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -215,7 +216,8 @@ class AllBatchPage extends StatelessWidget {
                 ElevatedButton(
                     style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
                     onPressed: () {
-                      _showModalBottomSheet();
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => QrScan()));
                     },
                     child: Container(
                       width: 320,

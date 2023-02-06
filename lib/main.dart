@@ -1,4 +1,5 @@
 import 'package:clean_soil_flutter/authentication/onboarding.dart';
+import 'package:clean_soil_flutter/scan/scan.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,9 +19,9 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 
-      home: OnboardingScreen(),
+      //home: OnboardingScreen(),
 
-      // home: DashboardScreen(),
+      home: QrScan(),
     );
   }
 }
