@@ -25,7 +25,7 @@ class _QrScanState extends State<QrScan> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xff0078D4),
         leading: IconButton(
             onPressed: (() {
               Navigator.pop(context);
@@ -63,7 +63,7 @@ class _QrScanState extends State<QrScan> {
                           width: 18,
                         ),
                         SizedBox(
-                          width: 11,
+                          width: 16,
                         ),
                         if (result != null)
                           Text(
@@ -92,14 +92,17 @@ class _QrScanState extends State<QrScan> {
                             fontWeight: FontWeight.w400,
                             fontFamily: 'SFPro'),
                       ),
-                      Text(
-                        'give us feedback',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Color(0xff0078D4),
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'SFPro'),
-                      ),
+                      TextButton(
+                        onPressed: (() {}),
+                        child: Text(
+                          'give us feedback',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Color(0xff0078D4),
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'SFPro'),
+                        ),
+                      )
                     ],
                   )
                 ],
@@ -114,7 +117,7 @@ class _QrScanState extends State<QrScan> {
   Widget _buildQrView(BuildContext context) {
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 250.0
+        ? 300.0
         : 300.0;
 
     return QRView(
@@ -124,7 +127,7 @@ class _QrScanState extends State<QrScan> {
           borderColor: Colors.white,
           borderRadius: 0,
           borderLength: 60,
-          borderWidth: 2,
+          borderWidth: 3,
           cutOutSize: scanArea),
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
     );
