@@ -76,14 +76,18 @@ class _QrScanState extends State<QrScan> {
                         SizedBox(
                           width: 11,
                         ),
-                        Text(
-                          "Scan QR code to accept batch",
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                              fontFamily: 'SFPro'),
-                        ),
+                        if (result != null)
+                          Text(
+                              'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                        else
+                          Text(
+                            "Scan QR code to accept batch",
+                            style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                                fontFamily: 'SFPro'),
+                          ),
                       ],
                     ),
                   ),
