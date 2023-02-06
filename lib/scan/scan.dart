@@ -46,31 +46,7 @@ class _QrScanState extends State<QrScan> {
       ),
       body: Column(
         children: <Widget>[
-          Stack(
-            children: [
-              Expanded(flex: 4, child: _buildQrView(context)),
-              Positioned(
-                  top: 24,
-                  left: 100,
-                  child: Container(
-                    height: 32,
-                    width: 189,
-                    decoration: BoxDecoration(
-                        color: Colors.yellow,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Center(
-                      child: Text(
-                        "Point towards QR code",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'SFPro'),
-                      ),
-                    ),
-                  ))
-            ],
-          ),
+          Expanded(flex: 4, child: _buildQrView(context)),
           Expanded(
             flex: 1,
             child: Padding(
