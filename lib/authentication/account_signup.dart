@@ -465,7 +465,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                       ),
                       onPressed: () {
                         // print("company type:::::${widget.companyType}");
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => AccountSignInPage(),

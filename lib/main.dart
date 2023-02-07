@@ -1,4 +1,4 @@
-import 'package:clean_soil_flutter/authentication/onboarding.dart';
+import 'package:clean_soil_flutter/construction_screen/dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 
       //home: OnboardingScreen(),
 
-      home: OnboardingScreen(),
+      home: DashboardScreen(),
     );
   }
 }

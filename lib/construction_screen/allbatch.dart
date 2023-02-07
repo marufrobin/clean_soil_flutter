@@ -32,6 +32,15 @@ class AllBatchPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Center(
+                  child: Container(
+                    height: 4,
+                    width: 36,
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(4)),
+                  ),
+                ),
                 ListTile(
                   title: Padding(
                     padding: const EdgeInsets.only(left: 120),
@@ -56,42 +65,79 @@ class AllBatchPage extends StatelessWidget {
                         )),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 140),
-                  height: 70,
-                  width: 70,
-                  child: QrImage(
-                    gapless: true,
-                    version: QrVersions.auto,
-                    data: "Maruf",
-                    size: 200.0,
-                  ),
-                ),
                 SizedBox(
                   height: 15,
                 ),
-                Text(
-                  "Batch no",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      fontFamily: "SFPro"),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextField(
-                  controller: batchNo,
-                  decoration: InputDecoration(
-                    labelText: "786",
-                    filled: true,
-                    labelStyle: TextStyle(color: Colors.black),
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xffE1E1E1)),
-                      borderRadius: BorderRadius.circular(8.0),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Batch no",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                fontFamily: "SFPro"),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextField(
+                            controller: batchNo,
+                            decoration: InputDecoration(
+                              hintText: "786",
+                              filled: true,
+                              labelStyle: TextStyle(color: Colors.black),
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffE1E1E1)),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+                    SizedBox(
+                      width: 8,
                     ),
-                  ),
+                    Expanded(
+                        child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Approved by",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                fontFamily: "SFPro"),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextField(
+                            controller: batchNo,
+                            decoration: InputDecoration(
+                              hintText: "Jane Doe",
+                              filled: true,
+                              labelStyle: TextStyle(color: Colors.black),
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xffE1E1E1)),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+                  ],
                 ),
                 SizedBox(
                   height: 10,

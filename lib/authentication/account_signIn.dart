@@ -215,7 +215,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                     ),
                     //Sign UP Button navigator
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => AccountSignUpPage(
