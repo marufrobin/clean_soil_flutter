@@ -2,16 +2,16 @@
 
 import 'dart:convert';
 
-import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:clean_soil_flutter/authentication/emailVarification.dart';
-import 'package:clean_soil_flutter/model/user.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class AccountSignUpPage extends StatefulWidget {
-  const AccountSignUpPage({super.key});
+import 'account_signIn.dart';
 
+class AccountSignUpPage extends StatefulWidget {
+  AccountSignUpPage({super.key, required this.companyType});
+  String? companyType;
   @override
   State<AccountSignUpPage> createState() => _AccountSignUpPageState();
 }
@@ -24,8 +24,6 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmpasswordController =
       TextEditingController();
-
-  User user = User();
 
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
@@ -42,7 +40,8 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
     map["fullName"] = nameController.text.toString();
     map["email"] = emailController.text.toString();
     map["password"] = passwordController.text.toString();
-    map["userCompanyType"] = user.comapanyType;
+    map["userCompanyType"] = widget.companyType;
+    print("Company type ${widget.companyType}");
     print("Company type ${map["userCompanyType"]}");
 
     // need to implement filed from UI page
@@ -398,6 +397,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                         backgroundColor: MaterialStatePropertyAll(Colors.white),
                       ),
                       onPressed: () {
+                        // print("company type:::::${widget.companyType}");
                         Navigator.push(
                             context,
                             MaterialPageRoute(

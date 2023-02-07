@@ -28,7 +28,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
 
   adminLogin() async {
     var adminLogUrl = "auth/user/login";
-    Map map = Map<String, dynamic>();
+    Map map = <String, dynamic>{};
 
     map["username"] = emailController.text.toString();
 
@@ -218,7 +218,9 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AccountSignUpPage(),
+                            builder: (context) => AccountSignUpPage(
+                              companyType: user.comapanyType,
+                            ),
                           ));
                     },
                     child: Container(
