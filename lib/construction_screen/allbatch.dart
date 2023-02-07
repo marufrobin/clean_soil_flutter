@@ -17,6 +17,11 @@ class AllBatchPage extends StatelessWidget {
     'driver',
   ];
   String? selectedValue;
+  final Map shippingStatus = {
+    "dispatched": "images/dispatched.png",
+    "shipped": "images/shipped.png",
+    "waiting": "images/waiting.png",
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -344,13 +349,16 @@ class AllBatchPage extends StatelessWidget {
         body: Container(
           child: ListView.separated(
               itemBuilder: (_index, context) => SizedBox(
-                    height: 172,
+                    height: 176,
                     child: Row(
                       children: [
                         Expanded(
                             child: CircleAvatar(
                           radius: 16,
-                          backgroundColor: Colors.blue,
+                          backgroundColor: Colors.transparent,
+                          child: Image.asset(
+                            "${shippingStatus["dispatched"]}",
+                          ),
                         )),
                         Expanded(
                           flex: 4,
@@ -377,9 +385,9 @@ class AllBatchPage extends StatelessWidget {
                                             fontFamily: 'SFPro'),
                                       ),
                                       Text(
-                                        "→•",
+                                        "  →•  ",
                                         style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             color: Colors.grey,
                                             fontWeight: FontWeight.w600,
                                             fontFamily: 'SFPro'),
