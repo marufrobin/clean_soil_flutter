@@ -2,15 +2,16 @@
 
 import 'dart:convert';
 
-import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:clean_soil_flutter/authentication/emailVarification.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class AccountSignUpPage extends StatefulWidget {
-  const AccountSignUpPage({super.key});
+import 'account_signIn.dart';
 
+class AccountSignUpPage extends StatefulWidget {
+  AccountSignUpPage({super.key, required this.companyType});
+  String? companyType;
   @override
   State<AccountSignUpPage> createState() => _AccountSignUpPageState();
 }
@@ -40,9 +41,13 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
     map["fullName"] = nameController.text.toString();
     map["email"] = emailController.text.toString();
     map["password"] = passwordController.text.toString();
-    map["userCompanyType"] = "construction";
+    map["userCompanyType"] = widget.companyType;
+    print("Company type ${widget.companyType}");
+    print("Company type ${map["userCompanyType"]}");
+
+    // need to implement filed from UI page
     map["userType"] = "cleansoil";
-    map["userType"] = "cleansoil";
+
     map["userPosition"] = "project co-ordinator";
     map["status"] = "invited";
     var responce = await http.post(
@@ -429,6 +434,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                         backgroundColor: MaterialStatePropertyAll(Colors.white),
                       ),
                       onPressed: () {
+                        // print("company type:::::${widget.companyType}");
                         Navigator.push(
                             context,
                             MaterialPageRoute(
