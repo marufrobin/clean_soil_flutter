@@ -21,6 +21,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
   final TextEditingController positionController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController usertypeController = TextEditingController();
   final TextEditingController confirmpasswordController =
       TextEditingController();
 
@@ -291,6 +292,42 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: BorderSide(color: Color(0xffE1E1E1)),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "User type",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13,
+                        fontFamily: "SFPro"),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "user type is empty";
+                      }
+                    },
+                    controller: usertypeController,
+                    decoration: InputDecoration(
+                      hintText: "Jane Doe",
+                      hintStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Color(0xffACACAC),
+                          fontFamily: "SFPro"),
+                      labelStyle: TextStyle(color: Colors.black),
+                      fillColor: Colors.white,
+                      filled: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xffE1E1E1)),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
                   ),
