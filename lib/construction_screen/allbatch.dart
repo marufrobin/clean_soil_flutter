@@ -160,7 +160,7 @@ class AllBatchPage extends StatelessWidget {
                 TextField(
                   controller: approvedBy,
                   decoration: InputDecoration(
-                    labelText: "Just Soil",
+                    hintText: "Just Soil",
                     filled: true,
                     labelStyle: TextStyle(color: Colors.black),
                     fillColor: Colors.white,
@@ -193,7 +193,7 @@ class AllBatchPage extends StatelessWidget {
                       borderSide: BorderSide(color: Color(0xffE1E1E1)),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    labelText: "Material quantity",
+                    hintText: "Material quantity",
                   ),
                 ),
                 SizedBox(
