@@ -3,11 +3,12 @@
 import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/account_signup.dart';
-import 'package:clean_soil_flutter/construction_screen/dashboard.dart';
 import 'package:clean_soil_flutter/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+
+import '../construction_screen/dashboard.dart';
 
 class AccountSignInPage extends StatefulWidget with ValidationMixin {
   AccountSignInPage({Key? key}) : super(key: key);
@@ -39,8 +40,21 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
     print("printinnnngnng mapppppppp: $map");
     print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
     var suc = jsonDecode(responce.body)["success"];
+    var data = jsonDecode(responce.body)["data"];
     print(suc);
     if (responce.statusCode == 200 && suc == true) {
+      user.userId = data["_id"];
+      user.userEmail = data["email"];
+      user.userFullName = data["fullName"];
+      user.comapanyType = data["userCompanyType"];
+      user.userType = data["userType"];
+      user.userPosition = data["userPosition"];
+      print("user id: ${user.userId}");
+      print("user email: ${user.userEmail}");
+      print("user fullName: ${user.userFullName}");
+      print("user Company type: ${user.comapanyType}");
+      print("user type: ${user.userType}");
+      print("user position: ${user.userPosition}");
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
