@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:clean_soil_flutter/model/user.dart';
 import 'package:flutter/material.dart';
+
 import 'account_signIn.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -11,6 +13,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+  User user = User();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         style:
                             ButtonStyle(elevation: MaterialStatePropertyAll(0)),
                         onPressed: () {
+                          user.comapanyType = "Construction";
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => AccountSignInPage()));
                         },
@@ -88,7 +92,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ElevatedButton(
                         style:
                             ButtonStyle(elevation: MaterialStatePropertyAll(0)),
-                        onPressed: () {},
+                        onPressed: () {
+                          user.comapanyType = "Hauling";
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AccountSignInPage()));
+                        },
                         child: Container(
                           width: double.infinity,
                           height: 52,
@@ -113,7 +121,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ElevatedButton(
                         style:
                             ButtonStyle(elevation: MaterialStatePropertyAll(0)),
-                        onPressed: () {},
+                        onPressed: () {
+                          user.comapanyType = "Processor";
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AccountSignInPage()));
+                        },
                         child: Container(
                           width: double.infinity,
                           height: 52,

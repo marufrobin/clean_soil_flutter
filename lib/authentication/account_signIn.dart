@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/account_signup.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard.dart';
+import 'package:clean_soil_flutter/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -22,6 +23,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
 
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
+  User user = User();
 
   adminLogin() async {
     var adminLogUrl = "auth/user/login";
