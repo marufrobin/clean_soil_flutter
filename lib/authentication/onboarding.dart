@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:clean_soil_flutter/authentication/account_signup.dart';
 import 'package:clean_soil_flutter/model/user.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +67,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         onPressed: () {
                           user.comapanyType = "Construction";
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => AccountSignInPage()));
+                              builder: (context) => AccountSignUpPage()));
                         },
                         child: Container(
                           width: double.infinity,

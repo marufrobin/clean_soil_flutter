@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:clean_soil_flutter/authentication/emailVarification.dart';
+import 'package:clean_soil_flutter/model/user.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -24,6 +25,8 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
   final TextEditingController confirmpasswordController =
       TextEditingController();
 
+  User user = User();
+
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
 
@@ -39,9 +42,12 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
     map["fullName"] = nameController.text.toString();
     map["email"] = emailController.text.toString();
     map["password"] = passwordController.text.toString();
-    map["userCompanyType"] = "construction";
+    map["userCompanyType"] = user.comapanyType;
+    print("Company type ${map["userCompanyType"]}");
+
+    // need to implement filed from UI page
     map["userType"] = "cleansoil";
-    map["userType"] = "cleansoil";
+
     map["userPosition"] = "project co-ordinator";
     map["status"] = "invited";
     var responce = await http.post(
