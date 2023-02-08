@@ -318,7 +318,7 @@ class AllBatchPage extends StatelessWidget {
                 ),
                 ListTile(
                   title: Padding(
-                    padding: const EdgeInsets.only(left: 120),
+                    padding: const EdgeInsets.only(left: 116),
                     child: Text(
                       "Create Batch",
                       style: TextStyle(
@@ -348,8 +348,8 @@ class AllBatchPage extends StatelessWidget {
                       color: Color(0xffF8F8F8),
                       borderRadius: BorderRadius.circular(4)),
                   margin: EdgeInsets.all(8),
-                  height: 200,
-                  width: 200,
+                  height: 190,
+                  width: 190,
                   child: QrImage(
                     gapless: true,
                     version: QrVersions.auto,
