@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors, unused_import
+
+import 'package:clean_soil_flutter/authentication/onboarding.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 
-      //home: OnboardingScreen(),
+      // home: OnboardingScreen(),
 
       home: DashboardScreen(),
     );
