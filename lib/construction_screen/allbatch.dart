@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers, unused_element
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers, unused_element, must_be_immutable
 
 import 'package:clean_soil_flutter/scan/scan.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -303,7 +303,7 @@ class AllBatchPage extends StatelessWidget {
         builder: (BuildContext context) {
           return Container(
             padding: EdgeInsets.all(10.0),
-            height: 400,
+            height: 450,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -348,8 +348,8 @@ class AllBatchPage extends StatelessWidget {
                       color: Color(0xffF8F8F8),
                       borderRadius: BorderRadius.circular(4)),
                   margin: EdgeInsets.all(8),
-                  height: 190,
-                  width: 190,
+                  height: 260,
+                  width: 260,
                   child: QrImage(
                     gapless: true,
                     version: QrVersions.auto,
