@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
-import 'package:clean_soil_flutter/model/projectAllDataModel.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,36 +14,25 @@ class DashboardActive extends StatefulWidget {
 }
 
 class _DashboardActiveState extends State<DashboardActive> {
-  List allData = [];
-  ProjectAllDataModel? projectAllDataModel;
-
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
+  var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
   String userId = "63dbe295137a82239e717ab9";
   String userCompanyType = "construction";
+  Map<String, dynamic>? allData;
 
   dashBoardactive() async {
-    var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
+    var DashBoardallUrl =
+        "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$userId&userCompanyType=$userCompanyType";
 
     var responce = await http.get(
-      Uri.parse(
-          "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$userId&userCompanyType=$userCompanyType"),
+      Uri.parse(DashBoardallUrl),
       headers: {'Content-Type': 'application/json'},
     );
 
-    print("Resspoceeeeeeeeeeeeee from api:::${responce}");
-    var data = jsonDecode(responce.body);
-    // print("api response with body:$suc");
-    // if (suc["code"] != null) {
-    //   throw suc["message"];
-    // }
-    for (var i in data) {
-      projectAllDataModel = ProjectAllDataModel.fromJson(i);
-      allData.add(projectAllDataModel!);
-
-      print("All news length is ${allData}");
-      return allData;
-    }
+    var dashboadall = await http.get(Uri.parse(DashBoardallUrl));
+    allData = Map<String, dynamic>.from(jsonDecode(dashboadall.body));
+    setState(() {});
   }
 
   @override
@@ -93,7 +81,7 @@ class _DashboardActiveState extends State<DashboardActive> {
             separatorBuilder: (_, index) => SizedBox(
                   height: 1,
                 ),
-            itemCount: 3),
+            itemCount: 5),
       ),
     );
   }

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, prefer_const_constructors, dead_code
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors, dead_code, prefer_collection_literals
 
 import 'dart:convert';
 
