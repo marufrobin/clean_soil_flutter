@@ -4,7 +4,8 @@ import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
 import 'package:flutter/material.dart';
 
 class DashboardAll extends StatefulWidget {
-  const DashboardAll({super.key});
+  List data;
+  DashboardAll({super.key, required this.data});
 
   @override
   State<DashboardAll> createState() => _DashboardAllState();

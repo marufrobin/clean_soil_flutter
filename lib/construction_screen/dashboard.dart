@@ -123,7 +123,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   return Text("No Data");
                 }
                 return TabBarView(
-                  children: [DashboardActive(data: data!), DashboardAll()],
+                  children: [
+                    DashboardActive(data: data),
+                    DashboardAll(
+                      data: data,
+                    )
+                  ],
                 );
               }),
         ),

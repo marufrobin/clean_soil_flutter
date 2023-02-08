@@ -39,13 +39,7 @@ class _DashboardActiveState extends State<DashboardActive> {
     // return data;
     setState(() {});
   }*/
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  /* List? activeData;
+  /*List? activeData;
   fatchData() {
     for (var i in widget.data) {
       if (i["status"] == "active") {
@@ -55,6 +49,11 @@ class _DashboardActiveState extends State<DashboardActive> {
     }
     return activeData;
   }*/
+  @override
+  void initState() {
+    // fatchData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
