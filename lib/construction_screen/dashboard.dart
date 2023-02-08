@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_constructors_in_immutables
 
+import 'dart:convert';
+
 import 'package:clean_soil_flutter/construction_screen/dashboard_active.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard_all.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({
@@ -14,6 +17,42 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
+  var apiVersionUrl = "api/v1/";
+  var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
+  String userId = "63dbe295137a82239e717ab9";
+  String userCompanyType = "construction";
+  Map<String, dynamic>? allData;
+  List? data;
+  Future dashBoardactive() async {
+    var DashBoardallUrl =
+        "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$userId&userCompanyType=$userCompanyType";
+
+    var responce = await http.get(
+      Uri.parse(DashBoardallUrl),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    // var dashboadall = await http.get(Uri.parse(DashBoardallUrl));
+    allData = Map<String, dynamic>.from(jsonDecode(responce.body));
+    data = allData!["data"];
+    // print("all data from api ::::projec ::::${allData}");
+    // for (int index = 0; index <= data!.length; index++) {
+    //   print("data from api ::::projec ::::${data![index]["_id"]}");
+    // }
+    // print("data from api ::::project id oneeeee ::::${data![0]["_id"]}");
+
+    // setState(() {});
+    return data;
+  }
+
+  @override
+  void initState() {
+    dashBoardactive();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -74,9 +113,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
           ),
-          body: TabBarView(
-            children: [DashboardActive(), DashboardAll()],
-          ),
+          body: FutureBuilder(
+              future: dashBoardactive(),
+              // initialData: dashBoardactive(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                } else if (snapshot.data == null) {
+                  return Text("No Data");
+                }
+                return TabBarView(
+                  children: [DashboardActive(data: data!), DashboardAll()],
+                );
+              }),
         ),
       ),
     );

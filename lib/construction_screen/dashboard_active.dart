@@ -1,20 +1,18 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, avoid_print
 
-import 'dart:convert';
-
 import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class DashboardActive extends StatefulWidget {
-  const DashboardActive({super.key});
+  List data;
+  DashboardActive({super.key, required this.data});
 
   @override
   State<DashboardActive> createState() => _DashboardActiveState();
 }
 
 class _DashboardActiveState extends State<DashboardActive> {
-  var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
+  /*var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
   var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
   String userId = "63dbe295137a82239e717ab9";
@@ -40,12 +38,11 @@ class _DashboardActiveState extends State<DashboardActive> {
     print("data from api ::::project id oneeeee ::::${data![0]["_id"]}");
     // return data;
     setState(() {});
-  }
+  }*/
 
   @override
   void initState() {
     super.initState();
-    dashBoardactive();
   }
 
   @override
@@ -63,7 +60,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                     elevation: 0.5,
                     child: ListTile(
                       title: Text(
-                        "${data![index]["projectName"]}",
+                        "${widget.data[index]["projectName"]}",
                         style: TextStyle(
                             fontSize: 14,
                             color: Color(0xff212121),
@@ -88,7 +85,7 @@ class _DashboardActiveState extends State<DashboardActive> {
             separatorBuilder: (_, index) => SizedBox(
                   height: 1,
                 ),
-            itemCount: data!.length),
+            itemCount: widget.data.length),
       ),
     );
   }
