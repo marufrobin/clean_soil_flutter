@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers, unused_element
 
 import 'package:clean_soil_flutter/scan/scan.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -293,6 +293,95 @@ class AllBatchPage extends StatelessWidget {
       );
     }
 
+    _showModalBottomSheet1() {
+      showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.all(10.0),
+            height: 400,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    height: 4,
+                    width: 36,
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(4)),
+                  ),
+                ),
+                ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(left: 120),
+                    child: Text(
+                      "Create Batch",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          fontFamily: "SFPro"),
+                    ),
+                  ),
+                  trailing: Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: IconButton(
+                        onPressed: (() {
+                          Navigator.pop(context);
+                        }),
+                        icon: Icon(
+                          Icons.close,
+                          size: 20,
+                          color: Colors.grey,
+                        )),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xffF8F8F8),
+                      borderRadius: BorderRadius.circular(4)),
+                  margin: EdgeInsets.all(8),
+                  height: 200,
+                  width: 200,
+                  child: QrImage(
+                    gapless: true,
+                    version: QrVersions.auto,
+                    data: "Maruf",
+                    size: 200.0,
+                  ),
+                ),
+                Spacer(),
+                ElevatedButton(
+                    style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
+                    onPressed: () {},
+                    child: Container(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      width: double.infinity,
+                      height: 52,
+                      child: Center(
+                        child: Text(
+                          "Approve Batch",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              fontFamily: "SFPro"),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          );
+        },
+      );
+    }
+
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -459,19 +548,24 @@ class AllBatchPage extends StatelessWidget {
                                       ],
                                     ),
                                     Spacer(),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffF8F8F8),
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                      margin: EdgeInsets.all(8),
-                                      height: 80,
-                                      width: 80,
-                                      child: QrImage(
-                                        gapless: true,
-                                        version: QrVersions.auto,
-                                        data: "Maruf",
-                                        size: 200.0,
+                                    GestureDetector(
+                                      onTap: (() {
+                                        _showModalBottomSheet1();
+                                      }),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0xffF8F8F8),
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
+                                        margin: EdgeInsets.all(8),
+                                        height: 80,
+                                        width: 80,
+                                        child: QrImage(
+                                          gapless: true,
+                                          version: QrVersions.auto,
+                                          data: "Maruf",
+                                          size: 200.0,
+                                        ),
                                       ),
                                     )
                                   ],
