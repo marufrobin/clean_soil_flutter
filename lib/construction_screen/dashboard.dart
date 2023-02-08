@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:clean_soil_flutter/construction_screen/dashboard_active.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard_all.dart';

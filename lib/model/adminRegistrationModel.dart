@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unnecessary_new
+
 class UserRegistrationModel {
   bool? success;
   String? message;
@@ -12,9 +14,9 @@ class UserRegistrationModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -51,14 +53,14 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['fullName'] = this.fullName;
-    data['email'] = this.email;
-    data['userCompanyType'] = this.userCompanyType;
-    data['userType'] = this.userType;
-    data['userPosition'] = this.userPosition;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['fullName'] = fullName;
+    data['email'] = email;
+    data['userCompanyType'] = userCompanyType;
+    data['userType'] = userType;
+    data['userPosition'] = userPosition;
+    data['status'] = status;
     return data;
   }
 }

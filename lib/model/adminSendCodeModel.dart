@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this, prefer_collection_literals, unnecessary_new
+
 class AdminSendCodeModel {
   String? email;
 

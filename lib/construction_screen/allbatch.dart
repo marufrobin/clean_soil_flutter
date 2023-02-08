@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers
 
 import 'package:clean_soil_flutter/scan/scan.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -27,13 +27,13 @@ class AllBatchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     _showModalBottomSheet() {
       showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
           return Container(
-            // decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.only(
-            //         topLeft: Radius.circular(6), topRight: Radius.circular(6))),
             padding: EdgeInsets.all(10.0),
             height: 600,
             child: Column(
