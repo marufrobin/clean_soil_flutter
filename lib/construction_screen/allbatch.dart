@@ -56,7 +56,8 @@ class AllBatchPage extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
-                          fontFamily: "SFPro"),
+                          fontFamily: "SFPro",
+                          color: Color(0xff212121)),
                     ),
                   ),
                   trailing: Padding(
@@ -87,7 +88,8 @@ class AllBatchPage extends StatelessWidget {
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
-                                fontFamily: "SFPro"),
+                                fontFamily: "SFPro",
+                                color: Color(0xff212121)),
                           ),
                           SizedBox(
                             height: 10,
@@ -96,8 +98,12 @@ class AllBatchPage extends StatelessWidget {
                             controller: batchNo,
                             decoration: InputDecoration(
                               hintText: "786",
+                              hintStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xff212121)),
                               filled: true,
-                              labelStyle: TextStyle(color: Colors.black),
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderSide:
@@ -131,8 +137,12 @@ class AllBatchPage extends StatelessWidget {
                             controller: batchNo,
                             decoration: InputDecoration(
                               hintText: "Jane Doe",
+                              hintStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xff212121)),
                               filled: true,
-                              labelStyle: TextStyle(color: Colors.black),
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderSide:
@@ -154,7 +164,8 @@ class AllBatchPage extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
-                      fontFamily: "SFPro"),
+                      fontFamily: "SFPro",
+                      color: Color(0xff212121)),
                 ),
                 SizedBox(
                   height: 10,
@@ -164,7 +175,11 @@ class AllBatchPage extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: "Just Soil",
                     filled: true,
-                    labelStyle: TextStyle(color: Colors.black),
+                    hintStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        fontFamily: "SFPro",
+                        color: Color(0xff212121)),
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xffE1E1E1)),
@@ -180,7 +195,8 @@ class AllBatchPage extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
-                      fontFamily: "SFPro"),
+                      fontFamily: "SFPro",
+                      color: Color(0xff212121)),
                 ),
                 SizedBox(
                   height: 10,
@@ -196,6 +212,11 @@ class AllBatchPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     hintText: "Material quantity",
+                    hintStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                        fontFamily: "SFPro",
+                        color: Color(0xff212121)),
                   ),
                 ),
                 SizedBox(
@@ -206,7 +227,8 @@ class AllBatchPage extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
-                      fontFamily: "SFPro"),
+                      fontFamily: "SFPro",
+                      color: Color(0xff212121)),
                 ),
                 SizedBox(
                   height: 10,
@@ -324,7 +346,8 @@ class AllBatchPage extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
-                          fontFamily: "SFPro"),
+                          fontFamily: "SFPro",
+                          color: Color(0xff212121)),
                     ),
                   ),
                   trailing: Padding(
@@ -502,7 +525,7 @@ class AllBatchPage extends StatelessWidget {
                                     "Batch:786",
                                     style: TextStyle(
                                         fontSize: 14,
-                                        color: Colors.black,
+                                        color: Color(0xff212121),
                                         fontWeight: FontWeight.w400,
                                         fontFamily: 'SFPro'),
                                   ),
@@ -520,7 +543,7 @@ class AllBatchPage extends StatelessWidget {
                                             "Receiveed:9:30 AM",
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Colors.black,
+                                                color: Color(0xff212121),
                                                 fontWeight: FontWeight.w400,
                                                 fontFamily: 'SFPro'),
                                           ),
