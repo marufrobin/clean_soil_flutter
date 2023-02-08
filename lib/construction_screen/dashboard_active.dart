@@ -45,6 +45,17 @@ class _DashboardActiveState extends State<DashboardActive> {
     super.initState();
   }
 
+  /* List? activeData;
+  fatchData() {
+    for (var i in widget.data) {
+      if (i["status"] == "active") {
+        activeData!.add(i);
+        print("active data:::${activeData}");
+      }
+    }
+    return activeData;
+  }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -23,7 +23,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String userId = "63dbe295137a82239e717ab9";
   String userCompanyType = "construction";
   Map<String, dynamic>? allData;
-  List? data;
+  dynamic? data;
+  dynamic? activeData;
   Future dashBoardactive() async {
     var DashBoardallUrl =
         "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$userId&userCompanyType=$userCompanyType";
@@ -36,13 +37,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     // var dashboadall = await http.get(Uri.parse(DashBoardallUrl));
     allData = Map<String, dynamic>.from(jsonDecode(responce.body));
     data = allData!["data"];
-    // print("all data from api ::::projec ::::${allData}");
-    // for (int index = 0; index <= data!.length; index++) {
-    //   print("data from api ::::projec ::::${data![index]["_id"]}");
-    // }
-    // print("data from api ::::project id oneeeee ::::${data![0]["_id"]}");
+    // print("Data:::::${data}");
 
-    // setState(() {});
     return data;
   }
 
