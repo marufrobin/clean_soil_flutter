@@ -31,9 +31,11 @@ class AllBatchPage extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return Container(
+            // decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.only(
+            //         topLeft: Radius.circular(6), topRight: Radius.circular(6))),
             padding: EdgeInsets.all(10.0),
             height: 600,
-            color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -271,7 +273,8 @@ class AllBatchPage extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => QrScan()));
                     },
                     child: Container(
-                      width: 320,
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      width: double.infinity,
                       height: 52,
                       child: Center(
                         child: Text(
@@ -301,6 +304,7 @@ class AllBatchPage extends StatelessWidget {
               _showModalBottomSheet();
             },
             child: Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
               width: 320,
               height: 52,
               child: Center(
@@ -308,7 +312,7 @@ class AllBatchPage extends StatelessWidget {
                   "Create Batch",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                      fontSize: 15,
                       fontFamily: "SFPro"),
                 ),
               ),
