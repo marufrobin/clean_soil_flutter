@@ -15,44 +15,42 @@ class _DashboardAllState extends State<DashboardAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: ListView.separated(
-            itemBuilder: (context, index) => InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AllBatchPage()));
-                  },
-                  child: Card(
-                    elevation: 0.5,
-                    child: ListTile(
-                      title: Text(
-                        "Lafarge Worksite",
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xff212121),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'SFPro'),
-                      ),
-                      subtitle: Text(
-                        "Lafarge worksite to processer",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xff6E6E6E),
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'SFPro'),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 16,
-                      ),
+      body: ListView.separated(
+          itemBuilder: (context, index) => InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => AllBatchPage()));
+                },
+                child: Card(
+                  elevation: 0.5,
+                  child: ListTile(
+                    title: Text(
+                      "${widget.data[index]["projectName"]}",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xff212121),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'SFPro'),
+                    ),
+                    subtitle: Text(
+                      "Lafarge worksite to processer",
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xff6E6E6E),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: 'SFPro'),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16,
                     ),
                   ),
                 ),
-            separatorBuilder: (_, index) => SizedBox(
-                  height: 1,
-                ),
-            itemCount: 3),
-      ),
+              ),
+          separatorBuilder: (_, index) => SizedBox(
+                height: 1,
+              ),
+          itemCount: widget.data.length),
     );
   }
 }
