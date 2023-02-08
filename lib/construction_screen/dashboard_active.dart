@@ -20,8 +20,8 @@ class _DashboardActiveState extends State<DashboardActive> {
   String userId = "63dbe295137a82239e717ab9";
   String userCompanyType = "construction";
   Map<String, dynamic>? allData;
-
-  dashBoardactive() async {
+  List? data;
+  Future dashBoardactive() async {
     var DashBoardallUrl =
         "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$userId&userCompanyType=$userCompanyType";
 
@@ -30,8 +30,15 @@ class _DashboardActiveState extends State<DashboardActive> {
       headers: {'Content-Type': 'application/json'},
     );
 
-    var dashboadall = await http.get(Uri.parse(DashBoardallUrl));
-    allData = Map<String, dynamic>.from(jsonDecode(dashboadall.body));
+    // var dashboadall = await http.get(Uri.parse(DashBoardallUrl));
+    allData = Map<String, dynamic>.from(jsonDecode(responce.body));
+    data = allData!["data"];
+    // print("all data from api ::::projec ::::${allData}");
+    for (int index = 0; index <= data!.length; index++) {
+      print("data from api ::::projec ::::${data![index]["_id"]}");
+    }
+    print("data from api ::::project id oneeeee ::::${data![0]["_id"]}");
+    // return data;
     setState(() {});
   }
 
@@ -56,7 +63,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                     elevation: 0.5,
                     child: ListTile(
                       title: Text(
-                        "Lafarge worksite",
+                        "${data![index]["projectName"]}",
                         style: TextStyle(
                             fontSize: 14,
                             color: Color(0xff212121),
@@ -81,7 +88,7 @@ class _DashboardActiveState extends State<DashboardActive> {
             separatorBuilder: (_, index) => SizedBox(
                   height: 1,
                 ),
-            itemCount: 5),
+            itemCount: data!.length),
       ),
     );
   }
