@@ -1,27 +1,82 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers, unused_element, must_be_immutable
 
+import 'dart:convert';
+
+import 'package:clean_soil_flutter/model/get_batch_model.dart';
 import 'package:clean_soil_flutter/scan/scan.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:qr_flutter/qr_flutter.dart';
 
-class AllBatchPage extends StatelessWidget {
+class AllBatchPage extends StatefulWidget {
   AllBatchPage({super.key});
+
+  @override
+  State<AllBatchPage> createState() => _AllBatchPageState();
+}
+
+class _AllBatchPageState extends State<AllBatchPage> {
   TextEditingController approvedBy = TextEditingController();
+
   TextEditingController batchNo = TextEditingController();
+
   TextEditingController soilType = TextEditingController();
+
   TextEditingController materialQuantity = TextEditingController();
 
   final List position = [
     'project co-ordinator',
     'driver',
   ];
+
   String? selectedValue;
+
   final Map shippingStatus = {
     "dispatched": "images/dispatched.png",
     "shipped": "images/shipped.png",
     "waiting": "images/waiting.png",
   };
+
+  var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
+
+  var apiVersionUrl = "api/v1/";
+
+  var getAllBatchUrl = "batch/get-batchs?";
+
+  var projectId = "63dbe0ee45dc4f24a09a246b";
+
+  List<dynamic> allData = [];
+
+  GetAllBatchModel? getAllBatchModel;
+
+  getBatch() async {
+    var allBatchFullUrl =
+        "$baseUrl$apiVersionUrl${getAllBatchUrl}projectId=$projectId";
+
+    var responce = await http.get(
+      Uri.parse(allBatchFullUrl),
+      headers: {'Content-Type': 'application/json'},
+    );
+    Map<String, dynamic> data = jsonDecode(responce.body);
+    // print("printing the responce for get batch::::${responce.body}");
+
+    /* for (var i in data["data"]) {
+      getAllBatchModel = GetAllBatchModel.fromJson(i);
+      print("printing all data from model::::###$getAllBatchModel");
+      allData.add(getAllBatchModel!);
+      print("printing all data:::${allData[0]}");
+    }
+
+    return allData;*/
+  }
+  //
+  // @override
+  // void initState() {
+  //   getBatch();
+  //
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -315,7 +370,7 @@ class AllBatchPage extends StatelessWidget {
       );
     }
 
-    _showModalBottomSheet1() {
+    modalSheetForQRCodeShowing() {
       showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -380,24 +435,6 @@ class AllBatchPage extends StatelessWidget {
                     size: 200.0,
                   ),
                 ),
-                Spacer(),
-                ElevatedButton(
-                    style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
-                    onPressed: () {},
-                    child: Container(
-                      padding: EdgeInsets.only(left: 16, right: 16),
-                      width: double.infinity,
-                      height: 52,
-                      child: Center(
-                        child: Text(
-                          "Approve Batch",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                              fontFamily: "SFPro"),
-                        ),
-                      ),
-                    )),
               ],
             ),
           );
@@ -413,7 +450,10 @@ class AllBatchPage extends StatelessWidget {
               elevation: MaterialStatePropertyAll(0),
             ),
             onPressed: () {
-              _showModalBottomSheet();
+              // _showModalBottomSheet();
+              setState(() {
+                getBatch();
+              });
             },
             child: Container(
               padding: EdgeInsets.only(left: 16, right: 16),
@@ -421,7 +461,7 @@ class AllBatchPage extends StatelessWidget {
               height: 52,
               child: Center(
                 child: Text(
-                  "Create Batch",
+                  "${allData[0]}",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
@@ -605,7 +645,7 @@ class AllBatchPage extends StatelessWidget {
                                     Spacer(),
                                     GestureDetector(
                                       onTap: (() {
-                                        _showModalBottomSheet1();
+                                        modalSheetForQRCodeShowing();
                                       }),
                                       child: Container(
                                         decoration: BoxDecoration(
