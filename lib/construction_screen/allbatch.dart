@@ -519,16 +519,31 @@ class AllBatchPage extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "Batch:786",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xff212121),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'SFPro'),
-                                  ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "Batch:",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xff212121),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: 'SFPro'),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        "786",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xff212121),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: 'SFPro'),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -537,16 +552,33 @@ class AllBatchPage extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Receiveed:9:30 AM",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xff212121),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: 'SFPro'),
-                                          ),
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Receiveed:",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color(0xff212121),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'SFPro'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "9:30 AM",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color(0xff212121),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'SFPro'),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         SizedBox(
                                           height: 10,
@@ -603,7 +635,7 @@ class AllBatchPage extends StatelessWidget {
               separatorBuilder: (_, index) => SizedBox(
                     height: 5,
                   ),
-              itemCount: 10),
+              itemCount: 5),
         ),
       ),
     );

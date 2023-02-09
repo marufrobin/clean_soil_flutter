@@ -12,49 +12,6 @@ class DashboardActive extends StatefulWidget {
 }
 
 class _DashboardActiveState extends State<DashboardActive> {
-  /*var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
-  var apiVersionUrl = "api/v1/";
-  var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
-  String userId = "63dbe295137a82239e717ab9";
-  String userCompanyType = "construction";
-  Map<String, dynamic>? allData;
-  List? data;
-  Future dashBoardactive() async {
-    var DashBoardallUrl =
-        "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$userId&userCompanyType=$userCompanyType";
-
-    var responce = await http.get(
-      Uri.parse(DashBoardallUrl),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    // var dashboadall = await http.get(Uri.parse(DashBoardallUrl));
-    allData = Map<String, dynamic>.from(jsonDecode(responce.body));
-    data = allData!["data"];
-    // print("all data from api ::::projec ::::${allData}");
-    for (int index = 0; index <= data!.length; index++) {
-      print("data from api ::::projec ::::${data![index]["_id"]}");
-    }
-    print("data from api ::::project id oneeeee ::::${data![0]["_id"]}");
-    // return data;
-    setState(() {});
-  }*/
-  /*List? activeData;
-  fatchData() {
-    for (var i in widget.data) {
-      if (i["status"] == "active") {
-        activeData!.add(i);
-        print("active data:::${activeData}");
-      }
-    }
-    return activeData;
-  }*/
-  @override
-  void initState() {
-    // fatchData();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

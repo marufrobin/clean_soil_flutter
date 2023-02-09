@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, unnecessary_question_mark
 
 import 'dart:convert';
 
@@ -34,10 +34,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       headers: {'Content-Type': 'application/json'},
     );
 
-    // var dashboadall = await http.get(Uri.parse(DashBoardallUrl));
     allData = Map<String, dynamic>.from(jsonDecode(responce.body));
     data = allData!["data"];
-    // print("Data:::::${data}");
 
     return data;
   }
@@ -45,7 +43,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     dashBoardactive();
-    // TODO: implement initState
     super.initState();
   }
 
@@ -111,7 +108,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           body: FutureBuilder(
               future: dashBoardactive(),
-              // initialData: dashBoardactive(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
