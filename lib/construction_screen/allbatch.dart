@@ -569,16 +569,13 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                             fontFamily: 'SFPro'),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "786",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff212121),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'SFPro'),
-                                      ),
+                                    Text(
+                                      "786",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xff212121),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'SFPro'),
                                     ),
                                   ],
                                 ),
@@ -603,17 +600,13 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                                     fontFamily: 'SFPro'),
                                               ),
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "9:30 AM",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Color(0xff212121),
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: 'SFPro'),
-                                              ),
+                                            Text(
+                                              "9:30 AM",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color(0xff212121),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: 'SFPro'),
                                             ),
                                           ],
                                         ),
