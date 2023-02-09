@@ -450,10 +450,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
               elevation: MaterialStatePropertyAll(0),
             ),
             onPressed: () {
-              // _showModalBottomSheet();
-              setState(() {
-                getBatch();
-              });
+              _showModalBottomSheet();
             },
             child: Container(
               padding: EdgeInsets.only(left: 16, right: 16),
@@ -461,7 +458,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
               height: 52,
               child: Center(
                 child: Text(
-                  "${allData[0]}",
+                  "Create Batch",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
