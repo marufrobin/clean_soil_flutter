@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers, unused_element, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, no_leading_underscores_for_local_identifiers, unused_element, must_be_immutable, prefer_const_constructors_in_immutables
 
 import 'dart:convert';
 
-import 'package:clean_soil_flutter/model/get_batch_model.dart';
 import 'package:clean_soil_flutter/scan/scan.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +17,8 @@ class AllBatchPage extends StatefulWidget {
 
 class _AllBatchPageState extends State<AllBatchPage> {
   TextEditingController approvedBy = TextEditingController();
-
   TextEditingController batchNo = TextEditingController();
-
   TextEditingController soilType = TextEditingController();
-
   TextEditingController materialQuantity = TextEditingController();
 
   final List position = [
@@ -39,18 +35,13 @@ class _AllBatchPageState extends State<AllBatchPage> {
   };
 
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
-
   var apiVersionUrl = "api/v1/";
-
   var getAllBatchUrl = "batch/get-batchs?";
-
   var projectId = "63dbe0ee45dc4f24a09a246b";
 
-  List<dynamic> allData = [];
-
-  GetAllBatchModel? getAllBatchModel;
-
-  getBatch() async {
+  dynamic data;
+  Map<String, dynamic>? allBatch;
+  Future getBatch() async {
     var allBatchFullUrl =
         "$baseUrl$apiVersionUrl${getAllBatchUrl}projectId=$projectId";
 
@@ -58,25 +49,17 @@ class _AllBatchPageState extends State<AllBatchPage> {
       Uri.parse(allBatchFullUrl),
       headers: {'Content-Type': 'application/json'},
     );
-    Map<String, dynamic> data = jsonDecode(responce.body);
-    // print("printing the responce for get batch::::${responce.body}");
+    allBatch = Map<String, dynamic>.from(jsonDecode(responce.body));
+    data = allBatch!['data'];
 
-    /* for (var i in data["data"]) {
-      getAllBatchModel = GetAllBatchModel.fromJson(i);
-      print("printing all data from model::::###$getAllBatchModel");
-      allData.add(getAllBatchModel!);
-      print("printing all data:::${allData[0]}");
-    }
-
-    return allData;*/
+    return data;
   }
-  //
-  // @override
-  // void initState() {
-  //   getBatch();
-  //
-  //   super.initState();
-  // }
+
+  @override
+  void initState() {
+    getBatch();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -499,174 +482,197 @@ class _AllBatchPageState extends State<AllBatchPage> {
                 ))
           ],
         ),
-        body: Container(
-          child: ListView.separated(
-              itemBuilder: (_index, context) => SizedBox(
-                    height: 176,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: CircleAvatar(
-                          radius: 16,
-                          backgroundColor: Colors.transparent,
-                          child: Image.asset(
-                            "${shippingStatus["dispatched"]}",
-                          ),
-                        )),
-                        Expanded(
-                          flex: 4,
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                    width: 1,
-                                    color: Colors.black.withOpacity(0.2)),
-                                borderRadius: BorderRadius.circular(8)),
-                            elevation: 0.08,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
+        body: FutureBuilder(
+            future: getBatch(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              } else if (snapshot.data == null) {
+                return Text("No Data");
+              }
+
+              return Container(
+                child: ListView.separated(
+                    itemBuilder: (_index, context) => SizedBox(
+                          height: 176,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: CircleAvatar(
+                                radius: 16,
+                                backgroundColor: Colors.transparent,
+                                child: Image.asset(
+                                  "${shippingStatus["dispatched"]}",
+                                ),
+                              )),
+                              Expanded(
+                                flex: 4,
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                          width: 1,
+                                          color: Colors.black.withOpacity(0.2)),
+                                      borderRadius: BorderRadius.circular(8)),
+                                  elevation: 0.08,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Lafarge worksite",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'SFPro'),
-                                      ),
-                                      Text(
-                                        "  →•  ",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'SFPro'),
-                                      ),
-                                      Text(
-                                        "Proccessor",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: 'SFPro'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "Batch:",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff212121),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'SFPro'),
-                                      ),
-                                    ),
-                                    Text(
-                                      "786",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xff212121),
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'SFPro'),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "Receiveed:",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Color(0xff212121),
-                                                    fontWeight: FontWeight.w400,
-                                                    fontFamily: 'SFPro'),
-                                              ),
+                                            Text(
+                                              "Lafarge worksite",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'SFPro'),
                                             ),
                                             Text(
-                                              "9:30 AM",
+                                              "  →•  ",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'SFPro'),
+                                            ),
+                                            Text(
+                                              "Proccessor",
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'SFPro'),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Batch:",
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xff212121),
                                                   fontWeight: FontWeight.w400,
                                                   fontFamily: 'SFPro'),
                                             ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          padding: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(3),
-                                              color: Color(0xffEFF6FC)),
-                                          child: Text(
-                                            "Shipped",
+                                          ),
+                                          Text(
+                                            "786",
                                             style: TextStyle(
                                                 fontSize: 14,
-                                                color: Color(0xff0078D4),
+                                                color: Color(0xff212121),
                                                 fontWeight: FontWeight.w400,
                                                 fontFamily: 'SFPro'),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    GestureDetector(
-                                      onTap: (() {
-                                        modalSheetForQRCodeShowing();
-                                      }),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Color(0xffF8F8F8),
-                                            borderRadius:
-                                                BorderRadius.circular(4)),
-                                        margin: EdgeInsets.all(8),
-                                        height: 80,
-                                        width: 80,
-                                        child: QrImage(
-                                          gapless: true,
-                                          version: QrVersions.auto,
-                                          data: "Maruf",
-                                          size: 200.0,
-                                        ),
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(
+                                                      "Receiveed:",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color:
+                                                              Color(0xff212121),
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontFamily: 'SFPro'),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "9:30 AM",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xff212121),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily: 'SFPro'),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 10),
+                                                padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            3),
+                                                    color: Color(0xffEFF6FC)),
+                                                child: Text(
+                                                  "Shipped",
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Color(0xff0078D4),
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontFamily: 'SFPro'),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          GestureDetector(
+                                            onTap: (() {
+                                              modalSheetForQRCodeShowing();
+                                            }),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: Color(0xffF8F8F8),
+                                                  borderRadius:
+                                                      BorderRadius.circular(4)),
+                                              margin: EdgeInsets.all(8),
+                                              height: 80,
+                                              width: 80,
+                                              child: QrImage(
+                                                gapless: true,
+                                                version: QrVersions.auto,
+                                                data: "Maruf",
+                                                size: 200.0,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-              separatorBuilder: (_, index) => SizedBox(
-                    height: 5,
-                  ),
-              itemCount: 5),
-        ),
+                    separatorBuilder: (_, index) => SizedBox(
+                          height: 5,
+                        ),
+                    itemCount: data!.length),
+              );
+            }),
       ),
     );
   }
