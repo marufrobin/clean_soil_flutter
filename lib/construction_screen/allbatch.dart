@@ -51,7 +51,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
     );
     allBatch = Map<String, dynamic>.from(jsonDecode(responce.body));
     data = allBatch!['data'];
-
+    print("data length :;;;;${data!.length}");
     return data;
   }
 
