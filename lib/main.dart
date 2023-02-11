@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unused_import
 
+import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:clean_soil_flutter/authentication/onboarding.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
 
       // home: OnboardingScreen(),
 
-      home: DashboardScreen(),
+      home: AccountSignInPage(),
     );
   }
 }

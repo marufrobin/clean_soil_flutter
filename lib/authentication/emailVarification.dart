@@ -17,12 +17,31 @@ class EmailVafication extends StatefulWidget {
 }
 
 class _EmailVaficationState extends State<EmailVafication> {
+  var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
+  var apiVersionUrl = "api/v1/";
+  sendVerficationCode() async {
+    String adminSendVerfCodeUrl = "auth/user/send-code";
+    Map bodyMap = Map<String, dynamic>();
+    bodyMap["email"] = widget.emailFFF;
+    var responce = await http.post(
+      Uri.parse("$baseUrl$apiVersionUrl$adminSendVerfCodeUrl"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(bodyMap),
+    );
+    print("verification code send api hiiititiitit:: ${responce.body}");
+  }
+
+  @override
+  void initState() {
+    sendVerficationCode();
+
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController verificationController = TextEditingController();
-
-    var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
-    var apiVersionUrl = "api/v1/";
 
     adminVerifyCode() async {
       var adminVerCodeUrl = "auth/user/verify-code";
@@ -119,7 +138,9 @@ class _EmailVaficationState extends State<EmailVafication> {
                       width: 1,
                     )),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    sendVerficationCode();
+                  },
                   child: Container(
                     width: double.infinity,
                     height: 52,

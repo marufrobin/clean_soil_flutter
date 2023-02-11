@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/emailVarification.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,17 +18,17 @@ class AccountSignUpPage extends StatefulWidget {
 class _AccountSignUpPageState extends State<AccountSignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController positionController = TextEditingController();
+  // final TextEditingController positionController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController usertypeController = TextEditingController();
+  // final TextEditingController usertypeController = TextEditingController();
   final TextEditingController confirmpasswordController =
       TextEditingController();
 
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
 
-  final List position = [
+  /* final List position = [
     'project co-ordinator',
     'driver',
   ];
@@ -38,7 +37,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
     'employee',
   ];
   String? positionSelectedValue;
-  String? userTypeSelectedValue;
+  String? userTypeSelectedValue;*/
   adminRegistration() async {
     var adminRegUrl = "auth/user/register";
     Map map = Map<String, dynamic>();
@@ -46,24 +45,35 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
     map["fullName"] = nameController.text.toString();
     map["email"] = emailController.text.toString();
     map["password"] = passwordController.text.toString();
-    map["userCompanyType"] = widget.companyType;
+    /*   map["userCompanyType"] = widget.companyType;
     print("Company type ${widget.companyType}");
-    print("Company type ${map["userCompanyType"]}");
+    print("Company type ${map["userCompanyType"]}");*/
 
-    // need to implement filed from UI page
+    /*// need to implement filed from UI page
     map["userType"] = userTypeSelectedValue;
 
-    map["userPosition"] = positionSelectedValue;
-    map["status"] = "invited";
+    map["userPosition"] = positionSelectedValue;*/
+    // map["status"] = "invited";
     var responce = await http.post(
         Uri.parse("$baseUrl$apiVersionUrl$adminRegUrl"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(map));
     print("printinnnngnng mapppppppp: $map");
     print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
+    if (responce.statusCode == 201) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EmailVafication(
+              emailFFF: emailController.text,
+            ),
+          ));
+    } else {
+      print("Statusss code: ${responce.statusCode}");
+    }
   }
 
-  sendVerficationCode() async {
+  /*sendVerficationCode() async {
     String adminSendVerfCodeUrl = "auth/user/send-code";
     Map bodyMap = Map<String, dynamic>();
     bodyMap["email"] = emailController.text.toString();
@@ -84,7 +94,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
     } else {
       print("Statusss code: ${responce.statusCode}");
     }
-  }
+  }*/
 
   @override
   void initState() {
@@ -308,122 +318,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                   SizedBox(
                     height: 16,
                   ),
-                  //user type button
-                  DropdownButtonFormField2(
-                    decoration: InputDecoration(
-                      //Add isDense true and zero Padding.
-                      //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                      isDense: true,
-                      contentPadding: EdgeInsets.zero,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      //Add more decoration as you want here
-                      //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                    ),
-                    isExpanded: true,
-                    hint: const Text(
-                      'Select User Type',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: Color(0xff0086F0),
-                          fontFamily: "SFPro"),
-                    ),
-                    icon: const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.black45,
-                    ),
-                    iconSize: 30,
-                    buttonHeight: 60,
-                    buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                    dropdownDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    items: userTypeList
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ))
-                        .toList(),
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please select Your Position';
-                      }
-                    },
-                    onChanged: (value) {
-                      //Do something when changing the item if you want.
-                    },
-                    onSaved: (value) {
-                      userTypeSelectedValue = value.toString();
-                    },
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  //position drop button
-                  DropdownButtonFormField2(
-                    decoration: InputDecoration(
-                      //Add isDense true and zero Padding.
-                      //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                      isDense: true,
-                      contentPadding: EdgeInsets.zero,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      //Add more decoration as you want here
-                      //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                    ),
-                    isExpanded: true,
-                    hint: const Text(
-                      'Select Your Position',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: Color(0xff0086F0),
-                          fontFamily: "SFPro"),
-                    ),
-                    icon: const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.black45,
-                    ),
-                    iconSize: 30,
-                    buttonHeight: 60,
-                    buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                    dropdownDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    items: position
-                        .map((item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ))
-                        .toList(),
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please select Your Position';
-                      }
-                    },
-                    onChanged: (value) {
-                      //Do something when changing the item if you want.
-                    },
-                    onSaved: (value) {
-                      positionSelectedValue = value.toString();
-                    },
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
+                  Spacer(),
                   ElevatedButton(
                       style:
                           ButtonStyle(elevation: MaterialStatePropertyAll(0)),
@@ -432,7 +327,6 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                           _formKey.currentState!.save();
                           adminRegistration();
                           print("Sign up button clickkkkkkkkkkkkk");
-                          sendVerficationCode();
                         }
                       },
                       child: Container(
