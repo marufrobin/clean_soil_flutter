@@ -60,7 +60,8 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
         body: jsonEncode(map));
     print("printinnnngnng mapppppppp: $map");
     print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
-    if (responce.statusCode == 201) {
+
+    /*  if (responce.statusCode == 201) {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -70,7 +71,7 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
           ));
     } else {
       print("Statusss code: ${responce.statusCode}");
-    }
+    }*/
   }
 
   /*sendVerficationCode() async {
@@ -325,8 +326,15 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          adminRegistration();
+                          // adminRegistration();
                           print("Sign up button clickkkkkkkkkkkkk");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EmailVafication(
+                                  emailFFF: emailController.text,
+                                ),
+                              ));
                         }
                       },
                       child: Container(

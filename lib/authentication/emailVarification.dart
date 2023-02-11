@@ -20,6 +20,7 @@ class _EmailVaficationState extends State<EmailVafication> {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
   sendVerficationCode() async {
+    print("email:: ${widget.emailFFF}");
     String adminSendVerfCodeUrl = "auth/user/send-code";
     Map bodyMap = Map<String, dynamic>();
     bodyMap["email"] = widget.emailFFF;
