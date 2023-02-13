@@ -3,6 +3,7 @@
 import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:clean_soil_flutter/authentication/onboarding.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard.dart';
+import 'package:clean_soil_flutter/google_map/google_map.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
 
       // home: OnboardingScreen(),
 
-      home: DashboardScreen(),
+      home: CustomGoogleMap(),
     );
   }
 }

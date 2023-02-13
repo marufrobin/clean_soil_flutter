@@ -27,11 +27,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: ((context) => CustomGoogleMap(
-                              projectSiteLocationLat:
-                                  widget.projectSiteLocationLat,
-                              projectSiteLocationLng:
-                                  widget.projectSiteLocationLng))),
+                          builder: ((context) => CustomGoogleMap())),
                     );
                   },
                   child: Card(
