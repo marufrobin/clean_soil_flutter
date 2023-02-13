@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 
       // home: OnboardingScreen(),
 
-      home: AccountSignInPage(),
+      home: DashboardScreen(),
     );
   }
 }

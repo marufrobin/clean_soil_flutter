@@ -1,11 +1,17 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, avoid_print
 
-import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
+import 'package:clean_soil_flutter/google_map/google_map.dart';
 import 'package:flutter/material.dart';
 
 class DashboardActive extends StatefulWidget {
-  List data;
-  DashboardActive({super.key, required this.data});
+  var data;
+  var projectSiteLocationLat;
+  var projectSiteLocationLng;
+  DashboardActive(
+      {super.key,
+      required this.data,
+      required this.projectSiteLocationLat,
+      required this.projectSiteLocationLng});
 
   @override
   State<DashboardActive> createState() => _DashboardActiveState();
@@ -20,7 +26,12 @@ class _DashboardActiveState extends State<DashboardActive> {
             itemBuilder: (context, index) => InkWell(
                   onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: ((context) => AllBatchPage())),
+                      MaterialPageRoute(
+                          builder: ((context) => CustomGoogleMap(
+                              projectSiteLocationLat:
+                                  widget.projectSiteLocationLat,
+                              projectSiteLocationLng:
+                                  widget.projectSiteLocationLng))),
                     );
                   },
                   child: Card(

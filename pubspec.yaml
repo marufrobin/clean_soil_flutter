@@ -42,6 +42,7 @@ dependencies:
   dropdown_button2: ^1.9.2
   qr_flutter: ^4.0.0
   qr_code_scanner: ^1.0.1
+  google_maps_flutter: ^2.2.3
 
 dev_dependencies:
   flutter_test:

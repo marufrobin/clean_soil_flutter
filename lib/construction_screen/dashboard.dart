@@ -20,11 +20,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
   var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
-  String userId = "63dbe295137a82239e717ab9";
+  String userId = "63e7b9b997538229614f34c4";
   String userCompanyType = "construction";
   Map<String, dynamic>? allData;
   dynamic? data;
   dynamic? activeData;
+  var projectSiteLocationLat;
+  var projectSiteLocationLng;
   Future dashBoardactive() async {
     var DashBoardallUrl =
         "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$userId&userCompanyType=$userCompanyType";
@@ -36,7 +38,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     allData = Map<String, dynamic>.from(jsonDecode(responce.body));
     data = allData!["data"];
-
+    print("data:::$allData");
+    projectSiteLocationLat = data[0]["projectSite"]['location']['lat'];
+    projectSiteLocationLng = data[0]["projectSite"]['location']["lng"];
+    print("Pick up site:::::${projectSiteLocationLat}");
+    print("Pick up site:::::${projectSiteLocationLng}");
     return data;
   }
 
@@ -120,7 +126,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 }
                 return TabBarView(
                   children: [
-                    DashboardActive(data: data),
+                    DashboardActive(
+                      data: data,
+                      projectSiteLocationLat: projectSiteLocationLat,
+                      projectSiteLocationLng: projectSiteLocationLng,
+                    ),
                     DashboardAll(
                       data: data,
                     )
