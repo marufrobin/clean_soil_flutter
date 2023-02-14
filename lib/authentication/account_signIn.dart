@@ -3,6 +3,8 @@
 import 'dart:convert';
 
 import 'package:clean_soil_flutter/authentication/account_signup.dart';
+import 'package:clean_soil_flutter/constans/constans.dart';
+import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:clean_soil_flutter/model/user.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -47,14 +49,30 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
       user.userEmail = data["email"];
       user.userFullName = data["fullName"];
       user.comapanyType = data["userCompanyType"];
-      user.userType = data["userType"];
+
       user.userPosition = data["userPosition"];
-      print("user id: ${user.userId}");
+      /* print("user id: ${user.userId}");
       print("user email: ${user.userEmail}");
       print("user fullName: ${user.userFullName}");
       print("user Company type: ${user.comapanyType}");
-      print("user type: ${user.userType}");
-      print("user position: ${user.userPosition}");
+
+      print("user position: ${user.userPosition}");*/
+      await SharedPreference.addStringToSP(userId, user.userId);
+      await SharedPreference.addStringToSP(userEmail, user.userEmail);
+      await SharedPreference.addStringToSP(userName, user.userFullName);
+      await SharedPreference.addStringToSP(userCompanyType, user.comapanyType);
+
+      await SharedPreference.addStringToSP(userPosition, user.userPosition);
+      print("user id: ${await SharedPreference.getStringValueSP(userId)}");
+      print(
+          "user email: ${await SharedPreference.getStringValueSP(userEmail)}");
+      print(
+          "user fullName: ${await SharedPreference.getStringValueSP(userName)}");
+      print(
+          "user Company type: ${await SharedPreference.getStringValueSP(userCompanyType)}");
+
+      print(
+          "user position: ${await SharedPreference.getStringValueSP(userPosition)}");
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(

@@ -4,13 +4,20 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/construction_screen/dashboard_active.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard_all.dart';
+import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import '../constans/constans.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({
     Key? key,
+    // required this.userId,
+    // required this.userCompanyType,
   }) : super(key: key);
+  // String userId;
+  // String userCompanyType;
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -20,16 +27,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
   var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
-  String userId = "63e7b9b997538229614f34c4";
-  String userCompanyType = "construction";
+
   Map<String, dynamic>? allData;
   dynamic? data;
   dynamic? activeData;
   var projectSiteLocationLat;
   var projectSiteLocationLng;
+  var processorSiteLocationLat;
+  var processorSiteLocationLng;
+
   Future dashBoardactive() async {
+    String uId = await SharedPreference.getStringValueSP(userId);
+    String uCompanyType =
+        await SharedPreference.getStringValueSP(userCompanyType);
     var DashBoardallUrl =
-        "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$userId&userCompanyType=$userCompanyType";
+        "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$uId&userCompanyType=$uCompanyType";
 
     var responce = await http.get(
       Uri.parse(DashBoardallUrl),
@@ -43,6 +55,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     projectSiteLocationLng = data[0]["projectSite"]['location']["lng"];
     print("Pick up site:::::${projectSiteLocationLat}");
     print("Pick up site:::::${projectSiteLocationLng}");
+    projectSiteLocationLat = data[0]["projectSite"]['location']['lat'];
+    processorSiteLocationLng = data[0]["projectSite"]['location']["lng"];
+    print("Pick up site:::::${projectSiteLocationLat}");
+    print("Pick up site:::::${processorSiteLocationLng}");
     return data;
   }
 
@@ -137,6 +153,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 );
               }),
+          floatingActionButton: ElevatedButton(
+              style: ButtonStyle(
+                elevation: MaterialStatePropertyAll(0),
+              ),
+              onPressed: () {},
+              child: Container(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                width: 320,
+                height: 52,
+                child: Center(
+                  child: Text(
+                    "Navigate to pick-up site",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontFamily: "SFPro"),
+                  ),
+                ),
+              )),
         ),
       ),
     );
