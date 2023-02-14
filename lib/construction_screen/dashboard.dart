@@ -35,11 +35,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   var projectSiteLocationLng;
   var processorSiteLocationLat;
   var processorSiteLocationLng;
-
+  String? uId;
+  String? uCompanyType;
   Future dashBoardactive() async {
-    String uId = await SharedPreference.getStringValueSP(userId);
-    String uCompanyType =
-        await SharedPreference.getStringValueSP(userCompanyType);
+    uId = await SharedPreference.getStringValueSP(userId);
+    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
     var DashBoardallUrl =
         "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$uId&userCompanyType=$uCompanyType";
 
@@ -55,10 +55,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     projectSiteLocationLng = data[0]["projectSite"]['location']["lng"];
     print("Pick up site:::::${projectSiteLocationLat}");
     print("Pick up site:::::${projectSiteLocationLng}");
-    projectSiteLocationLat = data[0]["projectSite"]['location']['lat'];
-    processorSiteLocationLng = data[0]["projectSite"]['location']["lng"];
-    print("Pick up site:::::${projectSiteLocationLat}");
-    print("Pick up site:::::${processorSiteLocationLng}");
+    projectSiteLocationLat = data[0]["processorSite"]['location']['lat'];
+    processorSiteLocationLng = data[0]["processorSite"]['location']["lng"];
+    print("processorSite up site:::::${projectSiteLocationLat}");
+    print("processorSite up site:::::${processorSiteLocationLng}");
     return data;
   }
 
@@ -153,25 +153,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 );
               }),
-          floatingActionButton: ElevatedButton(
-              style: ButtonStyle(
-                elevation: MaterialStatePropertyAll(0),
-              ),
-              onPressed: () {},
-              child: Container(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                width: 320,
-                height: 52,
-                child: Center(
-                  child: Text(
-                    "Navigate to pick-up site",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        fontFamily: "SFPro"),
+          floatingActionButton: uCompanyType == haulingCompany
+              ? ElevatedButton(
+                  style: ButtonStyle(
+                    elevation: MaterialStatePropertyAll(0),
                   ),
-                ),
-              )),
+                  onPressed: () {},
+                  child: Container(
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    width: 320,
+                    height: 52,
+                    child: Center(
+                      child: Text(
+                        "Navigate to pick-up site",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            fontFamily: "SFPro"),
+                      ),
+                    ),
+                  ))
+              : null,
         ),
       ),
     );
