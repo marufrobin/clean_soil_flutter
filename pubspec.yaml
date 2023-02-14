@@ -44,6 +44,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   google_maps_flutter: ^2.2.3
   shared_preferences: ^2.0.17
+  flutter_polyline_points: ^1.0.0
 
 dev_dependencies:
   flutter_test:
