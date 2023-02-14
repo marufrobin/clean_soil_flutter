@@ -4,6 +4,7 @@ import 'package:clean_soil_flutter/constans/constans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class CustomGoogleMap extends StatefulWidget {
   CustomGoogleMap({
@@ -23,14 +24,26 @@ class CustomGoogleMap extends StatefulWidget {
 }
 
 class _CustomGoogleMapState extends State<CustomGoogleMap> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
   Map<String, Marker> markers = {};
-  var projectSiteLat = 24.8821807;
-  var projectSiteLng = 91.868253;
-  var processorSiteLat = 22.3338315;
-  var processorSiteLng = 91.8300895;
+  var projectSiteLat = 37.33500926;
+  var projectSiteLng = -122.03272188;
+  var processorSiteLat = 37.3342983;
+  var processorSiteLng = -122.06600055;
   List<LatLng> polylineCorrdinates = [];
+
+  LocationData? currentLocation;
+
+  getCurrentLocation() {
+    Location location = Location();
+    location.getLocation().then((location) {
+      currentLocation = location;
+    });
+    location.onLocationChanged.listen((newLoc) {
+      currentLocation = newLoc;
+      setState(() {});
+    });
+  }
+
   getPolylines() async {
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
@@ -47,10 +60,12 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   @override
   void initState() {
     // TODO: implement initState
+    getCurrentLocation();
     getPolylines();
     super.initState();
   }
 
+  late final Completer<GoogleMapController> completer = Completer();
   @override
   Widget build(BuildContext context) {
     // var projectSiteLat = double.parse(widget.projectSiteLocationLat);
@@ -60,36 +75,51 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
 
     // CameraPosition _kGooglePlex =
     //     CameraPosition(target: LatLng(lat, lng), zoom: 14);
-    late GoogleMapController googleMapController;
+    // late GoogleMapController googleMapController;
 
     return Scaffold(
         appBar: AppBar(
           title: Text("Location"),
         ),
-        body: GoogleMap(
-          polylines: {
-            Polyline(
-                polylineId: PolylineId("route"),
-                points: polylineCorrdinates,
-                color: Colors.blue,
-                width: 6)
-          },
-          initialCameraPosition:
-              CameraPosition(target: LatLng(22.3338315, 91.8300895), zoom: 8),
-          onMapCreated: (controller) {
-            googleMapController = controller;
-            addMarker("Pick up site", LatLng(projectSiteLat, projectSiteLng));
-            addMarker("Drop site", LatLng(processorSiteLat, processorSiteLng));
-          },
-          markers: markers.values.toSet(),
-        ));
+        body: currentLocation == null
+            ? Center(
+                child: Text("loading"),
+              )
+            : GoogleMap(
+                polylines: {
+                  Polyline(
+                      polylineId: PolylineId("route"),
+                      points: polylineCorrdinates,
+                      color: Colors.blue,
+                      width: 6)
+                },
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(currentLocation!.latitude!,
+                        currentLocation!.longitude!),
+                    zoom: 16),
+                onMapCreated: (controller) {
+                  completer.complete(controller);
+
+                  addMarker(
+                      "Current Location",
+                      LatLng(currentLocation!.latitude!,
+                          currentLocation!.longitude!));
+                  addMarker(
+                      "Pick up site", LatLng(projectSiteLat, projectSiteLng));
+                  addMarker(
+                      "Drop site", LatLng(processorSiteLat, processorSiteLng));
+                },
+                markers: markers.values.toSet(),
+              ));
   }
 
   addMarker(String id, LatLng location) {
     var marker = Marker(
-      markerId: MarkerId(id),
-      position: location,
-    );
+        markerId: MarkerId(id),
+        position: location,
+        infoWindow: InfoWindow(
+          title: id,
+        ));
     markers[id] = marker;
     setState(() {});
   }
