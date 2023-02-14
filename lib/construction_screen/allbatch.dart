@@ -9,13 +9,15 @@ import 'package:http/http.dart' as http;
 import 'package:qr_flutter/qr_flutter.dart';
 
 class AllBatchPage extends StatefulWidget {
-  AllBatchPage({super.key});
+  AllBatchPage({required this.projectId});
+  var projectId;
 
   @override
-  State<AllBatchPage> createState() => _AllBatchPageState();
+  State<AllBatchPage> createState() => _AllBatchPageState(projectId: projectId);
 }
 
 class _AllBatchPageState extends State<AllBatchPage> {
+  _AllBatchPageState({required this.projectId});
   TextEditingController approvedBy = TextEditingController();
   TextEditingController batchNo = TextEditingController();
   TextEditingController soilType = TextEditingController();
@@ -37,7 +39,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
   var getAllBatchUrl = "batch/get-batchs?";
-  var projectId = "63e7c21572ca59213f28f571";
+  var projectId;
 
   dynamic data;
   Map<String, dynamic>? allBatch;

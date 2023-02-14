@@ -76,7 +76,8 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => DashboardScreen(),
+            builder: (context) =>
+                DashboardScreen(userCompanyType: user.comapanyType!),
           ),
           (route) => false);
     } else {

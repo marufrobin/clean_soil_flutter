@@ -18,8 +18,9 @@ class _DashboardAllState extends State<DashboardAll> {
       body: ListView.separated(
           itemBuilder: (context, index) => InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => AllBatchPage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          AllBatchPage(projectId: widget.data[0]["_id"])));
                 },
                 child: Card(
                   elevation: 0.5,

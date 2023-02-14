@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, avoid_print
 
-import 'package:clean_soil_flutter/google_map/google_map.dart';
+import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
 import 'package:flutter/material.dart';
 
 class DashboardActive extends StatefulWidget {
@@ -27,7 +27,8 @@ class _DashboardActiveState extends State<DashboardActive> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: ((context) => CustomGoogleMap())),
+                          builder: ((context) =>
+                              AllBatchPage(projectId: widget.data[0]["_id"]))),
                     );
                   },
                   child: Card(

@@ -9,15 +9,16 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../constans/constans.dart';
+import '../google_map/google_map.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({
     Key? key,
     // required this.userId,
-    // required this.userCompanyType,
+    required this.userCompanyType,
   }) : super(key: key);
   // String userId;
-  // String userCompanyType;
+  String userCompanyType;
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -55,9 +56,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     projectSiteLocationLng = data[0]["projectSite"]['location']["lng"];
     print("Pick up site:::::${projectSiteLocationLat}");
     print("Pick up site:::::${projectSiteLocationLng}");
-    projectSiteLocationLat = data[0]["processorSite"]['location']['lat'];
+    processorSiteLocationLat = data[0]["processorSite"]['location']['lat'];
     processorSiteLocationLng = data[0]["processorSite"]['location']["lng"];
-    print("processorSite up site:::::${projectSiteLocationLat}");
+    print("processorSite up site:::::${processorSiteLocationLat}");
     print("processorSite up site:::::${processorSiteLocationLng}");
     return data;
   }
@@ -74,6 +75,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
+          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
           appBar: AppBar(
             elevation: 0,
             toolbarHeight: 60,
@@ -153,26 +155,79 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 );
               }),
-          floatingActionButton: uCompanyType == haulingCompany
-              ? ElevatedButton(
-                  style: ButtonStyle(
-                    elevation: MaterialStatePropertyAll(0),
-                  ),
-                  onPressed: () {},
-                  child: Container(
-                    padding: EdgeInsets.only(left: 16, right: 16),
-                    width: 320,
-                    height: 52,
-                    child: Center(
-                      child: Text(
-                        "Navigate to pick-up site",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            fontFamily: "SFPro"),
+          floatingActionButton: widget.userCompanyType == haulingCompany
+              ? Positioned(
+                  bottom: 0,
+                  child: Column(
+                    children: [
+                      Spacer(),
+
+                      // Navigate to pick-up site BUTTON
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStatePropertyAll(Colors.white),
+                              elevation: MaterialStatePropertyAll(0),
+                              side: MaterialStatePropertyAll(
+                                  BorderSide(width: 1, color: Colors.grey))),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomGoogleMap(
+                                      projectSiteLocationLat:
+                                          projectSiteLocationLat,
+                                      projectSiteLocationLng:
+                                          projectSiteLocationLng,
+                                      processorSiteLocationLat:
+                                          processorSiteLocationLat,
+                                      processorSiteLocationLng:
+                                          processorSiteLocationLng),
+                                ));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(left: 16, right: 16),
+                            width: 320,
+                            height: 52,
+                            child: Center(
+                              child: Text(
+                                "Navigate to pick-up site",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    fontFamily: "SFPro"),
+                              ),
+                            ),
+                          )),
+                      SizedBox(
+                        height: 16,
                       ),
-                    ),
-                  ))
+
+                      //Arrived at pick-up site BUTTON
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              elevation: MaterialStatePropertyAll(0),
+                              side: MaterialStatePropertyAll(
+                                  BorderSide(width: 1, color: Colors.grey))),
+                          onPressed: () {},
+                          child: Container(
+                            padding: EdgeInsets.only(left: 16, right: 16),
+                            width: 320,
+                            height: 52,
+                            child: Center(
+                              child: Text(
+                                "Arrived at pick-up site",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                    fontFamily: "SFPro"),
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
+                )
               : null,
         ),
       ),
