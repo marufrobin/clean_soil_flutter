@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
 
       // home: OnboardingScreen(),
 
-      home: CustomGoogleMap(),
+      home: AccountSignInPage(),
     );
   }
 }

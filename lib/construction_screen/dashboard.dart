@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../constans/constans.dart';
+import '../google_map/google_map.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({
@@ -170,19 +171,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               side: MaterialStatePropertyAll(
                                   BorderSide(width: 1, color: Colors.grey))),
                           onPressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => CustomGoogleMap(
-                            //           projectSiteLocationLat:
-                            //               projectSiteLocationLat,
-                            //           projectSiteLocationLng:
-                            //               projectSiteLocationLng,
-                            //           processorSiteLocationLat:
-                            //               processorSiteLocationLat,
-                            //           processorSiteLocationLng:
-                            //               processorSiteLocationLng),
-                            //     ));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomGoogleMap(
+                                      projectSiteLocationLat:
+                                          projectSiteLocationLat,
+                                      projectSiteLocationLng:
+                                          projectSiteLocationLng,
+                                      processorSiteLocationLat:
+                                          processorSiteLocationLat,
+                                      processorSiteLocationLng:
+                                          processorSiteLocationLng),
+                                ));
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 16, right: 16),

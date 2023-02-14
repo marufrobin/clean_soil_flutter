@@ -9,40 +9,50 @@ import 'package:location/location.dart';
 class CustomGoogleMap extends StatefulWidget {
   CustomGoogleMap({
     Key? key,
-    // this.projectSiteLocationLat,
-    // this.projectSiteLocationLng,
-    // this.processorSiteLocationLat,
-    // this.processorSiteLocationLng,
+    this.projectSiteLocationLat,
+    this.projectSiteLocationLng,
+    this.processorSiteLocationLat,
+    this.processorSiteLocationLng,
   });
   // var pickUpSite;
-  // var projectSiteLocationLat;
-  // var projectSiteLocationLng;
-  // var processorSiteLocationLat;
-  // var processorSiteLocationLng;
+  var projectSiteLocationLat;
+  var projectSiteLocationLng;
+  var processorSiteLocationLat;
+  var processorSiteLocationLng;
   @override
   State<CustomGoogleMap> createState() => _CustomGoogleMapState();
+  /*projectSiteLat: projectSiteLocationLat,
+      projectSiteLng: projectSiteLocationLng,
+      processorSiteLat: processorSiteLocationLat,
+      processorSiteLng: processorSiteLocationLng);*/
 }
 
 class _CustomGoogleMapState extends State<CustomGoogleMap> {
+  // _CustomGoogleMapState(
+  //     {this.projectSiteLat,
+  //     this.projectSiteLng,
+  //     this.processorSiteLat,
+  //     this.processorSiteLng});
   Map<String, Marker> markers = {};
-  var projectSiteLat = 37.33500926;
-  var projectSiteLng = -122.03272188;
-  var processorSiteLat = 37.3342983;
-  var processorSiteLng = -122.06600055;
+  var projectSiteLat;
+  var projectSiteLng;
+  var processorSiteLat;
+  var processorSiteLng;
   List<LatLng> polylineCorrdinates = [];
 
   LocationData? currentLocation;
 
-  getCurrentLocation() {
-    Location location = Location();
-    location.getLocation().then((location) {
-      currentLocation = location;
-    });
-    location.onLocationChanged.listen((newLoc) {
-      currentLocation = newLoc;
-      setState(() {});
-    });
-  }
+  // getCurrentLocation() async {
+  //   // GoogleMapController googleMapController = await completer.future;
+  //   Location location = Location();
+  //   location.getLocation().then((location) {
+  //     currentLocation = location;
+  //   });
+  //   location.onLocationChanged.listen((newLoc) {
+  //     currentLocation = newLoc;
+  //     setState(() {});
+  //   });
+  // }
 
   getPolylines() async {
     PolylinePoints polylinePoints = PolylinePoints();
@@ -60,7 +70,7 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   @override
   void initState() {
     // TODO: implement initState
-    getCurrentLocation();
+    // getCurrentLocation();
     getPolylines();
     super.initState();
   }
@@ -68,49 +78,49 @@ class _CustomGoogleMapState extends State<CustomGoogleMap> {
   late final Completer<GoogleMapController> completer = Completer();
   @override
   Widget build(BuildContext context) {
-    // var projectSiteLat = double.parse(widget.projectSiteLocationLat);
-    // var projectSiteLng = double.parse(widget.projectSiteLocationLng);
-    // var processorSiteLat = double.parse(widget.processorSiteLocationLat);
-    // var processorSiteLng = double.parse(widget.processorSiteLocationLng);
-
+    var projectSiteLat = double.parse(widget.projectSiteLocationLat);
+    var projectSiteLng = double.parse(widget.projectSiteLocationLng);
+    var processorSiteLat = double.parse(widget.processorSiteLocationLat);
+    var processorSiteLng = double.parse(widget.processorSiteLocationLng);
+    print("corddeitane::::${widget.projectSiteLocationLat}");
+    print("corddeitane::::${widget.projectSiteLocationLng}");
+    print("corddeitane::::${widget.processorSiteLocationLat}");
+    print("corddeitane::::${widget.processorSiteLocationLng}");
     // CameraPosition _kGooglePlex =
     //     CameraPosition(target: LatLng(lat, lng), zoom: 14);
-    // late GoogleMapController googleMapController;
-
+    GoogleMapController googleMapController;
     return Scaffold(
         appBar: AppBar(
           title: Text("Location"),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {});
+                },
+                icon: Icon(Icons.refresh))
+          ],
         ),
-        body: currentLocation == null
-            ? Center(
-                child: Text("loading"),
-              )
-            : GoogleMap(
-                polylines: {
-                  Polyline(
-                      polylineId: PolylineId("route"),
-                      points: polylineCorrdinates,
-                      color: Colors.blue,
-                      width: 6)
-                },
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(currentLocation!.latitude!,
-                        currentLocation!.longitude!),
-                    zoom: 16),
-                onMapCreated: (controller) {
-                  completer.complete(controller);
-
-                  addMarker(
-                      "Current Location",
-                      LatLng(currentLocation!.latitude!,
-                          currentLocation!.longitude!));
-                  addMarker(
-                      "Pick up site", LatLng(projectSiteLat, projectSiteLng));
-                  addMarker(
-                      "Drop site", LatLng(processorSiteLat, processorSiteLng));
-                },
-                markers: markers.values.toSet(),
-              ));
+        body: GoogleMap(
+          polylines: {
+            Polyline(
+                polylineId: PolylineId("route"),
+                points: polylineCorrdinates,
+                color: Colors.blue,
+                width: 6)
+          },
+          initialCameraPosition: CameraPosition(
+              target: LatLng(projectSiteLat, projectSiteLng), zoom: 8),
+          onMapCreated: (controller) {
+            googleMapController = controller;
+            // addMarker(
+            //     "Current Location",
+            //     LatLng(currentLocation!.latitude!,
+            //         currentLocation!.longitude!));
+            addMarker("Pick up site", LatLng(projectSiteLat, projectSiteLng));
+            addMarker("Drop site", LatLng(processorSiteLat, processorSiteLng));
+          },
+          markers: markers.values.toSet(),
+        ));
   }
 
   addMarker(String id, LatLng location) {
