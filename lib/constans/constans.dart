@@ -7,3 +7,4 @@ const userPosition = "userPosition";
 const haulingCompany = "hauling";
 const processorCompany = "processor";
 const constructionCompany = "construction";
+const googleMapApiKey = "AIzaSyC_s2zNUWs7BXpFFf1ImzArtJpJXd-Dv9Q";
