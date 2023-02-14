@@ -6,6 +6,7 @@ import 'package:clean_soil_flutter/scan/scan.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:jiffy/jiffy.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class AllBatchPage extends StatefulWidget {
@@ -413,7 +414,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                   child: QrImage(
                     gapless: true,
                     version: QrVersions.auto,
-                    data: "Maruf",
+                    data: "${data![0]["batchNumber"]}",
                     size: 200.0,
                   ),
                 ),
@@ -526,7 +527,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                         child: Row(
                                           children: [
                                             Text(
-                                              "Lafarge worksite",
+                                              "${data[0]["approvedBy"]["fullName"]}",
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black,
@@ -542,7 +543,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                                   fontFamily: 'SFPro'),
                                             ),
                                             Text(
-                                              "Proccessor",
+                                              "${data[0]["approvedBy"]["role"]}",
                                               style: TextStyle(
                                                   fontSize: 16,
                                                   color: Colors.black,
@@ -566,7 +567,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                             ),
                                           ),
                                           Text(
-                                            "786",
+                                            "${data![0]["batchNumber"]}",
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 color: Color(0xff212121),
@@ -601,7 +602,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    "9:30 AM",
+                                                    "${Jiffy(data![0]["pickUpTime"]).format("h:mm a")}",
                                                     style: TextStyle(
                                                         fontSize: 14,
                                                         color:
@@ -625,7 +626,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                                             3),
                                                     color: Color(0xffEFF6FC)),
                                                 child: Text(
-                                                  "Shipped",
+                                                  "${data![0]["status"]}",
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: Color(0xff0078D4),
