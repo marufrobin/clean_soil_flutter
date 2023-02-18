@@ -94,6 +94,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
@@ -103,16 +104,17 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Use your work email to login",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 17,
-                      fontFamily: "SFPro"),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 75,
+                    right: 90,
+                    left: 90,
+                  ),
+                  child: Container(
+                    child: Image.asset('images/logo.png'),
+                  ),
                 ),
-                SizedBox(
-                  height: 32,
-                ),
+                Spacer(),
                 Text(
                   "Email",
                   style: TextStyle(
@@ -188,7 +190,9 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                           color: Color(0xffACACAC),
                           fontFamily: "SFPro")),
                 ),
-                Spacer(),
+                SizedBox(
+                  height: 60,
+                ),
                 ElevatedButton(
                     style: ButtonStyle(
                       elevation: MaterialStatePropertyAll(0),

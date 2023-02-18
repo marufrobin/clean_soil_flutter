@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
 
-      home: OnboardingScreen(),
+      //home: OnboardingScreen(),
 
-      //home: AccountSignInPage(),
+      home: AccountSignInPage(),
     );
   }
 }
