@@ -653,7 +653,8 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                               child: QrImage(
                                                 gapless: true,
                                                 version: QrVersions.auto,
-                                                data: "Maruf",
+                                                data:
+                                                    "${data![0]["batchNumber"]}",
                                                 size: 200.0,
                                               ),
                                             ),

@@ -28,16 +28,6 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
 
-  /* final List position = [
-    'project co-ordinator',
-    'driver',
-  ];
-  final List userTypeList = [
-    'admin',
-    'employee',
-  ];
-  String? positionSelectedValue;
-  String? userTypeSelectedValue;*/
   adminRegistration() async {
     var adminRegUrl = "auth/user/register";
     Map map = Map<String, dynamic>();
@@ -45,63 +35,13 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
     map["fullName"] = nameController.text.toString();
     map["email"] = emailController.text.toString();
     map["password"] = passwordController.text.toString();
-    /*   map["userCompanyType"] = widget.companyType;
-    print("Company type ${widget.companyType}");
-    print("Company type ${map["userCompanyType"]}");*/
 
-    /*// need to implement filed from UI page
-    map["userType"] = userTypeSelectedValue;
-
-    map["userPosition"] = positionSelectedValue;*/
-    // map["status"] = "invited";
     var responce = await http.post(
         Uri.parse("$baseUrl$apiVersionUrl$adminRegUrl"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(map));
     print("printinnnngnng mapppppppp: $map");
     print("Resspoceeeeeeeeeeeeee from api:::${responce.body}");
-
-    /*  if (responce.statusCode == 201) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EmailVafication(
-              emailFFF: emailController.text,
-            ),
-          ));
-    } else {
-      print("Statusss code: ${responce.statusCode}");
-    }*/
-  }
-
-  /*sendVerficationCode() async {
-    String adminSendVerfCodeUrl = "auth/user/send-code";
-    Map bodyMap = Map<String, dynamic>();
-    bodyMap["email"] = emailController.text.toString();
-    var responce = await http.post(
-      Uri.parse("$baseUrl$apiVersionUrl$adminSendVerfCodeUrl"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(bodyMap),
-    );
-    print("verification code send api hiiititiitit:: ${responce.body}");
-    if (responce.statusCode == 200) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EmailVafication(
-              emailFFF: emailController.text,
-            ),
-          ));
-    } else {
-      print("Statusss code: ${responce.statusCode}");
-    }
-  }*/
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    // adminRegistration();
-    super.initState();
   }
 
   @override
