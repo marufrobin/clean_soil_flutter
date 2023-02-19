@@ -3,6 +3,9 @@
 import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
 import 'package:flutter/material.dart';
 
+import '../constans/constans.dart';
+import '../model/shared_preference.dart';
+
 class DashboardActive extends StatefulWidget {
   var data;
   var projectSiteLocationLat;
@@ -18,6 +21,18 @@ class DashboardActive extends StatefulWidget {
 }
 
 class _DashboardActiveState extends State<DashboardActive> {
+  var uCompanyType;
+  getUserCompanyType() async {
+    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+  }
+
+  @override
+  void initState() {
+    getUserCompanyType();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +60,7 @@ class _DashboardActiveState extends State<DashboardActive> {
                             fontFamily: 'SFPro'),
                       ),
                       subtitle: Text(
-                        "Lafarge worksite to processer",
+                        "${widget.data[index]["projectName"]} to ${uCompanyType}",
                         style: TextStyle(
                             fontSize: 12,
                             color: Color(0xff6E6E6E),
