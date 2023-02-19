@@ -400,20 +400,61 @@ class _AllBatchPageState extends State<AllBatchPage> {
                 SizedBox(
                   height: 16,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Color(0xffF8F8F8),
-                      borderRadius: BorderRadius.circular(4)),
-                  margin: EdgeInsets.all(8),
-                  height: 260,
-                  width: 260,
-                  child: QrImage(
-                    gapless: true,
-                    version: QrVersions.auto,
-                    data: "${data![0]["batchNumber"]}",
-                    size: 200.0,
-                  ),
-                ),
+                uCompanyType == haulingCompany
+                    ? Column(
+                        children: [
+                          Text(
+                            "${data![0]["pickupSite"]["siteName"]}:${Jiffy(data![0]["pickUpTime"]).format("h:mm a")}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                fontFamily: "SFPro",
+                                color: Color(0xff212121)),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "${data![0]["dropSite"]["siteName"]}:${Jiffy(data![0]["dropTime"]).format("h:mm a")}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                fontFamily: "SFPro",
+                                color: Color(0xff212121)),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xffF8F8F8),
+                                borderRadius: BorderRadius.circular(4)),
+                            margin: EdgeInsets.all(8),
+                            height: 260,
+                            width: 260,
+                            child: QrImage(
+                              gapless: true,
+                              version: QrVersions.auto,
+                              data: "${data![0]["batchNumber"]}",
+                              size: 200.0,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xffF8F8F8),
+                            borderRadius: BorderRadius.circular(4)),
+                        margin: EdgeInsets.all(8),
+                        height: 260,
+                        width: 260,
+                        child: QrImage(
+                          gapless: true,
+                          version: QrVersions.auto,
+                          data: "${data![0]["batchNumber"]}",
+                          size: 200.0,
+                        ),
+                      )
               ],
             ),
           );
@@ -430,8 +471,9 @@ class _AllBatchPageState extends State<AllBatchPage> {
             ),
             onPressed: () {
               uCompanyType == haulingCompany
-                  ? _showModalBottomSheet()
-                  : QrScan();
+                  ? Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => QrScan()))
+                  : _showModalBottomSheet();
             },
             child: Container(
               padding: EdgeInsets.only(left: 16, right: 16),

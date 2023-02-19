@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:clean_soil_flutter/constans/constans.dart';
 import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
+import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:flutter/material.dart';
 
 class DashboardAll extends StatefulWidget {
@@ -12,6 +14,11 @@ class DashboardAll extends StatefulWidget {
 }
 
 class _DashboardAllState extends State<DashboardAll> {
+  var uCompanyType;
+  getUserCompanyType() async {
+    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +42,7 @@ class _DashboardAllState extends State<DashboardAll> {
                           fontFamily: 'SFPro'),
                     ),
                     subtitle: Text(
-                      "Lafarge worksite to processer",
+                      "${widget.data[index]["projectName"]} to ${uCompanyType} ",
                       style: TextStyle(
                           fontSize: 12,
                           color: Color(0xff6E6E6E),
