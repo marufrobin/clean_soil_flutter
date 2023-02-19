@@ -4,12 +4,13 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/construction_screen/dashboard_active.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard_all.dart';
-import 'package:clean_soil_flutter/google_map/customGoogleMaps.dart';
 import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../constans/constans.dart';
+import '../google_map/customGoogleMaps.dart';
 // import '../google_map/google_map.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -39,9 +40,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   var processorSiteLocationLng;
   String? uId;
   String? uCompanyType;
+  getUserCompanyType() async {
+    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+    setState(() {});
+  }
+
   Future dashBoardactive() async {
     uId = await SharedPreference.getStringValueSP(userId);
-    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+    // uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
     var DashBoardallUrl =
         "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$uId&userCompanyType=$uCompanyType";
 
@@ -61,11 +67,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     processorSiteLocationLng = data[0]["processorSite"]['location']["lng"];
     print("processorSite up site:::::${processorSiteLocationLat}");
     print("processorSite up site:::::${processorSiteLocationLng}");
+
     return data;
   }
 
   @override
   void initState() {
+    getUserCompanyType();
     dashBoardactive();
     super.initState();
   }
@@ -75,93 +83,94 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return SafeArea(
       child: DefaultTabController(
         length: 2,
-        child: Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-          appBar: AppBar(
-            elevation: 0,
-            toolbarHeight: 60,
-            title: Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Text(
-                'Projects',
-                style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'SFPro'),
-              ),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Image.asset(
-                  'images/notification.png',
-                  height: 20,
-                  width: 22,
-                ),
-              )
-            ],
-            bottom: PreferredSize(
-              preferredSize: Size(50, 50),
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                height: 32,
-                decoration: BoxDecoration(
-                    color: Color(0xff106EBE),
-                    borderRadius: BorderRadius.circular(20)),
-                child: TabBar(
-                  labelStyle: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: 'SFPro'),
-                  indicator: BoxDecoration(
+        child: LiquidPullToRefresh(
+          onRefresh: dashBoardactive,
+          child: Scaffold(
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.endDocked,
+            appBar: AppBar(
+              elevation: 0,
+              toolbarHeight: 60,
+              title: Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  'Projects',
+                  style: TextStyle(
+                      fontSize: 30,
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20.0)),
-                  labelColor: Color(0xff0078D4),
-                  unselectedLabelColor: Colors.white,
-                  tabs: const [
-                    Tab(
-                      text: "Active",
-                    ),
-                    Tab(
-                      text: 'All',
-                    ),
-                  ],
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'SFPro'),
+                ),
+              ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Image.asset(
+                    'images/notification.png',
+                    height: 20,
+                    width: 22,
+                  ),
+                )
+              ],
+              bottom: PreferredSize(
+                preferredSize: Size(50, 50),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  height: 32,
+                  decoration: BoxDecoration(
+                      color: Color(0xff106EBE),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: TabBar(
+                    labelStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'SFPro'),
+                    indicator: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20.0)),
+                    labelColor: Color(0xff0078D4),
+                    unselectedLabelColor: Colors.white,
+                    tabs: const [
+                      Tab(
+                        text: "Active",
+                      ),
+                      Tab(
+                        text: 'All',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          body: FutureBuilder(
-              future: dashBoardactive(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
+            body: FutureBuilder(
+                future: dashBoardactive(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  } else if (snapshot.data == null) {
+                    return Text("No Data");
+                  }
+                  return TabBarView(
+                    children: [
+                      DashboardActive(
+                        data: data,
+                        projectSiteLocationLat:
+                            double.parse(projectSiteLocationLat),
+                        projectSiteLocationLng:
+                            double.parse(projectSiteLocationLng),
+                      ),
+                      DashboardAll(
+                        data: data,
+                      ),
+                    ],
                   );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                } else if (snapshot.data == null) {
-                  return Text("No Data");
-                }
-                return TabBarView(
-                  children: [
-                    DashboardActive(
-                      data: data,
-                      projectSiteLocationLat:
-                          double.parse(projectSiteLocationLat),
-                      projectSiteLocationLng:
-                          double.parse(projectSiteLocationLng),
-                    ),
-                    DashboardAll(
-                      data: data,
-                    )
-                  ],
-                );
-              }),
-          floatingActionButton: widget.userCompanyType == haulingCompany
-              ? Positioned(
-                  bottom: 0,
-                  child: Column(
+                }),
+            floatingActionButton: uCompanyType == haulingCompany
+                ? Column(
                     children: [
                       Spacer(),
 
@@ -237,9 +246,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             ),
                           ))
                     ],
-                  ),
-                )
-              : null,
+                  )
+                : null,
+          ),
         ),
       ),
     );
