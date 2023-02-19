@@ -4,12 +4,13 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/construction_screen/dashboard_active.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard_all.dart';
+import 'package:clean_soil_flutter/google_map/customGoogleMaps.dart';
 import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../constans/constans.dart';
-import '../google_map/google_map.dart';
+// import '../google_map/google_map.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({
@@ -146,8 +147,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     DashboardActive(
                       data: data,
-                      projectSiteLocationLat: projectSiteLocationLat,
-                      projectSiteLocationLng: projectSiteLocationLng,
+                      projectSiteLocationLat:
+                          double.parse(projectSiteLocationLat),
+                      projectSiteLocationLng:
+                          double.parse(projectSiteLocationLng),
                     ),
                     DashboardAll(
                       data: data,
@@ -174,15 +177,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CustomGoogleMap(
-                                      projectSiteLocationLat:
-                                          projectSiteLocationLat,
-                                      projectSiteLocationLng:
-                                          projectSiteLocationLng,
-                                      processorSiteLocationLat:
-                                          processorSiteLocationLat,
-                                      processorSiteLocationLng:
-                                          processorSiteLocationLng),
+                                  builder: (context) => CustomGoogleMaps(
+                                    destinationLat:
+                                        double.parse(projectSiteLocationLat),
+                                    destinationLng:
+                                        double.parse(projectSiteLocationLng),
+                                  ),
                                 ));
                           },
                           child: Container(
@@ -210,14 +210,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               elevation: MaterialStatePropertyAll(0),
                               side: MaterialStatePropertyAll(
                                   BorderSide(width: 1, color: Colors.grey))),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomGoogleMaps(
+                                    destinationLat:
+                                        double.parse(processorSiteLocationLat),
+                                    destinationLng:
+                                        double.parse(processorSiteLocationLng),
+                                  ),
+                                ));
+                          },
                           child: Container(
                             padding: EdgeInsets.only(left: 16, right: 16),
                             width: 320,
                             height: 52,
                             child: Center(
                               child: Text(
-                                "Arrived at pick-up site",
+                                "Navigate to drop site",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 15,
