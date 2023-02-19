@@ -3,6 +3,7 @@ const userName = "fullName";
 const userEmail = "email";
 const userType = "userType";
 const userCompanyType = "userCompanyType";
+const usercompanyId = "companyId";
 const userPosition = "userPosition";
 const haulingCompany = "hauling";
 const processorCompany = "processor";

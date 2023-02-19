@@ -3,6 +3,7 @@ class User {
   String? userFullName;
   String? userEmail;
   String? comapanyType;
+  String? companyId;
   String? userType;
   String? userPosition;
 
@@ -11,6 +12,7 @@ class User {
     this.userFullName,
     this.userEmail,
     this.comapanyType,
+    this.companyId,
     this.userType,
     this.userPosition,
   });

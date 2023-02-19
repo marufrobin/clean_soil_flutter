@@ -49,6 +49,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
       user.userEmail = data["email"];
       user.userFullName = data["fullName"];
       user.comapanyType = data["userCompanyType"];
+      user.companyId = data["companyId"];
       user.userPosition = data["userPosition"];
       /* print("user id: ${user.userId}");
       print("user email: ${user.userEmail}");
@@ -60,6 +61,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
       await SharedPreference.addStringToSP(userEmail, user.userEmail);
       await SharedPreference.addStringToSP(userName, user.userFullName);
       await SharedPreference.addStringToSP(userCompanyType, user.comapanyType);
+      await SharedPreference.addStringToSP(usercompanyId, user.companyId);
       await SharedPreference.addStringToSP(userPosition, user.userPosition);
 
       print("user id: ${await SharedPreference.getStringValueSP(userId)}");

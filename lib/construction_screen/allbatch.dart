@@ -2,9 +2,10 @@
 
 import 'dart:convert';
 
-import 'package:clean_soil_flutter/scan/scan.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:clean_soil_flutter/constans/constans.dart';
+import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:jiffy/jiffy.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -41,11 +42,20 @@ class _AllBatchPageState extends State<AllBatchPage> {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
   var getAllBatchUrl = "batch/get-batchs?";
+  var createBatchUrl = "batch/create-batch";
   var projectId;
 
   dynamic data;
   Map<String, dynamic>? allBatch;
+  var Name;
+  var userID;
+  var userCompanyID;
+  var role;
   Future getBatch() async {
+    userID = await SharedPreference.getStringValueSP(userId);
+    userCompanyID = await SharedPreference.getStringValueSP(usercompanyId);
+    Name = await SharedPreference.getStringValueSP(userName);
+    role = await SharedPreference.getStringValueSP(userPosition);
     var allBatchFullUrl =
         "$baseUrl$apiVersionUrl${getAllBatchUrl}projectId=$projectId";
 
@@ -57,6 +67,44 @@ class _AllBatchPageState extends State<AllBatchPage> {
     data = allBatch!['data'];
     print("data length :;;;;${data!.length}");
     return data;
+  }
+
+  createBatch() async {
+    var map = <String, dynamic>{
+      "projectId": "$projectId",
+      "batchNumber": int.parse(batchNo.text),
+      "approvedBy": {
+        "_id": "$userCompanyID",
+        "fullName": "$Name",
+        "role": "$role"
+      },
+      "soilType": "${soilType.text.toString()}",
+      "materialQuantity": "${materialQuantity.text.toString()}"
+    };
+    print("post Map ar kaj :::$map");
+    var responce = await http.post(
+        Uri.parse("$baseUrl$apiVersionUrl$createBatchUrl"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(map));
+
+    print("responce from post create${responce.statusCode}");
+    print("responce from post create${responce.body}");
+    var suc = jsonDecode(responce.body)["success"];
+    var message = jsonDecode(responce.body)["message"];
+    var data = jsonDecode(responce.body)["data"];
+    print(suc);
+    print("maessageee:::$message");
+    if (responce.statusCode == 201 && suc == true) {
+      Fluttertoast.showToast(
+          msg: "${message}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      setState(() {});
+    }
   }
 
   @override
@@ -174,9 +222,8 @@ class _AllBatchPageState extends State<AllBatchPage> {
                             height: 10,
                           ),
                           TextField(
-                            controller: batchNo,
                             decoration: InputDecoration(
-                              hintText: "Jane Doe",
+                              hintText: "$Name",
                               hintStyle: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
@@ -212,7 +259,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                   height: 10,
                 ),
                 TextField(
-                  controller: approvedBy,
+                  controller: soilType,
                   decoration: InputDecoration(
                     hintText: "Just Soil",
                     filled: true,
@@ -265,77 +312,78 @@ class _AllBatchPageState extends State<AllBatchPage> {
                 SizedBox(
                   height: 10,
                 ),
-                Text(
-                  "Receiving site",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      fontFamily: "SFPro",
-                      color: Color(0xff212121)),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                DropdownButtonFormField2(
-                  decoration: InputDecoration(
-                    //Add isDense true and zero Padding.
-                    //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                    isDense: true,
-                    contentPadding: EdgeInsets.zero,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    //Add more decoration as you want here
-                    //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                  ),
-                  isExpanded: true,
-                  hint: const Text(
-                    'Select',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        color: Color(0xffACACAC),
-                        fontFamily: "SFPro"),
-                  ),
-                  icon: const Icon(
-                    Icons.arrow_drop_down,
-                    color: Colors.black45,
-                  ),
-                  iconSize: 30,
-                  buttonHeight: 60,
-                  buttonPadding: const EdgeInsets.only(left: 20, right: 10),
-                  dropdownDecoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  items: position
-                      .map((item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please select Your Position';
-                    }
-                  },
-                  onChanged: (value) {
-                    //Do something when changing the item if you want.
-                  },
-                  onSaved: (value) {
-                    selectedValue = value.toString();
-                  },
-                ),
+                // Text(
+                //   "Receiving site",
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.w500,
+                //       fontSize: 14,
+                //       fontFamily: "SFPro",
+                //       color: Color(0xff212121)),
+                // ),
+                // SizedBox(
+                //   height: 10,
+                // ),
+                // DropdownButtonFormField2(
+                //   decoration: InputDecoration(
+                //     //Add isDense true and zero Padding.
+                //     //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                //     isDense: true,
+                //     contentPadding: EdgeInsets.zero,
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(8),
+                //     ),
+                //     //Add more decoration as you want here
+                //     //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                //   ),
+                //   isExpanded: true,
+                //   hint: const Text(
+                //     'Select',
+                //     style: TextStyle(
+                //         fontWeight: FontWeight.w500,
+                //         fontSize: 15,
+                //         color: Color(0xffACACAC),
+                //         fontFamily: "SFPro"),
+                //   ),
+                //   icon: const Icon(
+                //     Icons.arrow_drop_down,
+                //     color: Colors.black45,
+                //   ),
+                //   iconSize: 30,
+                //   buttonHeight: 60,
+                //   buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+                //   dropdownDecoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(8),
+                //   ),
+                //   items: position
+                //       .map((item) => DropdownMenuItem<String>(
+                //             value: item,
+                //             child: Text(
+                //               item,
+                //               style: const TextStyle(
+                //                 fontSize: 14,
+                //               ),
+                //             ),
+                //           ))
+                //       .toList(),
+                //   validator: (value) {
+                //     if (value == null) {
+                //       return 'Please select Your Position';
+                //     }
+                //   },
+                //   onChanged: (value) {
+                //     //Do something when changing the item if you want.
+                //   },
+                //   onSaved: (value) {
+                //     selectedValue = value.toString();
+                //   },
+                // ),
                 Spacer(),
                 ElevatedButton(
                     style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
                     onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => QrScan()));
+                      // Navigator.of(context).push(
+                      //     MaterialPageRoute(builder: (context) => QrScan()));
+                      createBatch();
                     },
                     child: Container(
                       padding: EdgeInsets.only(left: 16, right: 16),
