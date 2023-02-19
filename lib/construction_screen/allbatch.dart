@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:jiffy/jiffy.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class AllBatchPage extends StatefulWidget {
@@ -535,121 +536,135 @@ class _AllBatchPageState extends State<AllBatchPage> {
                 ))
           ],
         ),
-        body: FutureBuilder(
-            future: getBatch(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              } else if (snapshot.data == null) {
-                return Text("No Data");
-              }
+        body: LiquidPullToRefresh(
+          onRefresh: getBatch,
+          child: FutureBuilder(
+              future: getBatch(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                } else if (snapshot.data == null) {
+                  return Text("No Data");
+                }
 
-              return ListView.separated(
-                  itemBuilder: (context, _index) {
-                    var status = data![_index]["status"].toString();
-                    print("sssssssstasttt:::$status");
-                    return SizedBox(
-                      height: 176,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CircleAvatar(
-                                radius: 16,
-                                backgroundColor: Colors.transparent,
-                                child: status.toLowerCase() == "waiting"
-                                    ? Image.asset(
-                                        "${shippingStatus["waiting"]}")
-                                    : status.toLowerCase() == "shipped"
-                                        ? Image.asset(
-                                            "${shippingStatus["shipped"]}")
-                                        : Image.asset(
-                                            "${shippingStatus["dispatched"]}")),
-                          ),
-                          Expanded(
-                            flex: 4,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                      width: 1,
-                                      color: Colors.black.withOpacity(0.2)),
-                                  borderRadius: BorderRadius.circular(8)),
-                              elevation: 0.08,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "${data[_index]["approvedBy"]["fullName"]}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'SFPro'),
-                                        ),
-                                        Text(
-                                          "  →•  ",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'SFPro'),
-                                        ),
-                                        Text(
-                                          "${data[_index]["approvedBy"]["role"]}",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: 'SFPro'),
-                                        ),
-                                      ],
+                return ListView.separated(
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, _index) {
+                      var status = data![_index]["status"].toString();
+                      print("sssssssstasttt:::$status");
+                      return SizedBox(
+                        height: 176,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: CircleAvatar(
+                                  radius: 16,
+                                  backgroundColor: Colors.transparent,
+                                  child: status.toLowerCase() == "waiting"
+                                      ? Image.asset(
+                                          "${shippingStatus["waiting"]}")
+                                      : status.toLowerCase() == "shipped"
+                                          ? Image.asset(
+                                              "${shippingStatus["shipped"]}")
+                                          : Image.asset(
+                                              "${shippingStatus["dispatched"]}")),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        width: 1,
+                                        color: Colors.black.withOpacity(0.2)),
+                                    borderRadius: BorderRadius.circular(8)),
+                                elevation: 0.08,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "${data[_index]["approvedBy"]["fullName"]}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'SFPro'),
+                                          ),
+                                          Text(
+                                            "  →•  ",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'SFPro'),
+                                          ),
+                                          Text(
+                                            "${data[_index]["approvedBy"]["role"]}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: 'SFPro'),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "Batch:",
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Batch:",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xff212121),
+                                                fontWeight: FontWeight.w400,
+                                                fontFamily: 'SFPro'),
+                                          ),
+                                        ),
+                                        Text(
+                                          "${data![_index]["batchNumber"]}",
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: Color(0xff212121),
                                               fontWeight: FontWeight.w400,
                                               fontFamily: 'SFPro'),
                                         ),
-                                      ),
-                                      Text(
-                                        "${data![_index]["batchNumber"]}",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff212121),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: 'SFPro'),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "Receiveed:",
+                                      ],
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    "Receiveed:",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color:
+                                                            Color(0xff212121),
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontFamily: 'SFPro'),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${Jiffy(data![_index]["pickUpTime"]).format("h:mm a")}",
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: Color(0xff212121),
@@ -657,76 +672,68 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                                           FontWeight.w400,
                                                       fontFamily: 'SFPro'),
                                                 ),
-                                              ),
-                                              Text(
-                                                "${Jiffy(data![_index]["pickUpTime"]).format("h:mm a")}",
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(3),
+                                                  color: Color(0xffEFF6FC)),
+                                              child: Text(
+                                                "${data![_index]["status"]}",
                                                 style: TextStyle(
                                                     fontSize: 14,
-                                                    color: Color(0xff212121),
+                                                    color: Color(0xff0078D4),
                                                     fontWeight: FontWeight.w400,
                                                     fontFamily: 'SFPro'),
                                               ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            padding: EdgeInsets.all(10),
+                                            ),
+                                          ],
+                                        ),
+                                        Spacer(),
+                                        GestureDetector(
+                                          onTap: (() {
+                                            modalSheetForQRCodeShowing();
+                                          }),
+                                          child: Container(
                                             decoration: BoxDecoration(
+                                                color: Color(0xffF8F8F8),
                                                 borderRadius:
-                                                    BorderRadius.circular(3),
-                                                color: Color(0xffEFF6FC)),
-                                            child: Text(
-                                              "${data![_index]["status"]}",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Color(0xff0078D4),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'SFPro'),
+                                                    BorderRadius.circular(4)),
+                                            margin: EdgeInsets.all(8),
+                                            height: 80,
+                                            width: 80,
+                                            child: QrImage(
+                                              gapless: true,
+                                              version: QrVersions.auto,
+                                              data:
+                                                  "${data![_index]["batchNumber"]}",
+                                              size: 200.0,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      Spacer(),
-                                      GestureDetector(
-                                        onTap: (() {
-                                          modalSheetForQRCodeShowing();
-                                        }),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Color(0xffF8F8F8),
-                                              borderRadius:
-                                                  BorderRadius.circular(4)),
-                                          margin: EdgeInsets.all(8),
-                                          height: 80,
-                                          width: 80,
-                                          child: QrImage(
-                                            gapless: true,
-                                            version: QrVersions.auto,
-                                            data:
-                                                "${data![_index]["batchNumber"]}",
-                                            size: 200.0,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (_, index) => SizedBox(
-                        height: 5,
-                      ),
-                  itemCount: data!.length);
-            }),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (_, index) => SizedBox(
+                          height: 5,
+                        ),
+                    itemCount: data!.length);
+              }),
+        ),
       ),
     );
   }
