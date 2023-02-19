@@ -108,10 +108,11 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
               children: [
                 Center(
                   child: Container(
-                    margin: EdgeInsets.all(26),
+                    margin: EdgeInsets.all(30),
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
+                Spacer(),
                 Text(
                   "Email",
                   style: TextStyle(
