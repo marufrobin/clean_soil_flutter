@@ -27,8 +27,10 @@ class _DashboardActiveState extends State<DashboardActive> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                          builder: ((context) =>
-                              AllBatchPage(projectId: widget.data[0]["_id"]))),
+                          builder: ((context) => AllBatchPage(
+                                projectId: widget.data[0]["_id"],
+                                projectName: widget.data[index]["projectName"],
+                              ))),
                     );
                   },
                   child: Card(

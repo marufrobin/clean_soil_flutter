@@ -10,8 +10,9 @@ import 'package:jiffy/jiffy.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class AllBatchPage extends StatefulWidget {
-  AllBatchPage({required this.projectId});
+  AllBatchPage({required this.projectId, required this.projectName});
   var projectId;
+  var projectName;
 
   @override
   State<AllBatchPage> createState() => _AllBatchPageState(projectId: projectId);
@@ -137,10 +138,11 @@ class _AllBatchPageState extends State<AllBatchPage> {
                             decoration: InputDecoration(
                               hintText: "786",
                               hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  fontFamily: "SFPro",
-                                  color: Color(0xff212121)),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                fontFamily: "SFPro",
+                                color: Color(0xffACACAC),
+                              ),
                               filled: true,
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
@@ -176,10 +178,11 @@ class _AllBatchPageState extends State<AllBatchPage> {
                             decoration: InputDecoration(
                               hintText: "Jane Doe",
                               hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  fontFamily: "SFPro",
-                                  color: Color(0xff212121)),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                fontFamily: "SFPro",
+                                color: Color(0xffACACAC),
+                              ),
                               filled: true,
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
@@ -214,10 +217,11 @@ class _AllBatchPageState extends State<AllBatchPage> {
                     hintText: "Just Soil",
                     filled: true,
                     hintStyle: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        fontFamily: "SFPro",
-                        color: Color(0xff212121)),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      fontFamily: "SFPro",
+                      color: Color(0xffACACAC),
+                    ),
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xffE1E1E1)),
@@ -251,10 +255,11 @@ class _AllBatchPageState extends State<AllBatchPage> {
                     ),
                     hintText: "Material quantity",
                     hintStyle: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        fontFamily: "SFPro",
-                        color: Color(0xff212121)),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      fontFamily: "SFPro",
+                      color: Color(0xffACACAC),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -289,7 +294,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 15,
-                        color: Color(0xff0086F0),
+                        color: Color(0xffACACAC),
                         fontFamily: "SFPro"),
                   ),
                   icon: const Icon(
@@ -463,7 +468,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                 color: Colors.white,
               )),
           title: Text(
-            "Lafarge worksite",
+            "${widget.projectName}",
             style: TextStyle(
                 fontSize: 16,
                 color: Colors.white,
@@ -495,184 +500,184 @@ class _AllBatchPageState extends State<AllBatchPage> {
                 return Text("No Data");
               }
 
-              return Container(
-                child: ListView.separated(
-                    itemBuilder: (_index, context) => SizedBox(
-                          height: 176,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: CircleAvatar(
+              return ListView.separated(
+                  itemBuilder: (context, _index) {
+                    var status = data![_index]["status"].toString();
+                    print("sssssssstasttt:::$status");
+                    return SizedBox(
+                      height: 176,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CircleAvatar(
                                 radius: 16,
                                 backgroundColor: Colors.transparent,
-                                child: Image.asset(
-                                  "${shippingStatus["dispatched"]}",
-                                ),
-                              )),
-                              Expanded(
-                                flex: 4,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          width: 1,
-                                          color: Colors.black.withOpacity(0.2)),
-                                      borderRadius: BorderRadius.circular(8)),
-                                  elevation: 0.08,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                child: status.toLowerCase() == "waiting"
+                                    ? Image.asset(
+                                        "${shippingStatus["waiting"]}")
+                                    : status.toLowerCase() == "shipped"
+                                        ? Image.asset(
+                                            "${shippingStatus["shipped"]}")
+                                        : Image.asset(
+                                            "${shippingStatus["dispatched"]}")),
+                          ),
+                          Expanded(
+                            flex: 4,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      width: 1,
+                                      color: Colors.black.withOpacity(0.2)),
+                                  borderRadius: BorderRadius.circular(8)),
+                              elevation: 0.08,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "${data[_index]["approvedBy"]["fullName"]}",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'SFPro'),
+                                        ),
+                                        Text(
+                                          "  →•  ",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'SFPro'),
+                                        ),
+                                        Text(
+                                          "${data[_index]["approvedBy"]["role"]}",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: 'SFPro'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "${data[0]["approvedBy"]["fullName"]}",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'SFPro'),
-                                            ),
-                                            Text(
-                                              "  →•  ",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.grey,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'SFPro'),
-                                            ),
-                                            Text(
-                                              "${data[0]["approvedBy"]["role"]}",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'SFPro'),
-                                            ),
-                                          ],
+                                        child: Text(
+                                          "Batch:",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xff212121),
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: 'SFPro'),
                                         ),
                                       ),
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Batch:",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Color(0xff212121),
-                                                  fontWeight: FontWeight.w400,
-                                                  fontFamily: 'SFPro'),
-                                            ),
-                                          ),
-                                          Text(
-                                            "${data![0]["batchNumber"]}",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xff212121),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: 'SFPro'),
-                                          ),
-                                        ],
+                                      Text(
+                                        "${data![_index]["batchNumber"]}",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xff212121),
+                                            fontWeight: FontWeight.w400,
+                                            fontFamily: 'SFPro'),
                                       ),
-                                      Row(
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                          Row(
                                             children: [
-                                              Row(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Text(
-                                                      "Receiveed:",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color:
-                                                              Color(0xff212121),
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontFamily: 'SFPro'),
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "${Jiffy(data![0]["pickUpTime"]).format("h:mm a")}",
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color:
-                                                            Color(0xff212121),
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontFamily: 'SFPro'),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                padding: EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            3),
-                                                    color: Color(0xffEFF6FC)),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
                                                 child: Text(
-                                                  "${data![0]["status"]}",
+                                                  "Receiveed:",
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Color(0xff0078D4),
+                                                      color: Color(0xff212121),
                                                       fontWeight:
                                                           FontWeight.w400,
                                                       fontFamily: 'SFPro'),
                                                 ),
                                               ),
+                                              Text(
+                                                "${Jiffy(data![_index]["pickUpTime"]).format("h:mm a")}",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color(0xff212121),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'SFPro'),
+                                              ),
                                             ],
                                           ),
-                                          Spacer(),
-                                          GestureDetector(
-                                            onTap: (() {
-                                              modalSheetForQRCodeShowing();
-                                            }),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xffF8F8F8),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4)),
-                                              margin: EdgeInsets.all(8),
-                                              height: 80,
-                                              width: 80,
-                                              child: QrImage(
-                                                gapless: true,
-                                                version: QrVersions.auto,
-                                                data:
-                                                    "${data![0]["batchNumber"]}",
-                                                size: 200.0,
-                                              ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(3),
+                                                color: Color(0xffEFF6FC)),
+                                            child: Text(
+                                              "${data![_index]["status"]}",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color(0xff0078D4),
+                                                  fontWeight: FontWeight.w400,
+                                                  fontFamily: 'SFPro'),
                                             ),
-                                          )
+                                          ),
                                         ],
+                                      ),
+                                      Spacer(),
+                                      GestureDetector(
+                                        onTap: (() {
+                                          modalSheetForQRCodeShowing();
+                                        }),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Color(0xffF8F8F8),
+                                              borderRadius:
+                                                  BorderRadius.circular(4)),
+                                          margin: EdgeInsets.all(8),
+                                          height: 80,
+                                          width: 80,
+                                          child: QrImage(
+                                            gapless: true,
+                                            version: QrVersions.auto,
+                                            data:
+                                                "${data![_index]["batchNumber"]}",
+                                            size: 200.0,
+                                          ),
+                                        ),
                                       )
                                     ],
-                                  ),
-                                ),
+                                  )
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                    separatorBuilder: (_, index) => SizedBox(
-                          height: 5,
-                        ),
-                    itemCount: data!.length),
-              );
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (_, index) => SizedBox(
+                        height: 5,
+                      ),
+                  itemCount: data!.length);
             }),
       ),
     );

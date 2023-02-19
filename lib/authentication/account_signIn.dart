@@ -104,17 +104,12 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 75,
-                    right: 90,
-                    left: 90,
-                  ),
+                Center(
                   child: Container(
+                    margin: EdgeInsets.all(26),
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
-                Spacer(),
                 Text(
                   "Email",
                   style: TextStyle(
