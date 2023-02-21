@@ -54,7 +54,7 @@ class _QrScanState extends State<QrScan> {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.only(left: 20, top: 20),
+                    padding: EdgeInsets.only(top: 20),
                     child: Row(
                       children: [
                         Image.asset(
@@ -80,7 +80,9 @@ class _QrScanState extends State<QrScan> {
                       ],
                     ),
                   ),
-                  Spacer(),
+                  SizedBox(
+                    height: 16,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

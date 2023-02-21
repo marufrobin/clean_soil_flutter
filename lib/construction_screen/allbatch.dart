@@ -231,7 +231,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                           ),
                           TextField(
                             decoration: InputDecoration(
-                              hintText: "$Name",
+                              hintText: "Maruf",
                               hintStyle: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
@@ -404,7 +404,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                     ? Column(
                         children: [
                           Text(
-                            "PickupSite:${data![0]["approvedBy"]["fullName"]}:${Jiffy(data![0]["pickUpTime"]).format("h:mm a")}",
+                            "Pick up site:${data![0]["approvedBy"]["fullName"]}:${Jiffy(data![0]["pickUpTime"]).format("h:mm a")}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
@@ -415,7 +415,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                             height: 5,
                           ),
                           Text(
-                            "DropSite:${data![0]["approvedBy"]["fullName"]}:${Jiffy(data![0]["dropTime"]).format("h:mm a")}",
+                            "Drop up site:${data![0]["approvedBy"]["fullName"]}:${Jiffy(data![0]["dropTime"]).format("h:mm a")}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
@@ -481,7 +481,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
               height: 52,
               child: Center(
                 child: Text(
-                  uCompanyType == haulingCompany ? "Create Batch" : "Scan",
+                  uCompanyType == haulingCompany ? "Scan" : "Create Batch",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
