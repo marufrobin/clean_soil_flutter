@@ -481,7 +481,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
               height: 52,
               child: Center(
                 child: Text(
-                  uCompanyType == haulingCompany ? "Create Batch" : "Scan",
+                  uCompanyType == haulingCompany ? "Scan" : "Create Batch",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
@@ -512,9 +512,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
           ),
           actions: [
             IconButton(
-                onPressed: (() {
-                  _showModalBottomSheet();
-                }),
+                onPressed: (() {}),
                 icon: Icon(
                   Icons.filter_list,
                   size: 20,
