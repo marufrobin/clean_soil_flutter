@@ -404,7 +404,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                     ? Column(
                         children: [
                           Text(
-                            "${data![0]["pickupSite"]["siteName"]}:${Jiffy(data![0]["pickUpTime"]).format("h:mm a")}",
+                            "PickupSite:${data![0]["approvedBy"]["fullName"]}:${Jiffy(data![0]["pickUpTime"]).format("h:mm a")}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
@@ -415,7 +415,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                             height: 5,
                           ),
                           Text(
-                            "${data![0]["dropSite"]["siteName"]}:${Jiffy(data![0]["dropTime"]).format("h:mm a")}",
+                            "DropSite:${data![0]["approvedBy"]["fullName"]}:${Jiffy(data![0]["dropTime"]).format("h:mm a")}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
@@ -481,7 +481,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
               height: 52,
               child: Center(
                 child: Text(
-                  uCompanyType == haulingCompany ? "Scan" : "Create Batch",
+                  uCompanyType == haulingCompany ? "Create Batch" : "Scan",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
