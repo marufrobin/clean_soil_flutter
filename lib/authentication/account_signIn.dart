@@ -113,7 +113,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 32,
+                  height: MediaQuery.of(context).size.height * 0.13,
                 ),
                 Text(
                   "Email",
