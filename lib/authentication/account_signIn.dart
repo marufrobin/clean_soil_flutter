@@ -112,7 +112,9 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
-                Spacer(),
+                SizedBox(
+                  height: 32,
+                ),
                 Text(
                   "Email",
                   style: TextStyle(
