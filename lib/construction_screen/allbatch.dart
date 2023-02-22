@@ -481,7 +481,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
               height: 52,
               child: Center(
                 child: Text(
-                  uCompanyType == haulingCompany ? "Scan" : "Create Batch",
+                  uCompanyType == haulingCompany ? "Create Batch" : "Scan",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
