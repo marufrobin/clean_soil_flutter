@@ -255,7 +255,7 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
                           "Don’t have an account? Signup",
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              fontSize: 15,
+                              fontSize: 16,
                               color: Color(0xff0078D4),
                               fontFamily: "SFPro"),
                         ),
