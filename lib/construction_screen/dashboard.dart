@@ -94,10 +94,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 20),
-                child: Image.asset(
-                  'images/notification.png',
-                  height: 20,
-                  width: 22,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'images/notification.png',
+                      height: 20,
+                      width: 22,
+                    ),
+                    PopupMenuButton(
+                        // add icon, by default "3 dot" icon
+                        // icon: Icon(Icons.book)
+                        itemBuilder: (context) {
+                      return [
+                        PopupMenuItem<int>(
+                          child: Text("Logout"),
+                        ),
+                      ];
+                    }),
+                  ],
                 ),
               )
             ],
