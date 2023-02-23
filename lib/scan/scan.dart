@@ -35,11 +35,7 @@ class _QrScanState extends State<QrScan> {
   var role;
 
   truckBatch() async {
-    var map = <String, dynamic>{
-      "_id": "$userCompanyID",
-      "fullName": "$Name",
-      "role": "$role"
-    };
+    var map = <String, dynamic>{};
     print("post Map ar kaj :::$map");
     var responce = await http.post(
         Uri.parse("$baseUrl$apiVersionUrl$truckBatchUrl"),
@@ -124,7 +120,7 @@ class _QrScanState extends State<QrScan> {
                         SizedBox(
                           width: 16,
                         ),
-                        if (result != null)
+                        if (data != null)
                           Text(
                               'Barcode Type: ${describeEnum(data![0]["id"].format)}   Data: ${data![0]["id"].code}')
                         else
