@@ -24,8 +24,7 @@ class _QrScanState extends State<QrScan> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
-  var truckBatchUrl =
-      "accept-batch-by-truck?id=%20%22e65vgf65trvtyf65cgvyttctgt6776%22";
+  var truckBatchUrl = "batch/accept-batch-by-truck?id=63f1ef9b7fb4229b4eb0524e";
 
   dynamic data;
   Map<String, dynamic>? allBatch;
@@ -196,7 +195,7 @@ class _QrScanState extends State<QrScan> {
     });
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        result = scanData;
+        data = scanData;
       });
     });
   }

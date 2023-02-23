@@ -470,10 +470,10 @@ class _AllBatchPageState extends State<AllBatchPage> {
               elevation: MaterialStatePropertyAll(0),
             ),
             onPressed: () {
-              uCompanyType == haulingCompany
-                  ? Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => QrScan()))
-                  : _showModalBottomSheet();
+              // uCompanyType == haulingCompany
+              // ? Navigator.of(context)
+              //  .push(MaterialPageRoute(builder: (context) => QrScan()))
+              // : _showModalBottomSheet();
             },
             child: Container(
               padding: EdgeInsets.only(left: 16, right: 16),

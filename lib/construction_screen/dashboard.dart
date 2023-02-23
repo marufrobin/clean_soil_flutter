@@ -77,8 +77,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  getUserCompanyType() async {
+    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+  }
+
   @override
   void initState() {
+    getUserCompanyType();
     dashBoardactive();
     super.initState();
   }
