@@ -7,6 +7,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:location/location.dart' as loc;
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomGoogleMaps extends StatefulWidget {
@@ -59,6 +60,21 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
         position: destinationLocation,
       );
     });
+  }
+
+  IO.Socket? socket;
+  initSocket() {
+    socket = IO.io(APIConstants.socketServerURL, <String, dynamic>{
+      'autoConnect': false,
+      'transports': ['websocket'],
+    });
+    socket?.connect();
+    socket?.onConnect((_) {
+      print('Connection established');
+    });
+    socket?.onDisconnect((_) => print('Connection Disconnection'));
+    socket?.onConnectError((err) => print(err));
+    socket?.onError((err) => print(err));
   }
 
   getNavigation() async {

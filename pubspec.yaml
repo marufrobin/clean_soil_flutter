@@ -49,6 +49,7 @@ dependencies:
   jiffy: ^5.0.0
   liquid_pull_to_refresh: ^3.0.1
   url_launcher: ^6.1.9
+  socket_io_client: ^2.0.1
 
 
 dev_dependencies:
