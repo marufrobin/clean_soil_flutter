@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:clean_soil_flutter/constans/constans.dart';
+import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:http/http.dart' as http;
 
 class QrScan extends StatefulWidget {
   const QrScan({Key? key}) : super(key: key);
@@ -17,6 +22,60 @@ class _QrScanState extends State<QrScan> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
+  var apiVersionUrl = "api/v1/";
+  var truckBatchUrl =
+      "accept-batch-by-truck?id=%20%22e65vgf65trvtyf65cgvyttctgt6776%22";
+
+  dynamic data;
+  Map<String, dynamic>? allBatch;
+  var Name;
+  var userID;
+  var userCompanyID;
+  var role;
+
+  truckBatch() async {
+    var map = <String, dynamic>{
+      "_id": "$userCompanyID",
+      "fullName": "$Name",
+      "role": "$role"
+    };
+    print("post Map ar kaj :::$map");
+    var responce = await http.post(
+        Uri.parse("$baseUrl$apiVersionUrl$truckBatchUrl"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(map));
+
+    print("responce from post create${responce.statusCode}");
+    print("responce from post create${responce.body}");
+    var suc = jsonDecode(responce.body)["success"];
+    var message = jsonDecode(responce.body)["message"];
+    var data = jsonDecode(responce.body)["data"];
+    print(suc);
+    print("maessageee:::$message");
+    if (responce.statusCode == 201 && suc == true) {
+      Fluttertoast.showToast(
+          msg: "${message}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      setState(() {});
+    }
+  }
+
+  var uCompanyType;
+  getUserCompanyType() async {
+    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+  }
+
+  @override
+  void initState() {
+    getUserCompanyType();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +126,7 @@ class _QrScanState extends State<QrScan> {
                         ),
                         if (result != null)
                           Text(
-                              'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                              'Barcode Type: ${describeEnum(data![0]["id"].format)}   Data: ${data![0]["id"].code}')
                         else
                           Text(
                             "Scan QR code to accept batch",
