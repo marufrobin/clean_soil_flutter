@@ -76,7 +76,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           appBar: AppBar(
             elevation: 0,
             toolbarHeight: 60,
