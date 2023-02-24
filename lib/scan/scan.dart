@@ -24,8 +24,7 @@ class _QrScanState extends State<QrScan> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
-  var truckBatchUrl =
-      "accept-batch-by-truck?id=%20%22e65vgf65trvtyf65cgvyttctgt6776%22";
+  var truckBatchUrl = "batch/accept-batch-by-truck?id=63f1ef9b7fb4229b4eb0524e";
 
   dynamic data;
   Map<String, dynamic>? allBatch;
@@ -36,9 +35,9 @@ class _QrScanState extends State<QrScan> {
 
   truckBatch() async {
     var map = <String, dynamic>{
-      "_id": "$userCompanyID",
-      "fullName": "$Name",
-      "role": "$role"
+      "id": "63e7d071d21b69022bc4fa75",
+      "fullName": "Marzan",
+      "role": "Driver"
     };
     print("post Map ar kaj :::$map");
     var responce = await http.post(
@@ -126,7 +125,7 @@ class _QrScanState extends State<QrScan> {
                         ),
                         if (result != null)
                           Text(
-                              'Barcode Type: ${describeEnum(data![0]["id"].format)}   Data: ${data![0]["id"].code}')
+                              'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
                         else
                           Text(
                             "Scan QR code to accept batch",

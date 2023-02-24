@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, unnecessary_question_mark
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_constructors_in_immutables, non_constant_identifier_names, unnecessary_question_mark, prefer_const_declarations, unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 
@@ -64,6 +64,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return data;
   }
 
+  Future<void> logout() async {
+    final url =
+        'https://clean-soil-rest-api-z8eug.ondigitalocean.app/api/v1/auth/user/logout'; // replace with your endpoint URL
+    final response = await http.get(
+      Uri.parse(url),
+    );
+    if (response.statusCode == 200) {
+      print("successfully logout");
+    } else {
+      // handle error
+    }
+  }
+
   @override
   void initState() {
     dashBoardactive();
@@ -108,7 +121,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         itemBuilder: (context) {
                       return [
                         PopupMenuItem<int>(
-                          child: Text("Logout"),
+                          child: TextButton(
+                              onPressed: () {
+                                logout();
+                              },
+                              child: Text("Logout")),
                         ),
                       ];
                     }),
@@ -189,7 +206,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               side: MaterialStatePropertyAll(
                                   BorderSide(width: 1, color: Colors.grey))),
                           onPressed: () {
-                            Navigator.push(
+                            /* Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => CustomGoogleMaps(
@@ -198,7 +215,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     destinationLng:
                                         double.parse(projectSiteLocationLng),
                                   ),
-                                ));
+                                ));*/
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 16, right: 16),
@@ -226,7 +243,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               side: MaterialStatePropertyAll(
                                   BorderSide(width: 1, color: Colors.grey))),
                           onPressed: () {
-                            Navigator.push(
+                            /* Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => CustomGoogleMaps(
@@ -235,7 +252,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     destinationLng:
                                         double.parse(processorSiteLocationLng),
                                   ),
-                                ));
+                                ));*/
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 16, right: 16),
