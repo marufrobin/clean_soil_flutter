@@ -22,7 +22,7 @@ class SharedPreference {
     await prefers.setString(key, value);
   }
 
-  static Future<void> clearDB(key, value) async {
+  static Future<void> clearDB() async {
     final prefers = await SharedPreferences.getInstance();
     await prefers.clear();
   }

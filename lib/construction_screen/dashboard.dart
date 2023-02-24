@@ -2,9 +2,9 @@
 
 import 'dart:convert';
 
+import 'package:clean_soil_flutter/authentication/account_signIn.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard_active.dart';
 import 'package:clean_soil_flutter/construction_screen/dashboard_all.dart';
-import 'package:clean_soil_flutter/google_map/customGoogleMaps.dart';
 import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -71,7 +71,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       Uri.parse(url),
     );
     if (response.statusCode == 200) {
-      print("successfully logout");
+      print("successfully logout ${response.body}");
+      SharedPreference.clearDB();
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AccountSignInPage(),
+          ),
+          (route) => false);
     } else {
       // handle error
     }

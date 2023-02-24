@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -59,9 +60,7 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
     });
   }
 
-<<<<<<< HEAD
-=======
-  IO.Socket? socket;
+  // IO.Socket? socket;
   /*initSocket() {
     socket = IO.io(APIConstants.socketServerURL, <String, dynamic>{
       'autoConnect': false,
@@ -76,7 +75,6 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
     socket?.onError((err) => print(err));
   }*/
 
->>>>>>> a6401f460dc4193c47ec0343500e5fb5ff8405fd
   getNavigation() async {
     bool serviceEnable;
     PermissionStatus permissionStatus;
