@@ -34,7 +34,11 @@ class _QrScanState extends State<QrScan> {
   var role;
 
   truckBatch() async {
-    var map = <String, dynamic>{};
+    var map = <String, dynamic>{
+      "id": "63e7d071d21b69022bc4fa75",
+      "fullName": "Marzan",
+      "role": "Driver"
+    };
     print("post Map ar kaj :::$map");
     var responce = await http.post(
         Uri.parse("$baseUrl$apiVersionUrl$truckBatchUrl"),
@@ -119,9 +123,9 @@ class _QrScanState extends State<QrScan> {
                         SizedBox(
                           width: 16,
                         ),
-                        if (data != null)
+                        if (result != null)
                           Text(
-                              'Barcode Type: ${describeEnum(data![0]["id"].format)}   Data: ${data![0]["id"].code}')
+                              'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
                         else
                           Text(
                             "Scan QR code to accept batch",
@@ -195,7 +199,7 @@ class _QrScanState extends State<QrScan> {
     });
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        data = scanData;
+        result = scanData;
       });
     });
   }

@@ -210,7 +210,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               side: MaterialStatePropertyAll(
                                   BorderSide(width: 1, color: Colors.grey))),
                           onPressed: () {
-                            Navigator.push(
+                            /* Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => CustomGoogleMaps(
@@ -219,7 +219,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     destinationLng:
                                         double.parse(projectSiteLocationLng),
                                   ),
-                                ));
+                                ));*/
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 16, right: 16),
@@ -247,7 +247,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               side: MaterialStatePropertyAll(
                                   BorderSide(width: 1, color: Colors.grey))),
                           onPressed: () {
-                            Navigator.push(
+                            /* Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => CustomGoogleMaps(
@@ -256,7 +256,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     destinationLng:
                                         double.parse(processorSiteLocationLng),
                                   ),
-                                ));
+                                ));*/
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 16, right: 16),

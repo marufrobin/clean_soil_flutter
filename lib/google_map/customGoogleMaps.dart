@@ -61,7 +61,7 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
   }
 
   IO.Socket? socket;
-  initSocket() {
+  /*initSocket() {
     socket = IO.io(APIConstants.socketServerURL, <String, dynamic>{
       'autoConnect': false,
       'transports': ['websocket'],
@@ -73,7 +73,7 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
     socket?.onDisconnect((_) => print('Connection Disconnection'));
     socket?.onConnectError((err) => print(err));
     socket?.onError((err) => print(err));
-  }
+  }*/
 
   getNavigation() async {
     bool serviceEnable;
