@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/constans/constans.dart';
 import 'package:clean_soil_flutter/model/shared_preference.dart';
-import 'package:clean_soil_flutter/scan/scan.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -12,10 +11,14 @@ import 'package:jiffy/jiffy.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../scan/scan.dart';
+
 class AllBatchPage extends StatefulWidget {
-  AllBatchPage({required this.projectId, required this.projectName});
+  AllBatchPage(
+      {required this.projectId, required this.projectName, this.scanData});
   var projectId;
   var projectName;
+  Map? scanData;
 
   @override
   State<AllBatchPage> createState() => _AllBatchPageState(projectId: projectId);
@@ -120,7 +123,127 @@ class _AllBatchPageState extends State<AllBatchPage> {
   void initState() {
     getUserCompanyType();
     getBatch();
+    widget.scanData != null
+        ? WidgetsBinding.instance.addPostFrameCallback((_) {
+            modelSheetForScanData(context);
+          })
+        : null;
     super.initState();
+  }
+
+  modelSheetForScanData(BuildContext context) {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(10.0),
+          height: MediaQuery.of(context).size.height * 0.66,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  height: 4,
+                  width: 36,
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(4)),
+                ),
+              ),
+              ListTile(
+                title: Padding(
+                  padding: const EdgeInsets.only(left: 120),
+                  child: Text(
+                    "Batch details",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        fontFamily: "SFPro",
+                        color: Color(0xff212121)),
+                  ),
+                ),
+                trailing: IconButton(
+                    onPressed: (() {
+                      Navigator.pop(context);
+                    }),
+                    icon: Icon(
+                      Icons.close,
+                      size: 22,
+                      color: Colors.grey,
+                    )),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                child: Text(
+                  "Pick-Up: ${Jiffy(widget.scanData!["createdAt"]).format('MMMM do yyyy, h:mm a')}",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      fontFamily: "SFPro",
+                      color: Colors.grey.shade500),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                child: Text(
+                  "Drop: ${widget.scanData!["picupTime"]}",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      fontFamily: "SFPro",
+                      color: Colors.grey.shade500),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xffF8F8F8),
+                      borderRadius: BorderRadius.circular(4)),
+                  margin: EdgeInsets.all(8),
+                  height: 260,
+                  width: 260,
+                  child: QrImage(
+                    gapless: true,
+                    version: QrVersions.auto,
+                    data: "${widget.scanData!["id"]}",
+                    size: 200.0,
+                  ),
+                ),
+              ),
+              /*Spacer(),
+                ElevatedButton(
+                    style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
+                    onPressed: () {},
+                    child: Container(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      width: double.infinity,
+                      height: 52,
+                      child: Center(
+                        child: Text(
+                          "Navigate to drop site",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              fontFamily: "SFPro"),
+                        ),
+                      ),
+                    )),*/
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -451,9 +574,13 @@ class _AllBatchPageState extends State<AllBatchPage> {
             ),
             onPressed: () {
               uCompanyType == haulingCompany
-                  ? Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => QrScan()))
+                  ? Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => QrScan(
+                            projectName: widget.projectName,
+                            projectId: widget.projectId,
+                          )))
                   : _showModalBottomSheet();
+              // modelSheetForScanData();
             },
             child: Container(
               padding: EdgeInsets.only(left: 16, right: 16),
@@ -461,7 +588,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
               height: 52,
               child: Center(
                 child: Text(
-                  uCompanyType == haulingCompany ? "Scan" : "Create Batch",
+                  uCompanyType == haulingCompany ? "Scan code" : "Create Batch",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,

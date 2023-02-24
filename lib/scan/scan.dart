@@ -4,16 +4,18 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:clean_soil_flutter/constans/constans.dart';
+import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
 import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:http/http.dart' as http;
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QrScan extends StatefulWidget {
-  const QrScan({Key? key}) : super(key: key);
-
+  QrScan({required this.projectId, required this.projectName});
+  var projectId;
+  var projectName;
   @override
   State<StatefulWidget> createState() => _QrScanState();
 }
@@ -24,21 +26,32 @@ class _QrScanState extends State<QrScan> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
-  var truckBatchUrl = "batch/accept-batch-by-truck?id=63f1ef9b7fb4229b4eb0524e";
 
   dynamic data;
   Map<String, dynamic>? allBatch;
-  var Name;
+  var name;
   var userID;
   var userCompanyID;
   var role;
+  var uCompanyType;
+  getDriverUserInfo() async {
+    name = await SharedPreference.getStringValueSP(userName);
+    userID = await SharedPreference.getStringValueSP(userId);
+    role = await SharedPreference.getStringValueSP(userPosition);
+    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
 
-  truckBatch() async {
-    var map = <String, dynamic>{
-      "id": "63e7d071d21b69022bc4fa75",
-      "fullName": "Marzan",
-      "role": "Driver"
-    };
+    print("userName :::: $name");
+    print("User ID :::: $userID");
+    print("User Role :::: $role");
+    print("User Company Type :::: $uCompanyType");
+    setState(() {});
+  }
+
+  var dataFromApi;
+  Map<String, dynamic>? scanData;
+  truckBatch({required String batchID}) async {
+    var truckBatchUrl = "batch/accept-batch-by-truck?id=$batchID";
+    var map = <String, dynamic>{"_id": userID, "fullName": name, "role": role};
     print("post Map ar kaj :::$map");
     var responce = await http.post(
         Uri.parse("$baseUrl$apiVersionUrl$truckBatchUrl"),
@@ -49,10 +62,26 @@ class _QrScanState extends State<QrScan> {
     print("responce from post create${responce.body}");
     var suc = jsonDecode(responce.body)["success"];
     var message = jsonDecode(responce.body)["message"];
-    var data = jsonDecode(responce.body)["data"];
+    dataFromApi = jsonDecode(responce.body)["data"];
     print(suc);
-    print("maessageee:::$message");
+    print("dataFromApi :::  $dataFromApi");
     if (responce.statusCode == 201 && suc == true) {
+      scanData = {
+        "id": dataFromApi["_id"],
+        "createdAt": dataFromApi["created_at"],
+        "picupTime": dataFromApi["pickUpTime"]
+      };
+      print("scan data:$scanData");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AllBatchPage(
+            projectId: widget.projectId,
+            projectName: widget.projectName,
+            scanData: scanData,
+          ),
+        ),
+      );
       Fluttertoast.showToast(
           msg: "${message}",
           toastLength: Toast.LENGTH_SHORT,
@@ -65,14 +94,9 @@ class _QrScanState extends State<QrScan> {
     }
   }
 
-  var uCompanyType;
-  getUserCompanyType() async {
-    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
-  }
-
   @override
   void initState() {
-    getUserCompanyType();
+    getDriverUserInfo();
     super.initState();
   }
 
@@ -102,6 +126,15 @@ class _QrScanState extends State<QrScan> {
               fontFamily: 'SFPro'),
         ),
       ),
+      /*floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          truckBatch(batchID: "63f1ef9b7fb4229b4eb0524e");
+        },
+        child: Icon(
+          Icons.send,
+          color: Colors.black,
+        ),
+      ),*/
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
@@ -125,7 +158,7 @@ class _QrScanState extends State<QrScan> {
                         ),
                         if (result != null)
                           Text(
-                              'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                              'Barcode Type: ${describeEnum(result!.format)} \nData: ${result!.code}')
                         else
                           Text(
                             "Scan QR code to accept batch",
@@ -168,7 +201,7 @@ class _QrScanState extends State<QrScan> {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -201,6 +234,9 @@ class _QrScanState extends State<QrScan> {
       setState(() {
         result = scanData;
       });
+      print("scan idiididididi::::${result!.code}");
+      print("scan idiididididi::::${result!.code}");
+      result!.code != null ? truckBatch(batchID: result!.code!) : null;
     });
   }
 

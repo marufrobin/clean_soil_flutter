@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../constans/constans.dart';
+import '../google_map/customGoogleMaps.dart';
 // import '../google_map/google_map.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -198,85 +199,82 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 );
               }),
           floatingActionButton: widget.userCompanyType == haulingCompany
-              ? Positioned(
-                  bottom: 0,
-                  child: Column(
-                    children: [
-                      Spacer(),
+              ? Column(
+                  children: [
+                    Spacer(),
 
-                      // Navigate to pick-up site BUTTON
-                      ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(Colors.white),
-                              elevation: MaterialStatePropertyAll(0),
-                              side: MaterialStatePropertyAll(
-                                  BorderSide(width: 1, color: Colors.grey))),
-                          onPressed: () {
-                            /* Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CustomGoogleMaps(
-                                    destinationLat:
-                                        double.parse(projectSiteLocationLat),
-                                    destinationLng:
-                                        double.parse(projectSiteLocationLng),
-                                  ),
-                                ));*/
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(left: 16, right: 16),
-                            width: 320,
-                            height: 52,
-                            child: Center(
-                              child: Text(
-                                "Navigate to pick-up site",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15,
-                                    fontFamily: "SFPro"),
-                              ),
+                    // Navigate to pick-up site BUTTON
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(Colors.white),
+                            elevation: MaterialStatePropertyAll(0),
+                            side: MaterialStatePropertyAll(
+                                BorderSide(width: 1, color: Colors.grey))),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CustomGoogleMaps(
+                                  destinationLat:
+                                      double.parse(projectSiteLocationLat),
+                                  destinationLng:
+                                      double.parse(projectSiteLocationLng),
+                                ),
+                              ));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 16, right: 16),
+                          width: 320,
+                          height: 52,
+                          child: Center(
+                            child: Text(
+                              "Navigate to pick-up site",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  fontFamily: "SFPro"),
                             ),
-                          )),
-                      SizedBox(
-                        height: 16,
-                      ),
+                          ),
+                        )),
+                    SizedBox(
+                      height: 16,
+                    ),
 
-                      //Arrived at pick-up site BUTTON
-                      ElevatedButton(
-                          style: ButtonStyle(
-                              elevation: MaterialStatePropertyAll(0),
-                              side: MaterialStatePropertyAll(
-                                  BorderSide(width: 1, color: Colors.grey))),
-                          onPressed: () {
-                            /* Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CustomGoogleMaps(
-                                    destinationLat:
-                                        double.parse(processorSiteLocationLat),
-                                    destinationLng:
-                                        double.parse(processorSiteLocationLng),
-                                  ),
-                                ));*/
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(left: 16, right: 16),
-                            width: 320,
-                            height: 52,
-                            child: Center(
-                              child: Text(
-                                "Navigate to drop site",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15,
-                                    fontFamily: "SFPro"),
-                              ),
+                    //Arrived at pick-up site BUTTON
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            elevation: MaterialStatePropertyAll(0),
+                            side: MaterialStatePropertyAll(
+                                BorderSide(width: 1, color: Colors.grey))),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CustomGoogleMaps(
+                                  destinationLat:
+                                      double.parse(processorSiteLocationLat),
+                                  destinationLng:
+                                      double.parse(processorSiteLocationLng),
+                                ),
+                              ));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 16, right: 16),
+                          width: 320,
+                          height: 52,
+                          child: Center(
+                            child: Text(
+                              "Navigate to drop site",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  fontFamily: "SFPro"),
                             ),
-                          ))
-                    ],
-                  ),
+                          ),
+                        ))
+                  ],
                 )
               : null,
         ),
