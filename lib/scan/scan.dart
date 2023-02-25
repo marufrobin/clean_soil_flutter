@@ -47,7 +47,7 @@ class _QrScanState extends State<QrScan> {
     setState(() {});
   }
 
-  var dataFromApi;
+  var dataFromApiTruckDriver;
   Map<String, dynamic>? scanData;
   truckBatch({required String batchID}) async {
     var truckBatchUrl = "batch/accept-batch-by-truck?id=$batchID";
@@ -62,14 +62,14 @@ class _QrScanState extends State<QrScan> {
     print("responce from post create${responce.body}");
     var suc = jsonDecode(responce.body)["success"];
     var message = jsonDecode(responce.body)["message"];
-    dataFromApi = jsonDecode(responce.body)["data"];
+    dataFromApiTruckDriver = jsonDecode(responce.body)["data"];
     print(suc);
-    print("dataFromApi :::  $dataFromApi");
+    print("dataFromApi :::  $dataFromApiTruckDriver");
     if (responce.statusCode == 201 && suc == true) {
       scanData = {
-        "id": dataFromApi["_id"],
-        "createdAt": dataFromApi["created_at"],
-        "picupTime": dataFromApi["pickUpTime"]
+        "id": dataFromApiTruckDriver["_id"],
+        "createdAt": dataFromApiTruckDriver["created_at"],
+        "picupTime": dataFromApiTruckDriver["pickUpTime"]
       };
       print("scan data:$scanData");
       Navigator.pushReplacement(
@@ -79,6 +79,50 @@ class _QrScanState extends State<QrScan> {
             projectId: widget.projectId,
             projectName: widget.projectName,
             scanData: scanData,
+          ),
+        ),
+      );
+      Fluttertoast.showToast(
+          msg: "${message}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      setState(() {});
+    }
+  }
+
+  acceptByProcessor({required String batchID}) async {
+    var processorbatchAcceptURl = "batch/accept-batch-by-truck?id=$batchID";
+    var map = <String, dynamic>{"_id": userID, "fullName": name, "role": role};
+    print("post Map ar kaj :::$map");
+    var responce = await http.post(
+        Uri.parse("$baseUrl$apiVersionUrl$processorbatchAcceptURl"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(map));
+
+    print("responce from post create${responce.statusCode}");
+    print("responce from post create${responce.body}");
+    var suc = jsonDecode(responce.body)["success"];
+    var message = jsonDecode(responce.body)["message"];
+    dataFromApiTruckDriver = jsonDecode(responce.body)["data"];
+    print(suc);
+    print("dataFromApi :::  $dataFromApiTruckDriver");
+    if (responce.statusCode == 201 && suc == true) {
+      scanData = {
+        "id": dataFromApiTruckDriver["_id"],
+        "createdAt": dataFromApiTruckDriver["created_at"],
+        "picupTime": dataFromApiTruckDriver["pickUpTime"]
+      };
+      print("scan data:$scanData");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AllBatchPage(
+            projectId: widget.projectId,
+            projectName: widget.projectName,
           ),
         ),
       );

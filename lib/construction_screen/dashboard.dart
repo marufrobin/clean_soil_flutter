@@ -60,8 +60,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
     print("Pick up site:::::${projectSiteLocationLng}");
     processorSiteLocationLat = data[0]["processorSite"]['location']['lat'];
     processorSiteLocationLng = data[0]["processorSite"]['location']["lng"];
-    print("processorSite up site:::::${processorSiteLocationLat}");
-    print("processorSite up site:::::${processorSiteLocationLng}");
+
+    await SharedPreference.addStringToSP(
+        processorSiteLocationLat, data[0]["projectSite"]['location']['lat']);
+    await SharedPreference.addStringToSP(
+        processorSiteLocationLng, data[0]["projectSite"]['location']["lng"]);
+    await SharedPreference.addStringToSP(
+        processorSiteLat, data[0]["processorSite"]['location']['lat']);
+    await SharedPreference.addStringToSP(
+        processorSiteLng, data[0]["processorSite"]['location']["lng"]);
+    var dropsite = await SharedPreference.getStringValueSP(processorSiteLat);
+    var dropsitelng = await SharedPreference.getStringValueSP(processorSiteLng);
+    print("drop up site:::::${dropsite}");
+    print("drop up site:::::${dropsitelng}");
     return data;
   }
 

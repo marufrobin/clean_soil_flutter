@@ -11,6 +11,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../google_map/customGoogleMaps.dart';
 import '../scan/scan.dart';
 
 class AllBatchPage extends StatefulWidget {
@@ -21,11 +22,11 @@ class AllBatchPage extends StatefulWidget {
   Map? scanData;
 
   @override
-  State<AllBatchPage> createState() => _AllBatchPageState(projectId: projectId);
+  State<AllBatchPage> createState() => _AllBatchPageState();
 }
 
 class _AllBatchPageState extends State<AllBatchPage> {
-  _AllBatchPageState({required this.projectId});
+  // _AllBatchPageState({required this.projectId});
   TextEditingController approvedBy = TextEditingController();
   TextEditingController batchNo = TextEditingController();
   TextEditingController soilType = TextEditingController();
@@ -121,6 +122,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
 
   @override
   void initState() {
+    projectId = widget.projectId;
     getUserCompanyType();
     getBatch();
     widget.scanData != null
@@ -128,7 +130,17 @@ class _AllBatchPageState extends State<AllBatchPage> {
             modelSheetForScanData(context);
           })
         : null;
+    getNavOfDropSite();
     super.initState();
+  }
+
+  String? dropSiteLat;
+  String? dropSiteLng;
+
+  getNavOfDropSite() async {
+    dropSiteLat = await SharedPreference.getStringValueSP(processorSiteLat);
+    dropSiteLng = await SharedPreference.getStringValueSP(processorSiteLng);
+    print("Drop Site: $dropSiteLat,  $dropSiteLng");
   }
 
   modelSheetForScanData(BuildContext context) {
@@ -565,6 +577,115 @@ class _AllBatchPageState extends State<AllBatchPage> {
       );
     }
 
+    batchDetailsInfoModalSheet({required int index}) {
+      showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.all(10.0),
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    height: 4,
+                    width: 36,
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(4)),
+                  ),
+                ),
+                ListTile(
+                  title: Padding(
+                    padding: const EdgeInsets.only(left: 120),
+                    child: Text(
+                      "Batch details",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          fontFamily: "SFPro",
+                          color: Color(0xff212121)),
+                    ),
+                  ),
+                  trailing: IconButton(
+                      onPressed: (() {
+                        Navigator.pop(context);
+                      }),
+                      icon: Icon(
+                        Icons.close,
+                        size: 22,
+                        color: Colors.grey,
+                      )),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  child: Text(
+                    "Pick-Up: ${Jiffy(data[index]["createdAt"]).format('MMMM do yyyy, h:mm a')}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        fontFamily: "SFPro",
+                        color: Colors.grey.shade500),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  child: Text(
+                    "Drop: ${data[index]["pickUpTime"]}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        fontFamily: "SFPro",
+                        color: Colors.grey.shade500),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Spacer(),
+                ElevatedButton(
+                    style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
+                    onPressed: () {
+                      print("dropsitee ::: ${dropSiteLat} $dropSiteLng");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CustomGoogleMaps(
+                              destinationLat: double.parse(dropSiteLat!),
+                              destinationLng: double.parse(dropSiteLng!),
+                            ),
+                          ));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(left: 16, right: 16),
+                      width: double.infinity,
+                      height: 52,
+                      child: Center(
+                        child: Text(
+                          "Navigate to drop site",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              fontFamily: "SFPro"),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+          );
+        },
+      );
+    }
+
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -573,7 +694,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
               elevation: MaterialStatePropertyAll(0),
             ),
             onPressed: () {
-              uCompanyType == haulingCompany
+              uCompanyType != constructionCompany
                   ? Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => QrScan(
                             projectName: widget.projectName,
@@ -588,7 +709,9 @@ class _AllBatchPageState extends State<AllBatchPage> {
               height: 52,
               child: Center(
                 child: Text(
-                  uCompanyType == haulingCompany ? "Scan code" : "Create Batch",
+                  uCompanyType != constructionCompany
+                      ? "Scan code"
+                      : "Create Batch",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
@@ -668,87 +791,105 @@ class _AllBatchPageState extends State<AllBatchPage> {
                               ),
                               Expanded(
                                 flex: 4,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          width: 1,
-                                          color: Colors.black.withOpacity(0.2)),
-                                      borderRadius: BorderRadius.circular(8)),
-                                  elevation: 0.08,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "${data[_index]["approvedBy"]["fullName"]}",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'SFPro'),
-                                            ),
-                                            Text(
-                                              "  →•  ",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Colors.grey,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'SFPro'),
-                                            ),
-                                            Text(
-                                              "${data[_index]["approvedBy"]["role"]}",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: 'SFPro'),
-                                            ),
-                                          ],
+                                child: GestureDetector(
+                                  onTap: () {
+                                    batchDetailsInfoModalSheet(index: _index);
+                                  },
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            width: 1,
+                                            color:
+                                                Colors.black.withOpacity(0.2)),
+                                        borderRadius: BorderRadius.circular(8)),
+                                    elevation: 0.08,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "${data[_index]["approvedBy"]["fullName"]}",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily: 'SFPro'),
+                                              ),
+                                              Text(
+                                                "  →•  ",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.grey,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily: 'SFPro'),
+                                              ),
+                                              Text(
+                                                "${data[_index]["approvedBy"]["role"]}",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontFamily: 'SFPro'),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Batch:",
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Batch:",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color(0xff212121),
+                                                    fontWeight: FontWeight.w400,
+                                                    fontFamily: 'SFPro'),
+                                              ),
+                                            ),
+                                            Text(
+                                              "${data![_index]["batchNumber"]}",
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xff212121),
                                                   fontWeight: FontWeight.w400,
                                                   fontFamily: 'SFPro'),
                                             ),
-                                          ),
-                                          Text(
-                                            "${data![_index]["batchNumber"]}",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xff212121),
-                                                fontWeight: FontWeight.w400,
-                                                fontFamily: 'SFPro'),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Text(
-                                                      "Receiveed:",
+                                          ],
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        "Receiveed:",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color: Color(
+                                                                0xff212121),
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontFamily:
+                                                                'SFPro'),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "${Jiffy(data![_index]["created_at"]).format("h:mm a")}",
                                                       style: TextStyle(
                                                           fontSize: 14,
                                                           color:
@@ -757,67 +898,60 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                                               FontWeight.w400,
                                                           fontFamily: 'SFPro'),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    "${Jiffy(data![_index]["created_at"]).format("h:mm a")}",
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                                  padding: EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              3),
+                                                      color: Color(0xffEFF6FC)),
+                                                  child: Text(
+                                                    "${data![_index]["status"]}",
                                                     style: TextStyle(
                                                         fontSize: 14,
                                                         color:
-                                                            Color(0xff212121),
+                                                            Color(0xff0078D4),
                                                         fontWeight:
                                                             FontWeight.w400,
                                                         fontFamily: 'SFPro'),
                                                   ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 10),
-                                                padding: EdgeInsets.all(10),
+                                                ),
+                                              ],
+                                            ),
+                                            Spacer(),
+                                            GestureDetector(
+                                              onTap: (() {
+                                                modalSheetForQRCodeShowing();
+                                              }),
+                                              child: Container(
                                                 decoration: BoxDecoration(
+                                                    color: Color(0xffF8F8F8),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            3),
-                                                    color: Color(0xffEFF6FC)),
-                                                child: Text(
-                                                  "${data![_index]["status"]}",
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Color(0xff0078D4),
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontFamily: 'SFPro'),
+                                                            4)),
+                                                margin: EdgeInsets.all(8),
+                                                height: 80,
+                                                width: 80,
+                                                child: QrImage(
+                                                  gapless: true,
+                                                  version: QrVersions.auto,
+                                                  data:
+                                                      "${data![_index]["_id"]}",
+                                                  size: 200.0,
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                          Spacer(),
-                                          GestureDetector(
-                                            onTap: (() {
-                                              modalSheetForQRCodeShowing();
-                                            }),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: Color(0xffF8F8F8),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4)),
-                                              margin: EdgeInsets.all(8),
-                                              height: 80,
-                                              width: 80,
-                                              child: QrImage(
-                                                gapless: true,
-                                                version: QrVersions.auto,
-                                                data: "${data![_index]["_id"]}",
-                                                size: 200.0,
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
