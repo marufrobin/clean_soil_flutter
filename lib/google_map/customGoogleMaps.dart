@@ -115,13 +115,14 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
       stopSendLocation = data;
       setState(() {});
     });
-    socket.onDisconnect((_) => print('disconnect'));
-    stopSendLocation != null
-        ? null
-        : socket.emit("sendLocation", {
+    adminId != null
+        ? socket.emit("sendLocation", {
             "adminId": "${adminId}",
             "location": {"lat": "$currentLat", "lng": "$currentLng"},
-          });
+          })
+        : null;
+
+    socket.onDisconnect((_) => print('disconnect'));
   }
 
   getNavigation() async {
