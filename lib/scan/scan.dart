@@ -280,7 +280,15 @@ class _QrScanState extends State<QrScan> {
       });
       print("scan idiididididi::::${result!.code}");
       print("scan idiididididi::::${result!.code}");
-      result!.code != null ? truckBatch(batchID: result!.code!) : null;
+      if (result!.code != null) {
+        if (uCompanyType == haulingCompany) {
+          truckBatch(batchID: result!.code!);
+        }
+        if (uCompanyType == processorCompany) {
+          acceptByProcessor(batchID: result!.code!);
+        }
+      } else
+        null;
     });
   }
 

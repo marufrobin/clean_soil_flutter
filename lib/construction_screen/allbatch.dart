@@ -652,33 +652,36 @@ class _AllBatchPageState extends State<AllBatchPage> {
                   height: 15,
                 ),
                 Spacer(),
-                ElevatedButton(
-                    style: ButtonStyle(elevation: MaterialStatePropertyAll(0)),
-                    onPressed: () {
-                      print("dropsitee ::: ${dropSiteLat} $dropSiteLng");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CustomGoogleMaps(
-                              destinationLat: double.parse(dropSiteLat!),
-                              destinationLng: double.parse(dropSiteLng!),
+                uCompanyType == haulingCompany
+                    ? ElevatedButton(
+                        style:
+                            ButtonStyle(elevation: MaterialStatePropertyAll(0)),
+                        onPressed: () {
+                          print("dropsitee ::: ${dropSiteLat} $dropSiteLng");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CustomGoogleMaps(
+                                  destinationLat: double.parse(dropSiteLat!),
+                                  destinationLng: double.parse(dropSiteLng!),
+                                ),
+                              ));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 16, right: 16),
+                          width: double.infinity,
+                          height: 52,
+                          child: Center(
+                            child: Text(
+                              "Navigate to drop site",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  fontFamily: "SFPro"),
                             ),
-                          ));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(left: 16, right: 16),
-                      width: double.infinity,
-                      height: 52,
-                      child: Center(
-                        child: Text(
-                          "Navigate to drop site",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                              fontFamily: "SFPro"),
-                        ),
-                      ),
-                    )),
+                          ),
+                        ))
+                    : Text(""),
               ],
             ),
           );
