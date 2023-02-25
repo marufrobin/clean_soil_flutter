@@ -6,7 +6,12 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:location/location.dart' as loc;
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../constans/constans.dart';
+import '../model/shared_preference.dart';
 
 class CustomGoogleMaps extends StatefulWidget {
   CustomGoogleMaps({Key? key, this.destinationLat, this.destinationLng})
@@ -74,6 +79,50 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
     socket?.onConnectError((err) => print(err));
     socket?.onError((err) => print(err));
   }*/
+  var uId;
+  getUserID() async {
+    uId = await SharedPreference.getStringValueSP(userId);
+  }
+
+  void connectAndListen({var currentLat, var currentLng}) {
+    IO.Socket socket = IO.io(
+        'https://clean-soil-rest-api-z8eug.ondigitalocean.app/',
+        OptionBuilder().setTransports(['websocket']).build());
+    socket.connect();
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('socketLogin', {"userId": "63e7d071d21b69022bc4fa75"});
+      // socket.emit("startSendLocation":{});
+    });
+    var startSendingLocation;
+    var isTrackerOn;
+    var stopSendLocation;
+    var adminId;
+
+    //When an event recieved from server, data is added to the stream
+    // socket.on('event', (data) => streamSocket.addResponse);
+    socket.on('loggedIn', (data) => print("logged In ${data["message"]}"));
+    socket.on('startSendLocation', (data) {
+      print("start sending location In $data");
+      adminId = data['adminId'];
+      setState(() {});
+    });
+    socket.on('isTrackingLocationOn', (data) {
+      print("isTrackingLocationOn location In $data");
+    });
+    socket.on('stopSendLocation', (data) {
+      print("stop sending location In $data");
+      stopSendLocation = data;
+      setState(() {});
+    });
+    socket.onDisconnect((_) => print('disconnect'));
+    stopSendLocation != null
+        ? null
+        : socket.emit("sendLocation", {
+            "adminId": "${adminId}",
+            "location": {"lat": "$currentLat", "lng": "$currentLng"},
+          });
+  }
 
   getNavigation() async {
     bool serviceEnable;
@@ -122,6 +171,9 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
           });
           getDirection(LatLng(
               destinationLocation.latitude, destinationLocation.longitude));
+          connectAndListen(
+              currentLat: currentLocation.latitude,
+              currentLng: currentLocation.longitude);
           print(
               "current location:::::${LatLng(currentLocation.latitude, currentLocation.longitude)}");
           // print(
@@ -168,6 +220,7 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
     print("destination of ::::::$destinationLocation");
     addCustomMarkerIcon();
     addMarker();
+    getUserID();
     getNavigation();
     // TODO: implement initState
     super.initState();
