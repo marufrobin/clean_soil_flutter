@@ -110,8 +110,8 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
           controller
               .showMarkerInfoWindow(MarkerId(sourcePosition!.markerId.value));
           setState(() {
-            currentLocation = LatLng(currentLocations.latitude!.toDouble(),
-                currentLocations.longitude!);
+            currentLocation =
+                LatLng(currentLocations.latitude!, currentLocations.longitude!);
             sourcePosition = Marker(
               markerId: MarkerId("Source"),
               position: LatLng(
@@ -183,6 +183,7 @@ class _CustomGoogleMapsState extends State<CustomGoogleMaps> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
             await launchUrl(Uri.parse(
