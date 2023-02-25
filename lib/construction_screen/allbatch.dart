@@ -97,7 +97,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
     print("responce from post create${responce.body}");
     var suc = jsonDecode(responce.body)["success"];
     var message = jsonDecode(responce.body)["message"];
-    var data = jsonDecode(responce.body)["data"];
+    // var data = jsonDecode(responce.body)["data"];
     print(suc);
     print("maessageee:::$message");
     if (responce.statusCode == 201 && suc == true) {
@@ -136,11 +136,15 @@ class _AllBatchPageState extends State<AllBatchPage> {
 
   String? dropSiteLat;
   String? dropSiteLng;
+  String? pickUpLat;
+  String? pickUpLng;
 
   getNavOfDropSite() async {
     dropSiteLat = await SharedPreference.getStringValueSP(processorSiteLat);
     dropSiteLng = await SharedPreference.getStringValueSP(processorSiteLng);
-    print("Drop Site: $dropSiteLat,  $dropSiteLng");
+    pickUpLat = await SharedPreference.getStringValueSP(projectSiteLat);
+    pickUpLng = await SharedPreference.getStringValueSP(projectSiteLng);
+    print("pickUp Site: $pickUpLat,  $pickUpLng");
   }
 
   modelSheetForScanData(BuildContext context) {
@@ -657,15 +661,29 @@ class _AllBatchPageState extends State<AllBatchPage> {
                         style:
                             ButtonStyle(elevation: MaterialStatePropertyAll(0)),
                         onPressed: () {
-                          print("dropsitee ::: ${dropSiteLat} $dropSiteLng");
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CustomGoogleMaps(
-                                  destinationLat: double.parse(dropSiteLat!),
-                                  destinationLng: double.parse(dropSiteLng!),
-                                ),
-                              ));
+                          if (data![index]["status"].toString().toLowerCase() ==
+                              "waiting") {
+                            print("dropsitee ::: ${dropSiteLat} $dropSiteLng");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomGoogleMaps(
+                                    destinationLat: double.parse(dropSiteLat!),
+                                    destinationLng: double.parse(dropSiteLng!),
+                                  ),
+                                ));
+                          } else {
+                            print("Navigate to Pick Up site");
+                            print("PickUp site::: ${pickUpLat} $pickUpLng");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomGoogleMaps(
+                                    destinationLat: double.parse(pickUpLat!),
+                                    destinationLng: double.parse(pickUpLng!),
+                                  ),
+                                ));
+                          }
                         },
                         child: Container(
                           padding: EdgeInsets.only(left: 16, right: 16),
@@ -673,7 +691,10 @@ class _AllBatchPageState extends State<AllBatchPage> {
                           height: 52,
                           child: Center(
                             child: Text(
-                              "Navigate to drop site",
+                              data![index]["status"].toString().toLowerCase() ==
+                                      "waiting"
+                                  ? "Navigate to drop site"
+                                  : "Navigate to Pick Up site",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 15,
