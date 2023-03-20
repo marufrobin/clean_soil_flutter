@@ -17,9 +17,13 @@ import '../scan/scan.dart';
 
 class AllBatchPage extends StatefulWidget {
   AllBatchPage(
-      {required this.projectId, required this.projectName, this.scanData});
+      {required this.projectId,
+      required this.projectName,
+      this.scanData,
+      this.index});
   var projectId;
   var projectName;
+  var index;
   Map? scanData;
 
   @override
@@ -34,8 +38,8 @@ class _AllBatchPageState extends State<AllBatchPage> {
   TextEditingController materialQuantity = TextEditingController();
   TextEditingController truckNo = TextEditingController();
   TextEditingController licenceNo = TextEditingController();
-  TextEditingController prossecorCompany = TextEditingController();
-  TextEditingController haularCompany = TextEditingController();
+  /* TextEditingController prossecorCompany = TextEditingController();
+  TextEditingController haularCompany = TextEditingController();*/
   // ,Truck no,  licence no, prossecor company,  haular company
 
   final List position = [
@@ -43,17 +47,15 @@ class _AllBatchPageState extends State<AllBatchPage> {
     'driver',
   ];
   final List<String> prossecorCompanyList = [
-    'prossecor company',
-    'prossecor companyss',
-    'prossecor companyssssss',
-    'prossecor companysssssssss',
+    "robinsss",
+    "robinss",
+    "robin",
   ];
 
   final List<String> haularCompanyList = [
-    'haularCompanyList company',
-    'haularCompanyList companyss',
-    'haularCompanyList companyssssss',
-    'haularCompanyList companysssssssss',
+    "robinssssssss",
+    "robinssss",
+    "robins",
   ];
   String? selectedValue;
   String? selectedProssecorCompany;
@@ -69,6 +71,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
   var apiVersionUrl = "api/v1/";
   var getAllBatchUrl = "batch/get-batchs?";
   var createBatchUrl = "batch/create-batch";
+  var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
   var projectId;
 
   dynamic data;
@@ -77,6 +80,31 @@ class _AllBatchPageState extends State<AllBatchPage> {
   var userID;
   var userCompanyID;
   var role;
+  String? uId;
+  String? uCompanyType;
+  Future gettingCompanyList() async {
+    uId = await SharedPreference.getStringValueSP(userId);
+    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+    var DashBoardallUrl =
+        "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$uId&userCompanyType=$uCompanyType";
+
+    var responce = await http.get(
+      Uri.parse(DashBoardallUrl),
+      headers: {'Content-Type': 'application/json'},
+    );
+    var allData = jsonDecode(responce.body);
+
+    print("index number :$index");
+    print("Get the reponce ::${allData["data"][index]}");
+    allhaulerCompany = Map<String, dynamic>.from(
+        allData["data"][index]["assignedUsers"]["haulerCompany"]);
+    // List listValue = allhaulerCompany
+    print("company length :: ${allhaulerCompany!.length.toString()}");
+    haularCompanyList.add(allhaulerCompany.toString());
+    print("company name List:: $haularCompanyList");
+  }
+
+  Map<String, dynamic>? allhaulerCompany;
   Future getBatch() async {
     userID = await SharedPreference.getStringValueSP(userId);
     userCompanyID = await SharedPreference.getStringValueSP(usercompanyId);
@@ -91,7 +119,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
     );
     allBatch = Map<String, dynamic>.from(jsonDecode(responce.body));
     data = allBatch!['data'];
-    // print("data length :;;;;$data");
+    print("data length :;;;;$data");
     return data;
   }
 
@@ -105,7 +133,11 @@ class _AllBatchPageState extends State<AllBatchPage> {
         "role": "$role"
       },
       "soilType": "${soilType.text.toString()}",
-      "materialQuantity": "${materialQuantity.text.toString()}"
+      "materialQuantity": "${materialQuantity.text.toString()}",
+      "pickupAndDropedBy": {
+        "truckNo": "${truckNo.text}",
+        "licenceNo": "${licenceNo.text}"
+      },
     };
     print("post Map ar kaj :::$map");
     var responce = await http.post(
@@ -133,16 +165,17 @@ class _AllBatchPageState extends State<AllBatchPage> {
     }
   }
 
-  var uCompanyType;
   getUserCompanyType() async {
     uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
     print("company type ::::$uCompanyType");
     setState(() {});
   }
 
+  var index;
   @override
   void initState() {
     projectId = widget.projectId;
+    index = widget.index;
     getUserCompanyType();
     getBatch();
     widget.scanData != null
@@ -995,7 +1028,9 @@ class _AllBatchPageState extends State<AllBatchPage> {
           ),
           actions: [
             IconButton(
-                onPressed: (() {}),
+                onPressed: (() {
+                  gettingCompanyList();
+                }),
                 icon: Icon(
                   Icons.filter_list,
                   size: 20,

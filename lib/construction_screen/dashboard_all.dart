@@ -27,7 +27,7 @@ class _DashboardAllState extends State<DashboardAll> {
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => AllBatchPage(
-                          projectId: widget.data[0]["_id"],
+                          projectId: widget.data[index]["_id"],
                           projectName: widget.data[index]["projectName"])));
                 },
                 child: Card(

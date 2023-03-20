@@ -43,8 +43,9 @@ class _DashboardActiveState extends State<DashboardActive> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: ((context) => AllBatchPage(
-                                projectId: widget.data[0]["_id"],
+                                projectId: widget.data[index]["_id"],
                                 projectName: widget.data[index]["projectName"],
+                                index: index,
                               ))),
                     );
                   },
