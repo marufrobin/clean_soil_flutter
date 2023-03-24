@@ -53,22 +53,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     allData = Map<String, dynamic>.from(jsonDecode(responce.body));
     data = allData!["data"];
-    print("data:::$allData");
+    print("data:::$data");
     projectSiteLocationLat = data[0]["projectSite"]['location']['lat'];
     projectSiteLocationLng = data[0]["projectSite"]['location']["lng"];
     print("Pick up site:::::${projectSiteLocationLat}");
     print("Pick up site:::::${projectSiteLocationLng}");
-    processorSiteLocationLat = data[0]["processorSite"]['location']['lat'];
-    processorSiteLocationLng = data[0]["processorSite"]['location']["lng"];
+    processorSiteLocationLat =
+        data[0]["processorCompanies"][0]['location']['lat'];
+    processorSiteLocationLng =
+        data[0]["processorCompanies"][0]['location']["lng"];
 
     await SharedPreference.addStringToSP(
-        projectSiteLat, data[0]["projectSite"]['location']['lat']);
+        projectSiteLat, projectSiteLocationLat);
     await SharedPreference.addStringToSP(
-        projectSiteLng, data[0]["projectSite"]['location']["lng"]);
+        projectSiteLng, projectSiteLocationLng);
     await SharedPreference.addStringToSP(
-        processorSiteLat, data[0]["processorSite"]['location']['lat']);
+        processorSiteLat, processorSiteLocationLat);
     await SharedPreference.addStringToSP(
-        processorSiteLng, data[0]["processorSite"]['location']["lng"]);
+        processorSiteLng, processorSiteLocationLng);
     var dropsite = await SharedPreference.getStringValueSP(processorSiteLat);
     var dropsitelng = await SharedPreference.getStringValueSP(processorSiteLng);
     var pickUpSite = await SharedPreference.getStringValueSP(projectSiteLat);
@@ -131,10 +133,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 padding: const EdgeInsets.only(right: 20),
                 child: Row(
                   children: [
-                    Image.asset(
-                      'images/notification.png',
-                      height: 20,
-                      width: 22,
+                    GestureDetector(
+                      onTap: () {
+                        // print("data that passing $data");
+                        setState(() {});
+                      },
+                      child: Image.asset(
+                        'images/notification.png',
+                        height: 20,
+                        width: 22,
+                      ),
                     ),
                     PopupMenuButton(
                         // add icon, by default "3 dot" icon

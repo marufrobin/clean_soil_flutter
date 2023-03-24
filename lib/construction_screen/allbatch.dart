@@ -46,18 +46,12 @@ class _AllBatchPageState extends State<AllBatchPage> {
     'project co-ordinator',
     'driver',
   ];
-  final List<String> prossecorCompanyList = [
-    "robinsss",
-    "robinss",
-    "robin",
-  ];
+  final List<String> prossecorCompanyList = ['select None'];
 
-  final List<String> haularCompanyList = [
-    "robinssssssss",
-    "robinssss",
-    "robins",
-  ];
+  final List<String> haularCompanyList = ['select None'];
   String? selectedValue;
+  int? selectIndexValueForHaluer;
+  int? selectIndexValueForHPro;
   String? selectedProssecorCompany;
   String? selectedHaularCompanyCompany;
 
@@ -82,6 +76,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
   var role;
   String? uId;
   String? uCompanyType;
+  var allData;
   Future gettingCompanyList() async {
     uId = await SharedPreference.getStringValueSP(userId);
     uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
@@ -92,19 +87,32 @@ class _AllBatchPageState extends State<AllBatchPage> {
       Uri.parse(DashBoardallUrl),
       headers: {'Content-Type': 'application/json'},
     );
-    var allData = jsonDecode(responce.body);
+    allData = jsonDecode(responce.body);
 
     print("index number :$index");
-    print("Get the reponce ::${allData["data"][index]}");
-    allhaulerCompany = Map<String, dynamic>.from(
-        allData["data"][index]["assignedUsers"]["haulerCompany"]);
+    print("Get the reponce ::${allData["data"][index]["processorCompanies"]}");
+    allprocessorCompanies = allData["data"][index]["processorCompanies"];
+    // List listValue = allhaulerCompany
+    print("company length :: ${allprocessorCompanies!.length.toString()}");
+    for (int i = 0; i < allprocessorCompanies!.length; i++) {
+      prossecorCompanyList.add(allprocessorCompanies[i]['name']);
+      print("name of the company::${allprocessorCompanies[i]['name']} ");
+    }
+    print("company name List:: $prossecorCompanyList");
+
+    allhaulerCompany = allData["data"][index]["haulerCompanies"];
     // List listValue = allhaulerCompany
     print("company length :: ${allhaulerCompany!.length.toString()}");
-    haularCompanyList.add(allhaulerCompany.toString());
+    for (int i = 0; i < allhaulerCompany!.length; i++) {
+      haularCompanyList.add(allhaulerCompany[i]['name']);
+      print("name of the company::${allhaulerCompany[i]['name']} ");
+    }
     print("company name List:: $haularCompanyList");
   }
 
-  Map<String, dynamic>? allhaulerCompany;
+  final List<String> newList = [];
+  dynamic allhaulerCompany;
+  dynamic allprocessorCompanies;
   Future getBatch() async {
     userID = await SharedPreference.getStringValueSP(userId);
     userCompanyID = await SharedPreference.getStringValueSP(usercompanyId);
@@ -138,6 +146,28 @@ class _AllBatchPageState extends State<AllBatchPage> {
         "truckNo": "${truckNo.text}",
         "licenceNo": "${licenceNo.text}"
       },
+      "processorCompany": {
+        "location": allData["data"][index]["processorCompanies"]
+            [selectIndexValueForHPro]["location"],
+        "isAccepted": true,
+        "_id": allData["data"][index]["processorCompanies"]
+            [selectIndexValueForHPro]["_id"],
+        "name": allData["data"][index]["processorCompanies"]
+            [selectIndexValueForHPro]["name"],
+        "address": allData["data"][index]["processorCompanies"]
+            [selectIndexValueForHPro]["address"]
+      },
+      "haulerCompany": {
+        "location": allData["data"][index]["haulerCompanies"]
+            [selectIndexValueForHaluer]["location"],
+        "isAccepted": true,
+        "_id": allData["data"][index]["haulerCompanies"]
+            [selectIndexValueForHaluer]["_id"],
+        "name": allData["data"][index]["haulerCompanies"]
+            [selectIndexValueForHaluer]["name"],
+        "address": allData["data"][index]["haulerCompanies"]
+            [selectIndexValueForHaluer]["address"]
+      }
     };
     print("post Map ar kaj :::$map");
     var responce = await http.post(
@@ -177,7 +207,9 @@ class _AllBatchPageState extends State<AllBatchPage> {
     projectId = widget.projectId;
     index = widget.index;
     getUserCompanyType();
+
     getBatch();
+    gettingCompanyList();
     widget.scanData != null
         ? WidgetsBinding.instance.addPostFrameCallback((_) {
             modelSheetForScanData(context);
@@ -649,6 +681,16 @@ class _AllBatchPageState extends State<AllBatchPage> {
                               onChanged: (value) {
                                 setState(() {
                                   selectedProssecorCompany = value as String;
+                                  for (int i = 0;
+                                      i < prossecorCompanyList.length;
+                                      i++) {
+                                    if (selectedProssecorCompany ==
+                                        prossecorCompanyList[i]) {
+                                      selectIndexValueForHPro = i;
+                                      print(
+                                          "select value Iindex: $selectIndexValueForHPro");
+                                    }
+                                  }
                                 });
                               },
                               buttonStyleData: const ButtonStyleData(
@@ -708,6 +750,17 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                 setState(() {
                                   selectedHaularCompanyCompany =
                                       value as String;
+
+                                  for (int i = 0;
+                                      i < haularCompanyList.length;
+                                      i++) {
+                                    if (selectedHaularCompanyCompany ==
+                                        haularCompanyList[i]) {
+                                      selectIndexValueForHaluer = i;
+                                      print(
+                                          "select value Iindex: $selectIndexValueForHaluer");
+                                    }
+                                  }
                                 });
                               },
                               buttonStyleData: const ButtonStyleData(

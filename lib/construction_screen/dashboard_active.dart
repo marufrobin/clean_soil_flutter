@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, avoid_print
 
+import 'dart:convert';
+
 import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../constans/constans.dart';
 import '../model/shared_preference.dart';
@@ -26,9 +29,43 @@ class _DashboardActiveState extends State<DashboardActive> {
     uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
   }
 
+  var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
+  var apiVersionUrl = "api/v1/";
+  var DashBoadactiveUrl = "project/get-assigned-projects-by-user";
+
+  Map<String, dynamic>? allData;
+  dynamic? data;
+  dynamic? activeData;
+  var projectSiteLocationLat;
+  var projectSiteLocationLng;
+  var processorSiteLocationLat;
+  var processorSiteLocationLng;
+  String? uId;
+
+  Future dashBoardactive() async {
+    uId = await SharedPreference.getStringValueSP(userId);
+    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+    var DashBoardallUrl =
+        "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$uId&userCompanyType=$uCompanyType";
+
+    var responce = await http.get(
+      Uri.parse(DashBoardallUrl),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    allData = Map<String, dynamic>.from(jsonDecode(responce.body));
+    data = allData!["data"];
+    print("data:::$data");
+    return data;
+  }
+
   @override
   void initState() {
+    // data = widget.data;
+    print("Data from active: $data");
     getUserCompanyType();
+    dashBoardactive();
+
     // TODO: implement initState
     super.initState();
   }
@@ -43,8 +80,8 @@ class _DashboardActiveState extends State<DashboardActive> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                           builder: ((context) => AllBatchPage(
-                                projectId: widget.data[index]["_id"],
-                                projectName: widget.data[index]["projectName"],
+                                projectId: data[index]["_id"],
+                                projectName: data[index]["projectName"],
                                 index: index,
                               ))),
                     );
