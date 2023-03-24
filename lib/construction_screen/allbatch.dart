@@ -155,25 +155,25 @@ class _AllBatchPageState extends State<AllBatchPage> {
       },
       "processorCompany": {
         "location": allData["data"][index]["processorCompanies"]
-            [selectIndexValueForHPro]["location"],
+            [selectIndexValueForHPro! - 1]["location"],
         "isAccepted": true,
         "_id": allData["data"][index]["processorCompanies"]
-            [selectIndexValueForHPro]["_id"],
+            [selectIndexValueForHPro! - 1]["_id"],
         "name": allData["data"][index]["processorCompanies"]
-            [selectIndexValueForHPro]["name"],
+            [selectIndexValueForHPro! - 1]["name"],
         "address": allData["data"][index]["processorCompanies"]
-            [selectIndexValueForHPro]["address"]
+            [selectIndexValueForHPro! - 1]["address"]
       },
       "haulerCompany": {
         "location": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForHaluer]["location"],
+            [selectIndexValueForHaluer! - 1]["location"],
         "isAccepted": true,
         "_id": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForHaluer]["_id"],
+            [selectIndexValueForHaluer! - 1]["_id"],
         "name": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForHaluer]["name"],
+            [selectIndexValueForHaluer! - 1]["name"],
         "address": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForHaluer]["address"]
+            [selectIndexValueForHaluer! - 1]["address"]
       }
     };
     print("post Map ar kaj :::$map");
