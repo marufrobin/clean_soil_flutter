@@ -146,6 +146,13 @@ class _AllBatchPageState extends State<AllBatchPage> {
         "truckNo": "${truckNo.text}",
         "licenceNo": "${licenceNo.text}"
       },
+      "pickupSite": {
+        "siteName": allData["data"][index]["projectSite"]["siteName"],
+        "location": {
+          "lat": allData["data"][index]["projectSite"]["location"]["lat"],
+          "lng": allData["data"][index]["projectSite"]["location"]["lng"]
+        }
+      },
       "processorCompany": {
         "location": allData["data"][index]["processorCompanies"]
             [selectIndexValueForHPro]["location"],
