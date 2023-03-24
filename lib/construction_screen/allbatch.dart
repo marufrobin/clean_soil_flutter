@@ -147,11 +147,11 @@ class _AllBatchPageState extends State<AllBatchPage> {
         "licenceNo": "${licenceNo.text}"
       },
       "pickupSite": {
-        "siteName": allData["data"][index]["projectSite"]["siteName"],
         "location": {
           "lat": allData["data"][index]["projectSite"]["location"]["lat"],
           "lng": allData["data"][index]["projectSite"]["location"]["lng"]
-        }
+        },
+        "siteName": allData["data"][index]["projectSite"]["siteName"]
       },
       "processorCompany": {
         "location": allData["data"][index]["processorCompanies"]
@@ -812,7 +812,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
               }));
     }
 
-    modalSheetForQRCodeShowing() {
+    modalSheetForQRCodeShowing(String qrCodeImage) {
       showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -892,7 +892,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                         child: QrImage(
                           gapless: true,
                           version: QrVersions.auto,
-                          data: "${data![0]["batchNumber"]}",
+                          data: qrCodeImage,
                           size: 200.0,
                         ),
                       )
@@ -1276,7 +1276,8 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                             Spacer(),
                                             GestureDetector(
                                               onTap: (() {
-                                                modalSheetForQRCodeShowing();
+                                                modalSheetForQRCodeShowing(
+                                                    "${data![_index]["_id"]}");
                                               }),
                                               child: Container(
                                                 decoration: BoxDecoration(
