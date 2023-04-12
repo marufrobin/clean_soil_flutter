@@ -117,12 +117,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           appBar: AppBar(
             elevation: 0,
             toolbarHeight: 60,
+            centerTitle: false,
             title: Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Text(
                 'Projects',
                 style: TextStyle(
-                    fontSize: 30,
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
                     fontFamily: 'SFPro'),
