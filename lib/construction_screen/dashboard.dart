@@ -34,6 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Map<String, dynamic>? allData;
   dynamic? data;
   dynamic? activeData;
+  bool isFetching = false;
   var projectSiteLocationLat;
   var projectSiteLocationLng;
   var processorSiteLocationLat;
@@ -41,43 +42,51 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String? uId;
   String? uCompanyType;
   Future dashBoardactive() async {
-    uId = await SharedPreference.getStringValueSP(userId);
-    uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
-    var DashBoardallUrl =
-        "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$uId&userCompanyType=$uCompanyType";
+    try {
+      uId = await SharedPreference.getStringValueSP(userId);
+      uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+      var DashBoardallUrl =
+          "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$uId&userCompanyType=$uCompanyType";
 
-    var responce = await http.get(
-      Uri.parse(DashBoardallUrl),
-      headers: {'Content-Type': 'application/json'},
-    );
+      var responce = await http.get(
+        Uri.parse(DashBoardallUrl),
+        headers: {'Content-Type': 'application/json'},
+      );
 
-    allData = Map<String, dynamic>.from(jsonDecode(responce.body));
-    data = allData!["data"];
-    print("data:::$data");
-    projectSiteLocationLat = data[0]["projectSite"]['location']['lat'];
-    projectSiteLocationLng = data[0]["projectSite"]['location']["lng"];
-    print("Pick up site:::::${projectSiteLocationLat}");
-    print("Pick up site:::::${projectSiteLocationLng}");
-    processorSiteLocationLat =
-        data[0]["processorCompanies"][0]['location']['lat'];
-    processorSiteLocationLng =
-        data[0]["processorCompanies"][0]['location']["lng"];
+      allData = Map<String, dynamic>.from(jsonDecode(responce.body));
 
-    await SharedPreference.addStringToSP(
-        projectSiteLat, projectSiteLocationLat);
-    await SharedPreference.addStringToSP(
-        projectSiteLng, projectSiteLocationLng);
-    await SharedPreference.addStringToSP(
-        processorSiteLat, processorSiteLocationLat);
-    await SharedPreference.addStringToSP(
-        processorSiteLng, processorSiteLocationLng);
-    var dropsite = await SharedPreference.getStringValueSP(processorSiteLat);
-    var dropsitelng = await SharedPreference.getStringValueSP(processorSiteLng);
-    var pickUpSite = await SharedPreference.getStringValueSP(projectSiteLat);
-    var pickUpSitelng = await SharedPreference.getStringValueSP(projectSiteLng);
-    print("pick up site:::::${pickUpSite}");
-    print("pick up site:::::${pickUpSitelng}");
-    return data;
+      data = allData!["data"];
+      print("data:::$data");
+      projectSiteLocationLat = data[0]["projectSite"]['location']['lat'];
+      projectSiteLocationLng = data[0]["projectSite"]['location']["lng"];
+      print("Pick up site:::::${projectSiteLocationLat}");
+      print("Pick up site:::::${projectSiteLocationLng}");
+      processorSiteLocationLat =
+          data[0]["processorCompanies"][0]['location']['lat'];
+      processorSiteLocationLng =
+          data[0]["processorCompanies"][0]['location']["lng"];
+
+      await SharedPreference.addStringToSP(
+          projectSiteLat, projectSiteLocationLat);
+      await SharedPreference.addStringToSP(
+          projectSiteLng, projectSiteLocationLng);
+      await SharedPreference.addStringToSP(
+          processorSiteLat, processorSiteLocationLat);
+      await SharedPreference.addStringToSP(
+          processorSiteLng, processorSiteLocationLng);
+      var dropsite = await SharedPreference.getStringValueSP(processorSiteLat);
+      var dropsitelng =
+          await SharedPreference.getStringValueSP(processorSiteLng);
+      var pickUpSite = await SharedPreference.getStringValueSP(projectSiteLat);
+      var pickUpSitelng =
+          await SharedPreference.getStringValueSP(projectSiteLng);
+      print("pick up site:::::${pickUpSite}");
+      print("pick up site:::::${pickUpSitelng}");
+
+      return data;
+    } catch (e) {
+      print("error:::::$e");
+    }
   }
 
   Future<void> logout() async {
@@ -202,7 +211,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 } else if (snapshot.data == null) {
-                  return Text("No Data");
+                  return Container(
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          isFetching
+                              ? CircularProgressIndicator()
+                              : Container(),
+                          Icon(Icons.warning, size: 50, color: Colors.amber),
+                          SizedBox(height: 20),
+                          Text(
+                            "No project has been assigned",
+                            style: TextStyle(fontSize: 22),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                setState(() => {
+                                      isFetching = true,
+                                      dashBoardactive(),
+                                      isFetching = false
+                                    });
+                              },
+                              icon: Icon(Icons.refresh))
+                        ],
+                      ));
                 }
                 return TabBarView(
                   children: [
