@@ -13,7 +13,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../google_map/customGoogleMaps.dart';
-import '../scan/scan.dart';
+// import '../scan/scan.dart';
 
 class AllBatchPage extends StatefulWidget {
   AllBatchPage(
@@ -1041,11 +1041,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
             ),
             onPressed: () {
               uCompanyType != constructionCompany
-                  ? Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => QrScan(
-                            projectName: widget.projectName,
-                            projectId: widget.projectId,
-                          )))
+                  ? Text("Nothing")
                   : _showModalBottomSheet();
               // modelSheetForScanData();
             },

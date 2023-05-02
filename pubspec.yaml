@@ -41,7 +41,6 @@ dependencies:
   fluttertoast: ^8.2.1
   dropdown_button2: ^2.0.0
   qr_flutter: ^4.0.0
-  qr_code_scanner: ^1.0.1
   google_maps_flutter: ^2.2.3
   shared_preferences: ^2.0.17
   flutter_polyline_points: ^1.0.0

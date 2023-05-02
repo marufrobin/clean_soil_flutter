@@ -22,6 +22,15 @@
 		<string>????</string>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>NSCameraUsageDescription</key>
+        <string>Clean Soil needs to access the camera for Scan QR Scan.</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>Location needed for app use.</string>
+        <key>NSLocationAlwaysUsageDescription</key>
+        <string>Location always and when in use needed.</string>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>Location always needed for app.</string>
+
 		<key>LSRequiresIPhoneOS</key>
 		<true />
 		<key>UILaunchStoryboardName</key>
