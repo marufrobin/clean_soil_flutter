@@ -48,12 +48,12 @@ class _AllBatchPageState extends State<AllBatchPage> {
   ];
   final List<String> prossecorCompanyList = ['select None'];
 
-  final List<String> haularCompanyList = ['select None'];
+  final List<String> pickupSitesList = ['select None'];
   String? selectedValue;
-  int? selectIndexValueForHaluer;
+  int? selectIndexValueForPickupSites;
   int? selectIndexValueForHPro;
   String? selectedProssecorCompany;
-  String? selectedHaularCompanyCompany;
+  String? selectedPickupSite;
 
   final Map shippingStatus = {
     "dispatched": "images/dispatched.png",
@@ -100,19 +100,19 @@ class _AllBatchPageState extends State<AllBatchPage> {
     }
     print("company name List:: $prossecorCompanyList");
 
-    allhaulerCompany = allData["data"][index]["haulerCompanies"];
+    projectSites = allData["data"][index]["projectSites"];
     // List listValue = allhaulerCompany
-    print("company length :: ${allhaulerCompany!.length.toString()}");
-    for (int i = 0; i < allhaulerCompany!.length; i++) {
-      haularCompanyList.add(allhaulerCompany[i]['name']);
-      print("name of the company::${allhaulerCompany[i]['name']} ");
+    print("company length :: ${projectSites!.length.toString()}");
+    for (int i = 0; i < projectSites!.length; i++) {
+      pickupSitesList.add(projectSites[i]['siteName']);
+      print("name of the company::${projectSites[i]['siteName']} ");
     }
     setState(() {});
-    print("company name List:: $haularCompanyList");
+    print("company name List:: $pickupSitesList");
   }
 
   final List<String> newList = [];
-  dynamic allhaulerCompany;
+  dynamic projectSites;
   dynamic allprocessorCompanies;
   Future getBatch() async {
     userID = await SharedPreference.getStringValueSP(userId);
@@ -168,14 +168,14 @@ class _AllBatchPageState extends State<AllBatchPage> {
       },
       "haulerCompany": {
         "location": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForHaluer! - 1]["location"],
+            [selectIndexValueForPickupSites! - 1]["location"],
         "isAccepted": true,
         "_id": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForHaluer! - 1]["_id"],
+            [selectIndexValueForPickupSites! - 1]["_id"],
         "name": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForHaluer! - 1]["name"],
+            [selectIndexValueForPickupSites! - 1]["name"],
         "address": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForHaluer! - 1]["address"]
+            [selectIndexValueForPickupSites! - 1]["address"]
       }
     };
     print("post Map ar kaj :::$map");
@@ -653,6 +653,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                         SizedBox(
                           height: 10,
                         ),
+
                         //prossecor company,
                         Text(
                           "Select Prossecor Company",
@@ -723,7 +724,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                         ),
                         // haular company
                         Text(
-                          "Select Haular company",
+                          "Select pickup site",
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
@@ -743,13 +744,13 @@ class _AllBatchPageState extends State<AllBatchPage> {
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton2(
                               hint: Text(
-                                'Select haular company',
+                                'Select pickup sites',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Theme.of(context).hintColor,
                                 ),
                               ),
-                              items: haularCompanyList
+                              items: pickupSitesList
                                   .map((item) => DropdownMenuItem<String>(
                                         value: item,
                                         child: Text(
@@ -760,20 +761,19 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                         ),
                                       ))
                                   .toList(),
-                              value: selectedHaularCompanyCompany,
+                              value: selectedPickupSite,
                               onChanged: (value) {
                                 setState(() {
-                                  selectedHaularCompanyCompany =
-                                      value as String;
+                                  selectedPickupSite = value as String;
 
                                   for (int i = 0;
-                                      i < haularCompanyList.length;
+                                      i < pickupSitesList.length;
                                       i++) {
-                                    if (selectedHaularCompanyCompany ==
-                                        haularCompanyList[i]) {
-                                      selectIndexValueForHaluer = i;
+                                    if (selectedPickupSite ==
+                                        pickupSitesList[i]) {
+                                      selectIndexValueForPickupSites = i;
                                       print(
-                                          "select value Iindex: $selectIndexValueForHaluer");
+                                          "select value Iindex: $selectIndexValueForPickupSites");
                                     }
                                   }
                                 });

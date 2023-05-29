@@ -33,7 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Map<String, dynamic>? allData;
   dynamic? allProjectData;
-  dynamic? allActiveProjectData;
+  // dynamic? allActiveProjectData;
   // dynamic? activeData;
   bool isFetching = false;
   var projectSiteLocationLat;
@@ -57,20 +57,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
     allData = jsonDecode(responce.body);
 
     allProjectData = allData!["data"];
-    List data = [];
+    /*List data = [];
     data.add(allData!["data"]);
     int length = 0;
-    allActiveProjectData = data.where((status) {
-      int index = length - 1;
-      return status[index < 0 ? index = 0 : index]["status"]
-              .toString()
-              .toLowerCase() ==
-          "active";
-      /* print("this data $data");
-      return data;*/
-    }).toList();
-    print("all active project ${allActiveProjectData.runtimeType}");
+    print("what is the data ${data.length}");
+    for (int i = 0; i <= data.length; i++) {
+      print("printing i$i");
+      allActiveProjectData = data.where((status) {
+        int index = data.length;
 
+        return status[i]["status"].toString().toLowerCase() == "active";
+        */ /* print("this data $data");
+      return data;*/ /*
+      }).toList();
+
+      print("all the active project adding ${allActiveProjectData}");
+    }
+    print("all active project ${allActiveProjectData.length}");
+*/
     projectSiteLocationLat =
         allProjectData[0]["projectSites"][0]['location']['lat'];
     projectSiteLocationLng =
@@ -256,7 +260,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 return TabBarView(
                   children: [
                     DashboardActive(
-                      data: allActiveProjectData,
+                      data: allProjectData,
                     ),
                     DashboardAll(
                       data: allProjectData,
