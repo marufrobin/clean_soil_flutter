@@ -45,18 +45,19 @@ class _AccountSignInPageState extends State<AccountSignInPage> {
     var data = jsonDecode(responce.body)["data"];
     print(suc);
     if (responce.statusCode == 200 && suc == true) {
+      print("all the data in the world: ${data}");
       user.userId = data["_id"];
       user.userEmail = data["email"];
       user.userFullName = data["fullName"];
       user.comapanyType = data["userCompanyType"];
       user.companyId = data["companyId"];
       user.userPosition = data["userPosition"];
-      /* print("user id: ${user.userId}");
-      print("user email: ${user.userEmail}");
-      print("user fullName: ${user.userFullName}");
-      print("user Company type: ${user.comapanyType}");
+      print("user id: ${user.userId}\n");
+      print("user email: ${user.userEmail}\n");
+      print("user fullName: ${user.userFullName}\n");
+      print("user Company type: ${user.comapanyType}\n");
 
-      print("user position: ${user.userPosition}");*/
+      print("user position: ${user.userPosition}");
       await SharedPreference.addStringToSP(userId, user.userId);
       await SharedPreference.addStringToSP(userEmail, user.userEmail);
       await SharedPreference.addStringToSP(userName, user.userFullName);

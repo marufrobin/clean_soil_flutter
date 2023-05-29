@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:clean_soil_flutter/constans/constans.dart';
-import 'package:clean_soil_flutter/construction_screen/allbatch.dart';
 import 'package:clean_soil_flutter/model/shared_preference.dart';
 import 'package:flutter/material.dart';
 
+import 'allbatch.dart';
+
 class DashboardAll extends StatefulWidget {
-  List data;
+  var data;
   DashboardAll({super.key, required this.data});
 
   @override
@@ -25,10 +26,13 @@ class _DashboardAllState extends State<DashboardAll> {
       body: ListView.separated(
           itemBuilder: (context, index) => InkWell(
                 onTap: () {
+                  print(index);
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => AllBatchPage(
-                          projectId: widget.data[index]["_id"],
-                          projectName: widget.data[index]["projectName"])));
+                            projectId: widget.data[index]["_id"],
+                            projectName: widget.data[index]["projectName"],
+                            index: index,
+                          )));
                 },
                 child: Card(
                   elevation: 0.5,

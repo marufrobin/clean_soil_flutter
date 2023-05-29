@@ -107,6 +107,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
       haularCompanyList.add(allhaulerCompany[i]['name']);
       print("name of the company::${allhaulerCompany[i]['name']} ");
     }
+    setState(() {});
     print("company name List:: $haularCompanyList");
   }
 
@@ -126,6 +127,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
       headers: {'Content-Type': 'application/json'},
     );
     allBatch = Map<String, dynamic>.from(jsonDecode(responce.body));
+
     data = allBatch!['data'];
     print("data length :;;;;$data");
     return data;
@@ -140,18 +142,18 @@ class _AllBatchPageState extends State<AllBatchPage> {
         "fullName": "$Name",
         "role": "$role"
       },
-      "soilType": "${soilType.text.toString()}",
-      "materialQuantity": "${materialQuantity.text.toString()}",
+      "soilType": soilType.text.toString(),
+      "materialQuantity": materialQuantity.text.toString(),
       "pickupAndDropedBy": {
-        "truckNo": "${truckNo.text}",
-        "licenceNo": "${licenceNo.text}"
+        "truckNo": truckNo.text,
+        "licenceNo": licenceNo.text
       },
       "pickupSite": {
         "location": {
-          "lat": allData["data"][index]["projectSite"]["location"]["lat"],
-          "lng": allData["data"][index]["projectSite"]["location"]["lng"]
+          "lat": allData["data"][index]["projectSites"][0]["location"]["lat"],
+          "lng": allData["data"][index]["projectSites"][0]["location"]["lng"]
         },
-        "siteName": allData["data"][index]["projectSite"]["siteName"]
+        "siteName": allData["data"][index]["projectSites"][0]["siteName"]
       },
       "processorCompany": {
         "location": allData["data"][index]["processorCompanies"]
@@ -352,6 +354,12 @@ class _AllBatchPageState extends State<AllBatchPage> {
         );
       },
     );
+  }
+
+  Future getRefresh() async {
+    setState(() async {
+      await getBatch();
+    });
   }
 
   @override
@@ -786,10 +794,10 @@ class _AllBatchPageState extends State<AllBatchPage> {
                         ElevatedButton(
                             style: ButtonStyle(
                                 elevation: MaterialStatePropertyAll(0)),
-                            onPressed: () {
+                            onPressed: () async {
                               // Navigator.of(context).push(
                               //     MaterialPageRoute(builder: (context) => QrScan()));
-                              createBatch();
+                              await createBatch();
                             },
                             child: Container(
                               padding: EdgeInsets.only(left: 16, right: 16),
@@ -1085,7 +1093,10 @@ class _AllBatchPageState extends State<AllBatchPage> {
           actions: [
             IconButton(
                 onPressed: (() {
-                  gettingCompanyList();
+                  // gettingCompanyList();
+                  setState(() {
+                    getBatch();
+                  });
                 }),
                 icon: Icon(
                   Icons.filter_list,
@@ -1095,10 +1106,11 @@ class _AllBatchPageState extends State<AllBatchPage> {
           ],
         ),
         body: LiquidPullToRefresh(
-          onRefresh: getBatch,
+          onRefresh: getRefresh,
           child: FutureBuilder(
               future: getBatch(),
               builder: (context, snapshot) {
+                print(snapshot.data);
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
                     child: CircularProgressIndicator(),
