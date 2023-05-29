@@ -38,8 +38,8 @@ class _AllBatchPageState extends State<AllBatchPage> {
   TextEditingController materialQuantity = TextEditingController();
   TextEditingController truckNo = TextEditingController();
   TextEditingController licenceNo = TextEditingController();
-  /* TextEditingController prossecorCompany = TextEditingController();
-  TextEditingController haularCompany = TextEditingController();*/
+  /* TextEditingController prossecorCompany = TextEditingController();*/
+  TextEditingController haularCompany = TextEditingController();
   // ,Truck no,  licence no, prossecor company,  haular company
 
   final List position = [
@@ -150,10 +150,13 @@ class _AllBatchPageState extends State<AllBatchPage> {
       },
       "pickupSite": {
         "location": {
-          "lat": allData["data"][index]["projectSites"][0]["location"]["lat"],
-          "lng": allData["data"][index]["projectSites"][0]["location"]["lng"]
+          "lat": allData["data"][index]["projectSites"]
+              [selectIndexValueForPickupSites! - 1]["location"]["lat"],
+          "lng": allData["data"][index]["projectSites"]
+              [selectIndexValueForPickupSites! - 1]["location"]["lng"]
         },
-        "siteName": allData["data"][index]["projectSites"][0]["siteName"]
+        "siteName": allData["data"][index]["projectSites"]
+            [selectIndexValueForPickupSites! - 1]["siteName"]
       },
       "processorCompany": {
         "location": allData["data"][index]["processorCompanies"]
@@ -167,15 +170,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
             [selectIndexValueForHPro! - 1]["address"]
       },
       "haulerCompany": {
-        "location": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForPickupSites! - 1]["location"],
-        "isAccepted": true,
-        "_id": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForPickupSites! - 1]["_id"],
-        "name": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForPickupSites! - 1]["name"],
-        "address": allData["data"][index]["haulerCompanies"]
-            [selectIndexValueForPickupSites! - 1]["address"]
+        "name": haularCompany.text.toString(),
       }
     };
     print("post Map ar kaj :::$map");
@@ -432,6 +427,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                   ),
                                   TextField(
                                     controller: batchNo,
+                                    keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       hintText: "786",
                                       hintStyle: TextStyle(
@@ -458,7 +454,14 @@ class _AllBatchPageState extends State<AllBatchPage> {
                             ),
                             Expanded(
                                 child: Container(
-                              child: Column(
+                              child: Text(
+                                "Approved by \n$Name",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: "SFPro"),
+                              ),
+                              /*child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
@@ -491,7 +494,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                     ),
                                   ),
                                 ],
-                              ),
+                              ),*/
                             )),
                           ],
                         ),
@@ -653,7 +656,39 @@ class _AllBatchPageState extends State<AllBatchPage> {
                         SizedBox(
                           height: 10,
                         ),
-
+                        Text(
+                          "Select hauler Company",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              fontFamily: "SFPro",
+                              color: Color(0xff212121)),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextField(
+                          controller: haularCompany,
+                          decoration: InputDecoration(
+                            filled: true,
+                            labelStyle: TextStyle(color: Colors.black),
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xffE1E1E1)),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            hintText: "Hauler company",
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              fontFamily: "SFPro",
+                              color: Color(0xffACACAC),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         //prossecor company,
                         Text(
                           "Select Prossecor Company",

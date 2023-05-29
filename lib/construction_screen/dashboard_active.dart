@@ -90,13 +90,6 @@ class _DashboardActiveState extends State<DashboardActive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // dashBoardactive();
-          print(allActiveProjectData[0]["projectName"]);
-          print(allActiveProjectData[1]["projectName"]);
-        },
-      ),
       body: Center(
           child: FutureBuilder(
               future: dashBoardactive(),
@@ -136,9 +129,9 @@ class _DashboardActiveState extends State<DashboardActive> {
                               MaterialPageRoute(
                                   builder: ((context) => AllBatchPage(
                                         projectId: allActiveProjectData[index]
-                                            [index]["_id"],
+                                            ["_id"],
                                         projectName: allActiveProjectData[index]
-                                            [index]["projectName"],
+                                            ["projectName"],
                                         index: index,
                                       ))),
                             );
