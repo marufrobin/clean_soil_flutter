@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -9,8 +10,11 @@ import 'package:http/http.dart' as http;
 import 'account_signIn.dart';
 
 class EmailVafication extends StatefulWidget {
-  EmailVafication({Key? key, this.emailFFF}) : super(key: key);
+  EmailVafication({Key? key, this.emailFFF, this.fullName, this.password})
+      : super(key: key);
   var emailFFF;
+  var fullName;
+  var password;
 
   @override
   State<EmailVafication> createState() => _EmailVaficationState();
@@ -29,6 +33,16 @@ class _EmailVaficationState extends State<EmailVafication> {
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(bodyMap),
     );
+    if (responce.statusCode == 200) {
+      Fluttertoast.showToast(
+          msg: "Code send Successfully",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.blueAccent,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
     print("verification code send api hiiititiitit:: ${responce.body}");
   }
 
@@ -43,6 +57,66 @@ class _EmailVaficationState extends State<EmailVafication> {
   @override
   Widget build(BuildContext context) {
     TextEditingController verificationController = TextEditingController();
+    signUpUser() async {
+      if (kDebugMode) {
+        print("email:: ${widget.emailFFF}");
+        print("Full name:: ${widget.fullName}");
+        print("Password:: ${widget.password}");
+      }
+
+      String signUpUrl = "auth/user/register";
+      Map bodyMap = Map<String, dynamic>();
+      bodyMap["email"] = widget.emailFFF;
+      bodyMap["fullName"] = widget.fullName;
+      bodyMap["password"] = widget.password;
+      var responce = await http.post(
+        Uri.parse("$baseUrl$apiVersionUrl$signUpUrl"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(bodyMap),
+      );
+      print("response status code: ${responce.statusCode}");
+      if (responce.statusCode == 200) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AccountSignInPage(),
+            ),
+            (route) => false);
+        Fluttertoast.showToast(
+            msg: "Sign Up complete",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.blueAccent,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else if (responce.statusCode == 201) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AccountSignInPage(),
+            ),
+            (route) => false);
+        Fluttertoast.showToast(
+            msg: "Sign Up complete",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.blueAccent,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Sign Up Problem try again",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.blueAccent,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+      print("verification code send api hiiititiitit:: ${responce.body}");
+    }
 
     adminVerifyCode() async {
       var adminVerCodeUrl = "auth/user/verify-code";
@@ -60,12 +134,7 @@ class _EmailVaficationState extends State<EmailVafication> {
       var suc = jsonDecode(responce.body)["success"];
       print(suc);
       if (responce.statusCode == 200) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AccountSignInPage(),
-            ),
-            (route) => false);
+        await signUpUser();
         Fluttertoast.showToast(
             msg: "Code Verfied Successfully",
             toastLength: Toast.LENGTH_SHORT,

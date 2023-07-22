@@ -273,6 +273,8 @@ class _AccountSignUpPageState extends State<AccountSignUpPage> {
                               MaterialPageRoute(
                                 builder: (context) => EmailVafication(
                                   emailFFF: emailController.text,
+                                  fullName: nameController.text,
+                                  password: passwordController.text,
                                 ),
                               ));
                         }
