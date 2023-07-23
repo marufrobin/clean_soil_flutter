@@ -100,7 +100,8 @@ class _DashboardActiveState extends State<DashboardActive> {
                   );
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
-                } else if (snapshot.data == null) {
+                } else if (snapshot.data == null ||
+                    allActiveProjectData.isEmpty) {
                   return Container(
                       width: double.infinity,
                       child: Column(
