@@ -356,7 +356,18 @@ class _AllBatchPageState extends State<AllBatchPage> {
 
   Future getRefresh() async {
     setState(() async {
+      getUserCompanyType();
+      prossecorCompanyList.clear();
+      pickupSitesList.clear();
+      dropSitesList.clear();
       await getBatch();
+      gettingCompanyList();
+      widget.scanData != null
+          ? WidgetsBinding.instance.addPostFrameCallback((_) {
+              modelSheetForScanData(context);
+            })
+          : null;
+      getNavOfDropSite();
     });
   }
 
@@ -372,553 +383,576 @@ class _AllBatchPageState extends State<AllBatchPage> {
           builder: (BuildContext context) => StatefulBuilder(
                   builder: (BuildContext context, StateSetter setState) {
                 return Container(
-                  padding: EdgeInsets.all(10.0),
                   height: MediaQuery.of(context).size.height * 0.86,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Container(
-                            height: 4,
-                            width: 36,
-                            decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(4)),
+                  child: Scaffold(
+                    appBar: AppBar(
+                      surfaceTintColor: Colors.transparent,
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      leading: Container(),
+                      title: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Container(
+                              height: 4,
+                              width: 36,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(4)),
+                            ),
                           ),
-                        ),
-                        ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.only(left: 120),
-                            child: Text(
-                              "Create Batch",
+                          SizedBox(height: 16),
+                          Text(
+                            "Create Batch",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                fontFamily: "SFPro",
+                                color: Color(0xff212121)),
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        IconButton(
+                            onPressed: (() {
+                              Navigator.pop(context);
+                            }),
+                            icon: Icon(
+                              Icons.close,
+                              size: 22,
+                              color: Colors.grey,
+                            )),
+                      ],
+                    ),
+                    body: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      //Batch No
+                                      Text(
+                                        "Batch no",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontFamily: "SFPro",
+                                            color: Color(0xff212121)),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      TextField(
+                                        controller: batchNo,
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          hintText: "786",
+                                          hintStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontFamily: "SFPro",
+                                            color: Color(0xffACACAC),
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xffE1E1E1)),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Expanded(
+                                    child: Container(
+                                  child: Text(
+                                    "Approved by \n$Name",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        fontFamily: "SFPro"),
+                                  ),
+                                  /*child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Approved by",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontFamily: "SFPro"),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      TextField(
+                                        decoration: InputDecoration(
+                                          hintText: "Maruf",
+                                          hintStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontFamily: "SFPro",
+                                            color: Color(0xffACACAC),
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xffE1E1E1)),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),*/
+                                )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            //soil type
+                            Text(
+                              "Soil type",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w500,
                                   fontSize: 14,
                                   fontFamily: "SFPro",
                                   color: Color(0xff212121)),
                             ),
-                          ),
-                          trailing: IconButton(
-                              onPressed: (() {
-                                Navigator.pop(context);
-                              }),
-                              icon: Icon(
-                                Icons.close,
-                                size: 22,
-                                color: Colors.grey,
-                              )),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //Batch No
-                                  Text(
-                                    "Batch no",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        fontFamily: "SFPro",
-                                        color: Color(0xff212121)),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextField(
-                                    controller: batchNo,
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      hintText: "786",
-                                      hintStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        fontFamily: "SFPro",
-                                        color: Color(0xffACACAC),
-                                      ),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xffE1E1E1)),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
                             SizedBox(
-                              width: 8,
+                              height: 10,
                             ),
-                            Expanded(
-                                child: Container(
-                              child: Text(
-                                "Approved by \n$Name",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    fontFamily: "SFPro"),
+                            TextField(
+                              controller: soilType,
+                              decoration: InputDecoration(
+                                hintText: "Just Soil",
+                                filled: true,
+                                hintStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xffACACAC),
+                                ),
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xffE1E1E1)),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
                               ),
-                              /*child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Approved by",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        fontFamily: "SFPro"),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextField(
-                                    decoration: InputDecoration(
-                                      hintText: "Maruf",
-                                      hintStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        fontFamily: "SFPro",
-                                        color: Color(0xffACACAC),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            //Material quantity
+                            Text(
+                              "Material quantity",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xff212121)),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextField(
+                              controller: materialQuantity,
+                              decoration: InputDecoration(
+                                filled: true,
+                                labelStyle: TextStyle(color: Colors.black),
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xffE1E1E1)),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                hintText: "Material quantity",
+                                hintStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xffACACAC),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      //Truck No
+                                      Text(
+                                        "Truck No",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontFamily: "SFPro",
+                                            color: Color(0xff212121)),
                                       ),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xffE1E1E1)),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
+                                      SizedBox(
+                                        height: 10,
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ),*/
-                            )),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        //soil type
-                        Text(
-                          "Soil type",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "SFPro",
-                              color: Color(0xff212121)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextField(
-                          controller: soilType,
-                          decoration: InputDecoration(
-                            hintText: "Just Soil",
-                            filled: true,
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "SFPro",
-                              color: Color(0xffACACAC),
-                            ),
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xffE1E1E1)),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        //Material quantity
-                        Text(
-                          "Material quantity",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "SFPro",
-                              color: Color(0xff212121)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextField(
-                          controller: materialQuantity,
-                          decoration: InputDecoration(
-                            filled: true,
-                            labelStyle: TextStyle(color: Colors.black),
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xffE1E1E1)),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            hintText: "Material quantity",
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "SFPro",
-                              color: Color(0xffACACAC),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //Truck No
-                                  Text(
-                                    "Truck No",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        fontFamily: "SFPro",
-                                        color: Color(0xff212121)),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
 //Truck No
-                                  TextField(
-                                    controller: truckNo,
-                                    decoration: InputDecoration(
-                                      hintText: "78",
-                                      hintStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        fontFamily: "SFPro",
-                                        color: Color(0xffACACAC),
+                                      TextField(
+                                        controller: truckNo,
+                                        decoration: InputDecoration(
+                                          hintText: "78",
+                                          hintStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontFamily: "SFPro",
+                                            color: Color(0xffACACAC),
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xffE1E1E1)),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
                                       ),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xffE1E1E1)),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                    ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            )),
-                            SizedBox(
-                              width: 8,
+                                )),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Expanded(
+                                    child: Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "licence No",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontFamily: "SFPro"),
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      TextField(
+                                        decoration: InputDecoration(
+                                          hintText: "eb07",
+                                          hintStyle: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            fontFamily: "SFPro",
+                                            color: Color(0xffACACAC),
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xffE1E1E1)),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                              ],
                             ),
-                            Expanded(
-                                child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "licence No",
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Select hauler Company",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xff212121)),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextField(
+                              controller: haularCompany,
+                              decoration: InputDecoration(
+                                filled: true,
+                                labelStyle: TextStyle(color: Colors.black),
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Color(0xffE1E1E1)),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                hintText: "Hauler company",
+                                hintStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xffACACAC),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            //prossecor company,
+                            Text(
+                              "Select Prossecor Company",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xff212121)),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: double.infinity,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton2(
+                                  hint: Text(
+                                    'Select Item',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        fontFamily: "SFPro"),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextField(
-                                    decoration: InputDecoration(
-                                      hintText: "eb07",
-                                      hintStyle: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                        fontFamily: "SFPro",
-                                        color: Color(0xffACACAC),
-                                      ),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xffE1E1E1)),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
+                                      fontSize: 14,
+                                      color: Theme.of(context).hintColor,
                                     ),
                                   ),
-                                ],
+                                  items: prossecorCompanyList
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
+                                      .toList(),
+                                  value: selectedProssecorCompany,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedProssecorCompany =
+                                          value as String;
+                                      for (int i = 0;
+                                          i < prossecorCompanyList.length;
+                                          i++) {
+                                        if (selectedProssecorCompany ==
+                                            prossecorCompanyList[i]) {
+                                          selectIndexValueForHPro = i;
+                                          print(
+                                              "select value Index: $selectIndexValueForHPro");
+                                        }
+                                      }
+                                    });
+                                  },
+                                  buttonStyleData: const ButtonStyleData(
+                                    height: 40,
+                                    width: 140,
+                                  ),
+                                  menuItemStyleData: const MenuItemStyleData(
+                                    height: 40,
+                                  ),
+                                ),
                               ),
-                            )),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // haular company
+                            Text(
+                              "Select pickup site",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xff212121)),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: double.infinity,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton2(
+                                  hint: Text(
+                                    'Select pickup sites',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                                  ),
+                                  items: pickupSitesList
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
+                                      .toList(),
+                                  value: selectedPickupSite,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedPickupSite = value as String;
+
+                                      for (int i = 0;
+                                          i < pickupSitesList.length;
+                                          i++) {
+                                        if (selectedPickupSite ==
+                                            pickupSitesList[i]) {
+                                          selectIndexValueForPickupSites = i;
+                                          print(
+                                              "select value Iindex: $selectIndexValueForPickupSites");
+                                        }
+                                      }
+                                    });
+                                  },
+                                  buttonStyleData: const ButtonStyleData(
+                                    height: 40,
+                                    width: 140,
+                                  ),
+                                  menuItemStyleData: const MenuItemStyleData(
+                                    height: 40,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Select Drop site",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  fontFamily: "SFPro",
+                                  color: Color(0xff212121)),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(10)),
+                              width: double.infinity,
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton2(
+                                  hint: Text(
+                                    'Select Drop sites',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Theme.of(context).hintColor,
+                                    ),
+                                  ),
+                                  items: dropSitesList
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ))
+                                      .toList(),
+                                  value: selectedDropSite,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDropSite = value as String;
+
+                                      for (int i = 0;
+                                          i < dropSitesList.length;
+                                          i++) {
+                                        if (selectedDropSite ==
+                                            dropSitesList[i]) {
+                                          selectIndexValueForDropSites = i;
+                                          print(
+                                              "select value Iindex: $selectIndexValueForDropSites");
+                                        }
+                                      }
+                                    });
+                                  },
+                                  buttonStyleData: const ButtonStyleData(
+                                    height: 40,
+                                    width: 140,
+                                  ),
+                                  menuItemStyleData: const MenuItemStyleData(
+                                    height: 40,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            ElevatedButton(
+                                style: ButtonStyle(
+                                    elevation: MaterialStatePropertyAll(0)),
+                                onPressed: () async {
+                                  // Navigator.of(context).push(
+                                  //     MaterialPageRoute(builder: (context) => QrScan()));
+                                  await createBatch();
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 16, right: 16),
+                                  width: double.infinity,
+                                  height: 52,
+                                  child: Center(
+                                    child: Text(
+                                      "Create Batch",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15,
+                                          fontFamily: "SFPro"),
+                                    ),
+                                  ),
+                                )),
                           ],
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Select hauler Company",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "SFPro",
-                              color: Color(0xff212121)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextField(
-                          controller: haularCompany,
-                          decoration: InputDecoration(
-                            filled: true,
-                            labelStyle: TextStyle(color: Colors.black),
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xffE1E1E1)),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            hintText: "Hauler company",
-                            hintStyle: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "SFPro",
-                              color: Color(0xffACACAC),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        //prossecor company,
-                        Text(
-                          "Select Prossecor Company",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "SFPro",
-                              color: Color(0xff212121)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          height: 60,
-                          decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(10)),
-                          width: double.infinity,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2(
-                              hint: Text(
-                                'Select Item',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Theme.of(context).hintColor,
-                                ),
-                              ),
-                              items: prossecorCompanyList
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: selectedProssecorCompany,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedProssecorCompany = value as String;
-                                  for (int i = 0;
-                                      i < prossecorCompanyList.length;
-                                      i++) {
-                                    if (selectedProssecorCompany ==
-                                        prossecorCompanyList[i]) {
-                                      selectIndexValueForHPro = i;
-                                      print(
-                                          "select value Iindex: $selectIndexValueForHPro");
-                                    }
-                                  }
-                                });
-                              },
-                              buttonStyleData: const ButtonStyleData(
-                                height: 40,
-                                width: 140,
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        // haular company
-                        Text(
-                          "Select pickup site",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "SFPro",
-                              color: Color(0xff212121)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          height: 60,
-                          decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(10)),
-                          width: double.infinity,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2(
-                              hint: Text(
-                                'Select pickup sites',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Theme.of(context).hintColor,
-                                ),
-                              ),
-                              items: pickupSitesList
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: selectedPickupSite,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedPickupSite = value as String;
-
-                                  for (int i = 0;
-                                      i < pickupSitesList.length;
-                                      i++) {
-                                    if (selectedPickupSite ==
-                                        pickupSitesList[i]) {
-                                      selectIndexValueForPickupSites = i;
-                                      print(
-                                          "select value Iindex: $selectIndexValueForPickupSites");
-                                    }
-                                  }
-                                });
-                              },
-                              buttonStyleData: const ButtonStyleData(
-                                height: 40,
-                                width: 140,
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Select Drop site",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              fontFamily: "SFPro",
-                              color: Color(0xff212121)),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          height: 60,
-                          decoration: BoxDecoration(
-                              border: Border.all(),
-                              borderRadius: BorderRadius.circular(10)),
-                          width: double.infinity,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2(
-                              hint: Text(
-                                'Select Drop sites',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Theme.of(context).hintColor,
-                                ),
-                              ),
-                              items: dropSitesList
-                                  .map((item) => DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ))
-                                  .toList(),
-                              value: selectedDropSite,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedDropSite = value as String;
-
-                                  for (int i = 0;
-                                      i < dropSitesList.length;
-                                      i++) {
-                                    if (selectedDropSite == dropSitesList[i]) {
-                                      selectIndexValueForDropSites = i;
-                                      print(
-                                          "select value Iindex: $selectIndexValueForDropSites");
-                                    }
-                                  }
-                                });
-                              },
-                              buttonStyleData: const ButtonStyleData(
-                                height: 40,
-                                width: 140,
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                elevation: MaterialStatePropertyAll(0)),
-                            onPressed: () async {
-                              // Navigator.of(context).push(
-                              //     MaterialPageRoute(builder: (context) => QrScan()));
-                              await createBatch();
-                            },
-                            child: Container(
-                              padding: EdgeInsets.only(left: 16, right: 16),
-                              width: double.infinity,
-                              height: 52,
-                              child: Center(
-                                child: Text(
-                                  "Create Batch",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15,
-                                      fontFamily: "SFPro"),
-                                ),
-                              ),
-                            )),
-                      ],
+                      ),
                     ),
                   ),
                 );
