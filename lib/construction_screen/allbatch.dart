@@ -83,14 +83,16 @@ class _AllBatchPageState extends State<AllBatchPage> {
   Future gettingCompanyList() async {
     uId = await SharedPreference.getStringValueSP(userId);
     uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
+
     var DashBoardallUrl =
         "$baseUrl$apiVersionUrl$DashBoadactiveUrl?userId=$uId&userCompanyType=$uCompanyType";
-
+    print("DashBoard URL::::: $DashBoardallUrl");
     var responce = await http.get(
       Uri.parse(DashBoardallUrl),
       headers: {'Content-Type': 'application/json'},
     );
     allData = jsonDecode(responce.body);
+    print("Get the All the ::${allData}");
 
     print("index number :$index");
     print("Get the reponce ::${allData["data"][index]["processorCompanies"]}");
@@ -360,6 +362,10 @@ class _AllBatchPageState extends State<AllBatchPage> {
       prossecorCompanyList.clear();
       pickupSitesList.clear();
       dropSitesList.clear();
+      prossecorCompanyList.add('select None');
+
+      pickupSitesList.add('select None');
+      dropSitesList.add('select None');
       await getBatch();
       gettingCompanyList();
       widget.scanData != null
@@ -1234,7 +1240,8 @@ class _AllBatchPageState extends State<AllBatchPage> {
                 onPressed: (() {
                   // gettingCompanyList();
                   setState(() {
-                    getBatch();
+                    // getBatch();
+                    gettingCompanyList();
                   });
                 }),
                 icon: Icon(
