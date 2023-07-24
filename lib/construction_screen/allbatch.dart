@@ -168,8 +168,22 @@ class _AllBatchPageState extends State<AllBatchPage> {
           "lng": allData["data"][index]["projectSites"]
               [selectIndexValueForPickupSites! - 1]["location"]["lng"]
         },
+        "address": allData["data"][index]["projectSites"]
+            [selectIndexValueForPickupSites! - 1]["address"],
         "siteName": allData["data"][index]["projectSites"]
             [selectIndexValueForPickupSites! - 1]["siteName"]
+      },
+      "dropOffSite": {
+        "siteName": allData["data"][index]["dropOffSites"]
+            [selectIndexValueForDropSites! - 1]["siteName"],
+        "address": allData["data"][index]["dropOffSites"]
+            [selectIndexValueForDropSites! - 1]["address"],
+        "location": {
+          "lat": allData["data"][index]["dropOffSites"]
+              [selectIndexValueForDropSites! - 1]["location"]["lat"],
+          "lng": allData["data"][index]["dropOffSites"]
+              [selectIndexValueForDropSites! - 1]["location"]["lng"]
+        }
       },
       "processorCompany": {
         "location": allData["data"][index]["processorCompanies"]
@@ -923,7 +937,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                             dropSitesList[i]) {
                                           selectIndexValueForDropSites = i;
                                           print(
-                                              "select value Iindex: $selectIndexValueForDropSites");
+                                              "select value from drop site: $selectIndexValueForDropSites");
                                         }
                                       }
                                     });
