@@ -112,12 +112,20 @@ class _AllBatchPageState extends State<AllBatchPage> {
       pickupSitesList.add(projectSites[i]['siteName']);
       print("name of the company::${projectSites[i]['siteName']} ");
     }
+    dropOffSites = allData["data"][index]["dropOffSites"];
+    // List listValue = allhaulerCompany
+    print("company length :: ${dropOffSites!.length.toString()}");
+    for (int i = 0; i < dropOffSites!.length; i++) {
+      dropSitesList.add(dropOffSites[i]['siteName']);
+      print("name of the company::${dropOffSites[i]['siteName']} ");
+    }
     setState(() {});
     print("company name List:: $pickupSitesList");
   }
 
   final List<String> newList = [];
   dynamic projectSites;
+  dynamic dropOffSites;
   dynamic allprocessorCompanies;
   Future getBatch() async {
     userID = await SharedPreference.getStringValueSP(userId);
