@@ -49,11 +49,14 @@ class _AllBatchPageState extends State<AllBatchPage> {
   final List<String> prossecorCompanyList = ['select None'];
 
   final List<String> pickupSitesList = ['select None'];
+  final List<String> dropSitesList = ['select None'];
   String? selectedValue;
   int? selectIndexValueForPickupSites;
+  int? selectIndexValueForDropSites;
   int? selectIndexValueForHPro;
   String? selectedProssecorCompany;
   String? selectedPickupSite;
+  String? selectedDropSite;
 
   final Map shippingStatus = {
     "dispatched": "images/dispatched.png",
@@ -809,6 +812,73 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                       selectIndexValueForPickupSites = i;
                                       print(
                                           "select value Iindex: $selectIndexValueForPickupSites");
+                                    }
+                                  }
+                                });
+                              },
+                              buttonStyleData: const ButtonStyleData(
+                                height: 40,
+                                width: 140,
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Select Drop site",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              fontFamily: "SFPro",
+                              color: Color(0xff212121)),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          height: 60,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              borderRadius: BorderRadius.circular(10)),
+                          width: double.infinity,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              hint: Text(
+                                'Select Drop sites',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(context).hintColor,
+                                ),
+                              ),
+                              items: dropSitesList
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                              value: selectedDropSite,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedDropSite = value as String;
+
+                                  for (int i = 0;
+                                      i < dropSitesList.length;
+                                      i++) {
+                                    if (selectedDropSite == dropSitesList[i]) {
+                                      selectIndexValueForDropSites = i;
+                                      print(
+                                          "select value Iindex: $selectIndexValueForDropSites");
                                     }
                                   }
                                 });
