@@ -1,10 +1,17 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:clean_soil_flutter/construction_screen/dashboard.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 // import 'package:google_maps_demo/customHTTP.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../constans/constans.dart';
+import '../model/shared_preference.dart';
 
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
@@ -14,6 +21,60 @@ class QRViewExample extends StatefulWidget {
 }
 
 class _QRViewExampleState extends State<QRViewExample> {
+  var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
+  var apiVersionUrl = "api/v1/";
+
+  acceptBatchByScan(String batchId) async {
+    var acceptByProccessor = "batch/accept-batch-by-processor?id=$batchId";
+
+    String processorUserId = await SharedPreference.getStringValueSP(userId);
+    String processorUserName =
+        await SharedPreference.getStringValueSP(userName);
+    String processorUserPosition =
+        await SharedPreference.getStringValueSP(userPosition);
+    String processorUserCompanyType =
+        await SharedPreference.getStringValueSP(userCompanyType);
+    Map<String, dynamic> bodyMap = {
+      "_id": processorUserId,
+      "fullName": processorUserName,
+      "role": processorUserPosition
+    };
+    var response = await http.post(
+        Uri.parse("$baseUrl$apiVersionUrl$acceptByProccessor"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(bodyMap));
+    print("printinnnngnng mapppppppp: $bodyMap");
+    print("Resspoceeeeeeeeeeeeee from api:::${response.body}");
+    var suc = jsonDecode(response.body)["success"];
+    var data = jsonDecode(response.body)["data"];
+    print(suc);
+    if (response.statusCode == 201 && suc == true) {
+      Fluttertoast.showToast(
+          msg: "${jsonDecode(response.body)["message"]}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) =>
+                DashboardScreen(userCompanyType: processorUserCompanyType),
+          ),
+          (route) => false);
+    } else {
+      Fluttertoast.showToast(
+          msg: "${jsonDecode(response.body)["message"]}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState

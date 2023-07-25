@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       //home: OnboardingScreen(),
 
       // home: DashboardScreen(userCompanyType: haulingCompany),
-      home: NavigateToQRPage(),
+      home: AccountSignInPage(),
     );
   }
 }

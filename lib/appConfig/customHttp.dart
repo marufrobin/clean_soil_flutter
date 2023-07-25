@@ -5,10 +5,7 @@
 //
 // print(await http.read(Uri.https('example.com', 'foobar.txt')));
 
-class CustomHttp {
-  var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
-  var apiVersionUrl = "api/v1/";
-}
+class CustomHttp {}
 
 // "companyType": "construction",
 // "companyName": "cleansoil",

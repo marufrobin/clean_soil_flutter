@@ -1216,7 +1216,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
             ),
             onPressed: () {
               uCompanyType != constructionCompany
-                  ? Text("Nothing")
+                  ? print("Nothing")
                   : _showModalBottomSheet();
               // modelSheetForScanData();
             },
@@ -1333,33 +1333,35 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "${data[_index]["approvedBy"]["fullName"]}",
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily: 'SFPro'),
-                                              ),
-                                              Text(
-                                                "  →•  ",
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily: 'SFPro'),
-                                              ),
-                                              Text(
-                                                "${data[_index]["approvedBy"]["role"]}",
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontFamily: 'SFPro'),
-                                              ),
-                                            ],
+                                          child: FittedBox(
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "${data[_index]["approvedBy"]["fullName"]}",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w600,
+                                                      fontFamily: 'SFPro'),
+                                                ),
+                                                Text(
+                                                  "  →•  ",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.grey,
+                                                      fontWeight: FontWeight.w600,
+                                                      fontFamily: 'SFPro'),
+                                                ),
+                                                Text(
+                                                  "${data[_index]["approvedBy"]["role"]}",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w600,
+                                                      fontFamily: 'SFPro'),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                         Row(
