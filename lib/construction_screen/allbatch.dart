@@ -80,7 +80,11 @@ class _AllBatchPageState extends State<AllBatchPage> {
   String? uId;
   String? uCompanyType;
   var allData;
+  bool isLoading = false;
   Future gettingCompanyList() async {
+    setState(() {
+      isLoading = true;
+    });
     uId = await SharedPreference.getStringValueSP(userId);
     uCompanyType = await SharedPreference.getStringValueSP(userCompanyType);
 
@@ -119,7 +123,9 @@ class _AllBatchPageState extends State<AllBatchPage> {
       dropSitesList.add(dropOffSites[i]['siteName']);
       print("name of the company::${dropOffSites[i]['siteName']} ");
     }
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
     print("company name List:: $pickupSitesList");
   }
 
@@ -142,6 +148,7 @@ class _AllBatchPageState extends State<AllBatchPage> {
     allBatch = Map<String, dynamic>.from(jsonDecode(responce.body));
 
     data = allBatch!['data'];
+    // setState(() {});
     print("data length :;;;;$data");
     return data;
   }
@@ -1266,11 +1273,19 @@ class _AllBatchPageState extends State<AllBatchPage> {
                     gettingCompanyList();
                   });
                 }),
-                icon: Icon(
-                  Icons.filter_list,
-                  size: 20,
-                  color: Colors.white,
-                ))
+                icon: isLoading
+                    ? Container(
+                        height: 16,
+                        width: 16,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ))
+                    : Icon(
+                        Icons.refresh_rounded,
+                        size: 20,
+                        color: Colors.white,
+                      ))
           ],
         ),
         body: LiquidPullToRefresh(
@@ -1341,7 +1356,8 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       color: Colors.black,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       fontFamily: 'SFPro'),
                                                 ),
                                                 Text(
@@ -1349,7 +1365,8 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                                   style: TextStyle(
                                                       fontSize: 18,
                                                       color: Colors.grey,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       fontFamily: 'SFPro'),
                                                 ),
                                                 Text(
@@ -1357,7 +1374,8 @@ class _AllBatchPageState extends State<AllBatchPage> {
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       color: Colors.black,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                       fontFamily: 'SFPro'),
                                                 ),
                                               ],
