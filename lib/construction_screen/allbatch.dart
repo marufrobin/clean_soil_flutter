@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:clean_soil_flutter/constans/constans.dart';
 import 'package:clean_soil_flutter/model/shared_preference.dart';
+import 'package:clean_soil_flutter/scanner/qr_scanner.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -1223,7 +1224,9 @@ class _AllBatchPageState extends State<AllBatchPage> {
             ),
             onPressed: () {
               uCompanyType != constructionCompany
-                  ? print("Nothing")
+                  ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => QRViewExample(),
+                    ))
                   : _showModalBottomSheet();
               // modelSheetForScanData();
             },

@@ -24,7 +24,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   var baseUrl = "https://clean-soil-rest-api-z8eug.ondigitalocean.app/";
   var apiVersionUrl = "api/v1/";
 
-  acceptBatchByScan(String batchId) async {
+  acceptBatchByScan({required String batchId}) async {
     var acceptByProccessor = "batch/accept-batch-by-processor?id=$batchId";
 
     String processorUserId = await SharedPreference.getStringValueSP(userId);
@@ -149,6 +149,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                           elevation: 0, fixedSize: Size(200, 40)),
                       onPressed: () {
                         setState(() {
+                          acceptBatchByScan(batchId: result!.code!);
                           // CustomHttp.fetchdata(result!.code, context);
                         });
                       },
